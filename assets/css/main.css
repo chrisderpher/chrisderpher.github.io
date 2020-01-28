@@ -1449,6 +1449,7 @@ input, select, textarea {
 
 				#header .logo .icon:before {
 					font-size: 1.75rem;
+					vertical-align: middle;
 				}
 
 			#header .content .inner {
