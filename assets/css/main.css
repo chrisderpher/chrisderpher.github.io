@@ -1299,9 +1299,6 @@ input, select, textarea {
 		}
 
 			#header .logo .icon:before {
-				img {
-   					 vertical-align: middle;
-					}
 				font-size: 2rem;
 			}
 
