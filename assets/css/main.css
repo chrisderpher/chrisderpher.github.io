@@ -1303,7 +1303,10 @@ input, select, textarea {
 				display: flex;
  				align-items: center
 			}
-
+				#header .logo {
+					img {
+						vertical-align: middle;
+					}
 		#header .content {
 			border-style: solid;
 			border-color: #ffffff;
@@ -1453,6 +1456,10 @@ input, select, textarea {
 					display: flex;
 					align-items: center
 				}
+					#header .logo {
+						img {
+							vertical-align: middle;
+						}
 
 			#header .content .inner {
 				padding: 2.5rem 1rem;
