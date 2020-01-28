@@ -1297,16 +1297,16 @@ input, select, textarea {
 			border: solid 1px #ffffff;
 			border-radius: 100%;
 		}
-
-			#header .logo .icon:before {
-				font-size: 2rem;
-				display: flex;
- 				align-items: center
-			}
-				#header .logo {
-					img {
-						vertical-align: middle;
-					}
+			#header .logo {
+				img {
+					vertical-align: middle;
+				}
+				#header .logo .icon:before {
+					font-size: 2rem;
+					display: flex;
+ 					align-items: center
+				}
+			
 		#header .content {
 			border-style: solid;
 			border-color: #ffffff;
@@ -1450,16 +1450,16 @@ input, select, textarea {
 				height: 4.75rem;
 				line-height: 4.75rem;
 			}
-
+				#header .logo {
+						img {
+							vertical-align: middle;
+						}
+					
 				#header .logo .icon:before {
 					font-size: 1.75rem;
 					display: flex;
 					align-items: center
 				}
-					#header .logo {
-						img {
-							vertical-align: middle;
-						}
 
 			#header .content .inner {
 				padding: 2.5rem 1rem;
