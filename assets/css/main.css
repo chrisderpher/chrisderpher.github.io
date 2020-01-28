@@ -1297,10 +1297,7 @@ input, select, textarea {
 			border: solid 1px #ffffff;
 			border-radius: 100%;
 		}
-			#header .logo {
-				img {
-					vertical-align: middle;
-				}
+			
 				#header .logo .icon:before {
 					font-size: 2rem;
 					display: flex;
@@ -1450,11 +1447,7 @@ input, select, textarea {
 				height: 4.75rem;
 				line-height: 4.75rem;
 			}
-				#header .logo {
-						img {
-							vertical-align: middle;
-						}
-					
+			
 				#header .logo .icon:before {
 					font-size: 1.75rem;
 					display: flex;
