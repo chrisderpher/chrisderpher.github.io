@@ -1325,7 +1325,7 @@ input, select, textarea {
 			}
 
 				#header .content .inner > :last-child {
-					margin-bottom: 0;
+					margin-bottom: auto;
 				}
 
 			#header .content p {
