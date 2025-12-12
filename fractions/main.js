@@ -332,7 +332,9 @@ function showScreen(screenName) {
 
 function showLevelUp() {
     const message = document.createElement('div');
-    message.className = 'level-up';
+    // Raise level up prompt higher for Bigger/Smaller game only
+    const isBiggerSmaller = game.currentDrill?.name === 'Bigger/Smaller';
+    message.className = isBiggerSmaller ? 'level-up level-up-high' : 'level-up';
     message.textContent = `>>> LEVEL UP! Level ${game.level} <<<`;
     document.body.appendChild(message);
     

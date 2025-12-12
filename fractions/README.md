@@ -30,7 +30,28 @@ A web-based game to help practice reading imperial tape measure fractions. Integ
 3. Select "Fractions" from the dropdown
 
 ### Direct Access
-Navigate to `fractions/index.html` or `http://chrismurphy.org/fractions/` in your browser
+Navigate to `fractions/index.html` or `fractions/` in your browser
+
+### Local Development
+
+Since this game uses ES6 modules, you need to serve it from a local web server:
+
+**Option 1: Python**
+```bash
+cd chrisderpher.github.io-master
+python -m http.server 8000
+```
+Then open http://localhost:8000/fractions/ in your browser
+
+**Option 2: Node.js (npx)**
+```bash
+cd chrisderpher.github.io-master
+npx serve
+```
+
+**Option 3: VS Code Live Server**
+- Install the "Live Server" extension
+- Right-click `fractions/index.html` and select "Open with Live Server"
 
 ## How to Play
 
@@ -76,7 +97,7 @@ Final = (100 + 50) × 1.2 + 25 = 205 points
 
 ## Difficulty Progression
 
-- **Levels**: Increase every 5 correct answers
+- **Levels**: Increase every 3 correct answers
 - **Timer**: Decreases by 2 seconds per level (minimum varies by drill)
 - **Fraction Complexity**: 
   - Levels 1-3: Denominators up to 16
@@ -132,4 +153,3 @@ fractions/
 ```
 
 Enjoy practicing!
-

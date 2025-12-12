@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ouroboros - Multiplication Speed Drill</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background -->
+    <div id="bg"></div>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <div class="ascii-box">
+                <a href="../index.html" class="close-button" title="Return to main website">×</a>
+                <pre class="title">
+╔═══════════════════════════════════════╗
+║                OUROBOROS              ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p>Race against time to solve multiplication problems!</p>
+                    <div class="instructions">
+                        <p><strong>How to Play:</strong></p>
+                        <p>• Problems appear in a snake pattern</p>
+                        <p>• Each problem expires after a set time</p>
+                        <p>• Type the answer and press Enter</p>
+                        <p>• Game gets faster as you level up</p>
+                        <p>• Game over when current problem expires</p>
+                        <p><strong>Controls:</strong></p>
+                        <p>• <strong>0-9</strong>: Enter numbers</p>
+                        <p>• <strong>Enter</strong>: Submit answer</p>
+                        <p>• <strong>Backspace</strong>: Clear input</p>
+                        <p>• <strong>ESC</strong>: Pause/Resume</p>
+                        <p>• <strong>SPACE</strong>: Start / Return to menu</p>
+                        <p>• <strong>?</strong>: Help</p>
+                        <p><strong>Scoring:</strong></p>
+                        <p>• Base: 10 points per correct answer</p>
+                        <p>• Speed bonus: Based on time remaining</p>
+                        <p>• Streak bonus: +1 per streak (max 50)</p>
+                        <p>• Level multiplier: +5% per level</p>
+                    </div>
+                    <div id="high-score-display" class="high-score">
+                        <p>High Score: <span id="high-score-value">0</span></p>
+                    </div>
+                    <div class="start-prompt">
+                        <p>Press <strong>SPACE</strong> to start</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-title">
+                <h1>OUROBOROS</h1>
+                <p class="subtitle">Multiplication Speed Drill</p>
+            </div>
+            <div class="game-header">
+                <div class="stat">
+                    <span class="label">SCORE:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">LEVEL:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="stat">
+                    <span class="label">STREAK:</span>
+                    <span id="streak">0</span>
+                </div>
+            </div>
+            
+            <div id="snake-area" class="snake-area">
+                <!-- Problems rendered here -->
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+
+            <div class="help-hint">
+                <p>Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║     PAUSED    ║
+╚═══════════════╝
+                </pre>
+                <p>Press <strong>ESC</strong> to resume</p>
+                <p>Press <strong>SPACE</strong> to return to menu</p>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║   GAME OVER   ║
+╚═══════════════╝
+                </pre>
+                <div class="content">
+                    <p>Final Score: <span id="final-score">0</span></p>
+                    <p id="new-high-score" class="hidden">🎉 NEW HIGH SCORE! 🎉</p>
+                    <p>Accuracy: <span id="final-accuracy">0</span>%</p>
+                    <p>Best Streak: <span id="final-streak">0</span></p>
+                    <div class="restart-prompt">
+                        <p>Press <strong>SPACE</strong> to return to menu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════════════════════════════╗
+║              HELP                     ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p><strong>Gameplay:</strong></p>
+                    <p>• Problems appear in a snake pattern</p>
+                    <p>• Answer the current problem (highlighted)</p>
+                    <p>• Problems expire from left to right</p>
+                    <p>• When tail gets long (>12), oldest problems age faster</p>
+                    <p>• Game over when current problem expires</p>
+                    <p><strong>Difficulty:</strong></p>
+                    <p>• Starts at 7 seconds per problem</p>
+                    <p>• Decreases by 0.2s per level</p>
+                    <p>• Minimum: 2 seconds</p>
+                    <p>• Level up every 10 correct answers</p>
+                    <p><strong>Penalties:</strong></p>
+                    <p>• Wrong answer: 2s timeout (+0.3s per level)</p>
+                    <p>• Streak resets on wrong answer</p>
+                    <p>Press <strong>?</strong> to close help</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

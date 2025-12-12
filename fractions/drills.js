@@ -141,7 +141,7 @@ class OrderingDrill extends Drill {
 // Bigger/Smaller Drill: Rapid-fire comparison
 class BiggerSmallerDrill extends Drill {
     constructor() {
-        super('Bigger/Smaller', 50);
+        super('Bigger/Smaller', 25); // Reduced from 50 to 25
         this.fractions = [];
         this.currentPair = null;
         this.lastAnswerTime = null;
@@ -150,7 +150,8 @@ class BiggerSmallerDrill extends Drill {
 
     start(level, timeLimit) {
         super.start(level, timeLimit);
-        this.fractions = generateComparisonPair(level);
+        // Always include 32nds and exclude whole numbers (fractions equal to 1)
+        this.fractions = generateComparisonPair(level, true, true);
         this.currentPair = this.fractions;
         this.lastAnswerTime = null;
         this.feedback = null;
@@ -203,7 +204,8 @@ class BiggerSmallerDrill extends Drill {
         const delay = correct ? this.feedbackDelay : 4000;
         setTimeout(() => {
             if (this.active) {
-                this.fractions = generateComparisonPair(this.level);
+                // Always include 32nds and exclude whole numbers (fractions equal to 1)
+                this.fractions = generateComparisonPair(this.level, true, true);
                 this.currentPair = this.fractions;
                 this.feedback = null;
             }
@@ -218,7 +220,8 @@ class BiggerSmallerDrill extends Drill {
     }
 
     calculateScore() {
-        const timeBonus = Math.floor(this.timeRemaining * (10 - this.level));
+        // Reduced time bonus multiplier by half
+        const timeBonus = Math.floor(this.timeRemaining * Math.floor((10 - this.level) / 2));
         return this.basePoints + timeBonus;
     }
 

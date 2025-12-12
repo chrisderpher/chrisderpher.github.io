@@ -20,7 +20,7 @@ class Game {
         this.gameOver = false;
         this.paused = false;
         this.answersThisLevel = 0;
-        this.answersPerLevel = 5;
+        this.answersPerLevel = 3;
     }
 
     setMode(modeName) {
@@ -61,9 +61,33 @@ class Game {
         };
         
         const baseTime = drillTimes[this.currentDrill.name] || 30;
-        const reduction = (this.level - 1) * 2;
-        const minTime = baseTime <= 25 ? 10 : 20;
-        return Math.max(baseTime - reduction, minTime);
+        
+        // Custom time progression for Ordering drill
+        let timeLimit;
+        if (this.currentDrill.name === 'Ordering') {
+            // Level 1: 20s (start at level 3 difficulty), Level 2: 16s, Level 3: 12s, Level 4: 8s, then continue to minimum of 4s
+            if (this.level === 1) {
+                timeLimit = 20;
+            } else if (this.level === 2) {
+                timeLimit = 16;
+            } else if (this.level === 3) {
+                timeLimit = 12;
+            } else if (this.level === 4) {
+                timeLimit = 8;
+            } else {
+                // Level 5+: reduce by 4 seconds per level from level 4's time
+                timeLimit = 8 - (this.level - 4) * 4;
+            }
+            // Minimum time is 4 seconds
+            timeLimit = Math.max(timeLimit, 4);
+        } else {
+            // Other drills: reduce by 2 seconds per level
+            const reduction = (this.level - 1) * 2;
+            const minTime = baseTime <= 25 ? 10 : 20;
+            timeLimit = Math.max(baseTime - reduction, minTime);
+        }
+        
+        return timeLimit;
     }
 
     update() {

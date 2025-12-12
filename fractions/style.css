@@ -483,7 +483,20 @@ body {
     animation: levelUpAnim 2s;
 }
 
+/* Raise level up prompt higher for Bigger/Smaller game only */
+.level-up.level-up-high {
+    top: 35%;
+    animation: levelUpAnimHigh 2s;
+}
+
 @keyframes levelUpAnim {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    60% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+}
+
+@keyframes levelUpAnimHigh {
     0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
     20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
     60% { transform: translate(-50%, -50%) scale(1); opacity: 1; }

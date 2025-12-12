@@ -43,7 +43,7 @@ class Fraction {
 const DENOMINATORS = [1, 2, 4, 8, 16, 32, 64];
 
 // Generate a random fraction based on difficulty level
-function generateRandomFraction(level = 1) {
+function generateRandomFraction(level = 1, excludeWhole = false) {
     let maxDenominator;
     
     if (level <= 3) {
@@ -58,9 +58,15 @@ function generateRandomFraction(level = 1) {
     }
 
     const availableDenominators = DENOMINATORS.filter(d => d <= maxDenominator);
-    const denominator = availableDenominators[Math.floor(Math.random() * availableDenominators.length)];
-    const maxNumerator = denominator - 1;
-    const numerator = Math.floor(Math.random() * maxNumerator) + 1;
+    let denominator, numerator;
+    let attempts = 0;
+    
+    do {
+        denominator = availableDenominators[Math.floor(Math.random() * availableDenominators.length)];
+        const maxNumerator = denominator - 1;
+        numerator = Math.floor(Math.random() * maxNumerator) + 1;
+        attempts++;
+    } while (excludeWhole && numerator === denominator && attempts < 50);
     
     return new Fraction(numerator, denominator);
 }
@@ -96,14 +102,40 @@ function generateUniqueFractions(count, level) {
 }
 
 // Generate two fractions for comparison (ensures they're different)
-function generateComparisonPair(level) {
+function generateComparisonPair(level, include32nds = false, excludeWhole = false) {
     let fraction1, fraction2;
-    let attempts = 0;
+    let pairAttempts = 0;
     
     do {
-        fraction1 = generateRandomFraction(level);
-        fraction2 = generateRandomFraction(level);
-        attempts++;
+        // For Bigger/Smaller: always include 32nds and exclude whole numbers
+        if (include32nds) {
+            // Force 32nds to be available (max denominator is 32)
+            const denominators32 = DENOMINATORS.filter(d => d <= 32);
+            
+            // Generate first fraction (exclude whole numbers if requested)
+            let denom1, num1, attempts1 = 0;
+            do {
+                denom1 = denominators32[Math.floor(Math.random() * denominators32.length)];
+                num1 = Math.floor(Math.random() * (denom1 - 1)) + 1;
+                attempts1++;
+            } while (excludeWhole && num1 === denom1 && attempts1 < 50);
+            
+            // Generate second fraction (exclude whole numbers if requested)
+            let denom2, num2, attempts2 = 0;
+            do {
+                denom2 = denominators32[Math.floor(Math.random() * denominators32.length)];
+                num2 = Math.floor(Math.random() * (denom2 - 1)) + 1;
+                attempts2++;
+            } while (excludeWhole && num2 === denom2 && attempts2 < 50);
+            
+            fraction1 = new Fraction(num1, denom1);
+            fraction2 = new Fraction(num2, denom2);
+        } else {
+            fraction1 = generateRandomFraction(level, excludeWhole);
+            fraction2 = generateRandomFraction(level, excludeWhole);
+        }
+        
+        pairAttempts++;
         
         // Prevent trivial comparisons at higher levels
         if (level > 3) {
@@ -113,7 +145,7 @@ function generateComparisonPair(level) {
                 continue;
             }
         }
-    } while (fraction1.equals(fraction2) && attempts < 50);
+    } while (fraction1.equals(fraction2) && pairAttempts < 50);
     
     return [fraction1, fraction2];
 }
