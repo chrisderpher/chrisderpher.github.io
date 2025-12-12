@@ -67,7 +67,8 @@
 
 	// Main.
 		var	delay = 325,
-			locked = false;
+			locked = false,
+			projectsDropdownActive = false;
 
 		// Methods.
 			$main._show = function(id, initial) {
@@ -335,6 +336,13 @@
 
 			$window.on('hashchange', function(event) {
 
+				// If Projects dropdown is active and hash is #Projects, don't show article
+				if (projectsDropdownActive && location.hash === '#Projects') {
+					event.preventDefault();
+					event.stopPropagation();
+					return;
+				}
+
 				// Empty hash?
 					if (location.hash == ''
 					||	location.hash == '#') {
@@ -360,6 +368,67 @@
 
 					}
 
+			});
+
+		// Projects dropdown handler
+			// Wait for DOM to be ready
+			$(document).ready(function() {
+				var $projectsLink = $('#projects-link');
+				var $projectsDropdown = $('#projects-dropdown');
+				var $projectsNavItem = $('.projects-nav-item');
+
+				// Handle Projects link click
+				$projectsLink.on('click', function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+
+					// Set flag to prevent hashchange from showing article
+					projectsDropdownActive = true;
+
+					// Toggle dropdown
+					var isVisible = $projectsDropdown.is(':visible');
+					$projectsDropdown.toggle(!isVisible);
+
+					// Reset flag after a short delay
+					setTimeout(function() {
+						projectsDropdownActive = false;
+					}, 100);
+				});
+
+				// Handle dropdown item clicks
+				$projectsDropdown.find('.dropdown-item').on('click', function(event) {
+					var $item = $(this);
+					var href = $item.attr('href');
+					var action = $item.data('action');
+
+					event.stopPropagation();
+
+					// Hide dropdown
+					$projectsDropdown.hide();
+					projectsDropdownActive = false;
+
+					if (action === 'other') {
+						// Show Projects article
+						event.preventDefault();
+						// Update hash to trigger article display via hashchange handler
+						// Reset flag first so hashchange can show the article
+						setTimeout(function() {
+							location.hash = '#Projects';
+						}, 50);
+					}
+					// Otherwise, let the default link behavior happen (navigate to fractions/)
+				});
+
+				// Close dropdown when clicking outside
+				$(document).on('click', function(event) {
+					var $target = $(event.target);
+					if (!$projectsNavItem.is($target) && $projectsNavItem.has($target).length === 0) {
+						if ($projectsDropdown.is(':visible')) {
+							$projectsDropdown.hide();
+							projectsDropdownActive = false;
+						}
+					}
+				});
 			});
 
 		// Scroll restoration.
