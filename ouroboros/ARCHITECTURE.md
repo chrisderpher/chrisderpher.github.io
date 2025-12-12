@@ -2,7 +2,7 @@
 
 ## One-liner
 
-Web-based multiplication speed drill (0-10 × 0-10) with circular track visualization, progressive difficulty, and state-based tail eating mechanics where fast players can "eat" their tail before it expires for bonus points.
+Web-based multiplication speed drill (0-10 × 0-10) with circular track visualization (12 problems in a fixed circle), progressive difficulty, and state-based tail eating mechanics where fast players can "eat" their tail before it expires for bonus points.
 
 ## Core loop
 
@@ -22,7 +22,7 @@ Web-based multiplication speed drill (0-10 × 0-10) with circular track visualiz
 ### Question spawning + expiration
 
 - **Spawning**: Problems spawn when needed (game start, after answer, when expired problem replaced)
-- **Expiration time**: Level-based, starts at 21s, decreases by 0.6s per level, minimum 6s
+- **Expiration time**: Level-based, Level 1: 18s, Level 2: 14s, Levels 3-7: 10s down to 6s (decreases by 1s per level), Level 8+: 6s down to 2.5s minimum (decreases by 2s per level)
 - **Expiration model**: `expiresAt = now + expirationTime` (set when problem becomes current via `startExpiration()`)
 - **Expiration check**: `isExpired()` returns `now >= expiresAt`
 - **Invariant**: Problems only start expiring when they become `currentProblem` (not when spawned)
@@ -51,7 +51,7 @@ Web-based multiplication speed drill (0-10 × 0-10) with circular track visualiz
 - **Level multiplier**: `1 + (level - 1) * 0.05` (5% per level)
 - **Streak multiplier**: 1.2x when `consecutiveCorrect % 10 === 0` (every 10th correct answer)
 - **Final score**: `(basePoints + speedBonus + streakBonus) * levelMultiplier * streakMultiplier`
-- **Difficulty**: Level up every 10 correct answers, expiration time decreases by 0.6s per level
+- **Difficulty**: Level up every 8 correct answers, expiration time follows tiered progression (18s→14s→10s-6s→6s-2.5s)
 - **Wrong answer penalty**: 2s timeout + 0.3s per level, resets streak and `consecutiveCorrect`
 
 ## Architecture overview

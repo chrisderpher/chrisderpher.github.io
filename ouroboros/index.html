@@ -20,13 +20,14 @@
 ╚═══════════════════════════════════════╝
                 </pre>
                 <div class="content">
-                    <p>Race against time to solve multiplication problems!</p>
+                    <p>Race around a circular track of 12 multiplication problems!</p>
                     <div class="instructions">
                         <p><strong>How to Play:</strong></p>
-                        <p>• Problems appear in a circular pattern</p>
-                        <p>• Each problem expires after a set time</p>
+                        <p>• Problems appear in a circular track (12 problems)</p>
+                        <p>• Answer the current problem (highlighted in blue)</p>
                         <p>• Type the answer and press Enter</p>
-                        <p>• Game gets faster as you level up</p>
+                        <p>• Move forward automatically after each correct answer</p>
+                        <p>• Eat your tail: Answer fast enough to reach your oldest answered problem before it expires for bonus points!</p>
                         <p>• Game over when current problem expires</p>
                         <p><strong>Controls:</strong></p>
                         <p>• <strong>0-9</strong>: Enter numbers</p>
@@ -37,9 +38,11 @@
                         <p>• <strong>?</strong>: Help</p>
                         <p><strong>Scoring:</strong></p>
                         <p>• Base: 10 points per correct answer</p>
-                        <p>• Speed bonus: Based on time remaining</p>
+                        <p>• Speed bonus: Time remaining × 2 points</p>
                         <p>• Streak bonus: +1 per streak (max 50)</p>
                         <p>• Level multiplier: +5% per level</p>
+                        <p>• Streak multiplier: 1.2× every 10th correct answer</p>
+                        <p>• Tail eating bonus: 50 base + (time remaining × 5) per second</p>
                     </div>
                     <div id="high-score-display" class="high-score">
                         <p>High Score: <span id="high-score-value">0</span></p>
@@ -126,19 +129,26 @@
                 </pre>
                 <div class="content">
                     <p><strong>Gameplay:</strong></p>
-                    <p>• Problems appear in a circular pattern</p>
-                    <p>• Answer the current problem (highlighted)</p>
-                    <p>• Problems expire from left to right</p>
-                    <p>• oldest problems age faster</p>
+                    <p>• Problems appear in a circular track (12 problems total)</p>
+                    <p>• Answer the current problem (highlighted in blue)</p>
+                    <p>• Move forward sequentially around the circle after each correct answer</p>
+                    <p>• Problems only start expiring when they become the current problem</p>
+                    <p>• Eat your tail: If you answer fast enough to reach your oldest answered problem before it expires, you get bonus points (current problem turns yellow when on tail)</p>
                     <p>• Game over when current problem expires</p>
                     <p><strong>Difficulty:</strong></p>
-                    <p>• Starts at 7 seconds per problem</p>
-                    <p>• Decreases by 0.2s per level</p>
-                    <p>• Minimum: 2 seconds</p>
-                    <p>• Level up every 10 correct answers</p>
+                    <p>• Level 1: 18 seconds per problem</p>
+                    <p>• Level 2: 14 seconds</p>
+                    <p>• Level 3-7: 10 seconds down to 6 seconds (decreases by 1s per level)</p>
+                    <p>• Level 8+: 6 seconds down to 2.5 seconds minimum (decreases by 2s per level)</p>
+                    <p>• Level up every 8 correct answers</p>
+                    <p><strong>Scoring:</strong></p>
+                    <p>• Base: 10 points + Speed bonus (time remaining × 2) + Streak bonus (max 50)</p>
+                    <p>• Multiplied by: Level multiplier (1 + (level-1) × 0.05) × Streak multiplier (1.2× every 10th correct)</p>
+                    <p>• Tail eating: 50 base + (time remaining × 5) per second</p>
                     <p><strong>Penalties:</strong></p>
-                    <p>• Wrong answer: 2s timeout (+0.3s per level)</p>
-                    <p>• Streak resets on wrong answer</p>
+                    <p>• Wrong answer: 2s timeout + (level × 0.3s)</p>
+                    <p>• Streak and consecutive correct counter reset on wrong answer</p>
+                    <p>• Problems continue expiring during timeout (adds pressure!)</p>
                     <p>Press <strong>?</strong> to close help</p>
                 </div>
             </div>
@@ -148,4 +158,3 @@
     <script type="module" src="main.js"></script>
 </body>
 </html>
-
