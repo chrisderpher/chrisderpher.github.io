@@ -62,29 +62,6 @@ chrisderpher.github.io-master/
 
 ## Getting Started
 
-### Prerequisites
-- A local web server (Python, Node.js, or VS Code Live Server)
-- Modern web browser with ES6 module support
-
-### Running Locally
-
-**Option 1: Python**
-```bash
-cd chrisderpher.github.io-master
-python -m http.server 8000
-```
-Then open http://localhost:8000 in your browser
-
-**Option 2: Node.js (npx)**
-```bash
-cd chrisderpher.github.io-master
-npx serve
-```
-
-**Option 3: VS Code Live Server**
-- Install the "Live Server" extension
-- Right-click `index.html` and select "Open with Live Server"
-
 ### Accessing the Game
 
 1. Navigate to the main portfolio page
@@ -128,3 +105,4 @@ Website: [chrismurphy.org](http://chrismurphy.org)
 ---
 
 *If you're here, it's because you know what you're doing - and I admire that. Let's talk.*
+
