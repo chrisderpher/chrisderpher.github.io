@@ -19,7 +19,6 @@
 - `index.html` (root) → Portfolio site with Projects dropdown linking to Ouroboros
 
 **Important constraints:**
-- Must serve via HTTP (ES6 modules). Use `python -m http.server 8001` or similar.
 - Positions are fixed per problem (stored in `problem.position`) and never recalculated for existing problems.
 - Problems only start expiring when they become the current problem (via `startExpiration()`).
 - Tail eating: If you reach your oldest answered problem before it expires, you get bonus points (50 base + time remaining × 5 per second).
@@ -27,11 +26,6 @@
 - Expiration times: Level 1: 18s, Level 2: 14s, Levels 3-7: 10s down to 6s, Level 8+: down to 2.5s minimum.
 - Game over when current problem expires.
 - Background theming must match portfolio site (blurry image + overlay).
-
-**How to run:**
-1. `cd chrisderpher.github.io-master`
-2. `python -m http.server 8001`
-3. Navigate to `http://localhost:8001/ouroboros/`
 
 **How to test:**
 - Start game (Space), answer problems (type numbers, Enter to submit)

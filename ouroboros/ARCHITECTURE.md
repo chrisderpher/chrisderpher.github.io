@@ -259,19 +259,7 @@ if tail && currentProblemIndex === tail.index && Date.now() < tail.expiresAt:
 ### Integration
 - `index.html` (root): Portfolio site with Projects dropdown linking to Ouroboros
 
-## Run/test
-
-### How to start
-
-```bash
-cd chrisderpher.github.io-master
-python -m http.server 8001
-# Navigate to http://localhost:8001/ouroboros/
-```
-
-**Note**: Must serve via HTTP (ES6 modules require HTTP, not file://)
-
-### Testing checklist
+## Testing checklist
 
 1. **Basic gameplay**: Start game, answer problems, verify progression
 2. **Tail eating**: Answer fast enough to reach tail before expiration, verify bonus awarded

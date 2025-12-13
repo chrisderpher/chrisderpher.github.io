@@ -2,7 +2,7 @@
 
 Live site: [chrismurphy.org](http://chrismurphy.org)
 
-A personal portfolio website featuring professional information, projects, and an interactive Fractions practice game. Built on the Dimension template by HTML5 UP.
+A personal portfolio website featuring professional information, projects, and interactive educational games. Built on the Dimension template by HTML5 UP.
 
 ## Features
 
@@ -10,7 +10,7 @@ A personal portfolio website featuring professional information, projects, and a
 - **Intro**: Professional background and interests
 - **Projects**: Interactive dropdown menu with project links
   - Fractions game (interactive tape measure fraction practice)
-  - Placeholder for future projects
+  - Ouroboros (multiplication speed drill with circular track)
 - **Resume**: Professional experience, education, certifications, and technical skills
 - **Contact**: Contact form and social links
 
@@ -55,56 +55,45 @@ chrisderpher.github.io-master/
 │   ├── ui.js               # UI state management
 │   ├── style.css           # Game styles
 │   └── README.md           # Game-specific documentation
+├── ouroboros/              # Ouroboros multiplication game
+│   ├── index.html          # Game entry point
+│   ├── main.js             # Game loop, rendering, input handling
+│   ├── game.js             # Game state, scoring, tail eating logic
+│   ├── problems.js         # Problem generation and expiration logic
+│   ├── snake.js            # Circular layout calculation
+│   ├── ui.js               # UI state management
+│   ├── style.css           # Game styles
+│   ├── README.md           # Game-specific documentation
+│   ├── ARCHITECTURE.md     # Technical architecture documentation
+│   └── HANDOFF.md          # Development handoff notes
 ├── _config.yml             # Jekyll configuration
 ├── README.md               # This file
 └── README.txt              # Brief project description
 ```
 
-## Getting Started
-
-### Prerequisites
-- A local web server (Python, Node.js, or VS Code Live Server)
-- Modern web browser with ES6 module support
-
-### Running Locally
-
-**Option 1: Python**
-```bash
-cd chrisderpher.github.io-master
-python -m http.server 8000
-```
-Then open http://localhost:8000 in your browser
-
-**Option 2: Node.js (npx)**
-```bash
-cd chrisderpher.github.io-master
-npx serve
-```
-
-**Option 3: VS Code Live Server**
-- Install the "Live Server" extension
-- Right-click `index.html` and select "Open with Live Server"
-
-### Accessing the Game
+## Accessing the Games
 
 1. Navigate to the main portfolio page
 2. Click "Projects" in the navigation menu
-3. Select "Fractions" from the dropdown
-4. Or navigate directly to `fractions/index.html`
+3. Select a game from the dropdown:
+   - **Fractions**: Tape measure fraction practice
+   - **Ouroboros**: Multiplication speed drill
+4. Or navigate directly to `fractions/index.html` or `ouroboros/index.html`
 
 ## Technologies
 
 - **HTML5**: Semantic markup
 - **CSS3**: Styling with backdrop filters and gradients
 - **JavaScript (ES6 Modules)**: 
-  - Vanilla JS for the Fractions game
+  - Vanilla JS for both games (Fractions and Ouroboros)
   - jQuery for portfolio site interactions
 - **LocalStorage**: Game score and statistics persistence
 - **Responsive Design**: Mobile-friendly layouts
 
 ## Game Details
 
-The Fractions game is a fully-featured educational tool with:
+### Fractions Game
+A fully-featured educational tool with:
 - 8 different drill modes for comprehensive practice
 - Progressive difficulty that adapts to skill level
 - Comprehensive scoring system with bonuses
@@ -113,11 +102,21 @@ The Fractions game is a fully-featured educational tool with:
 
 See [fractions/README.md](fractions/README.md) for detailed game documentation.
 
+### Ouroboros Game
+A multiplication speed drill featuring:
+- Circular track with 12 problems arranged in a circle
+- Unique "tail eating" mechanic for bonus points
+- Progressive difficulty with tiered expiration times
+- Smart scoring with speed, streak, and level multipliers
+- Visual feedback with color-coded time bars
+
+See [ouroboros/README.md](ouroboros/README.md) for detailed game documentation.
+
 ## Credits
 
 - **Template**: [Dimension](https://html5up.net/dimension) by HTML5 UP
 - **License**: CCA 3.0 (see LICENSE.txt)
-- **Fractions Game**: Custom implementation
+- **Games**: Custom implementations (Fractions and Ouroboros)
 
 ## Contact
 

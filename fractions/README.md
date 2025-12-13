@@ -32,27 +32,6 @@ A web-based game to help practice reading imperial tape measure fractions. Integ
 ### Direct Access
 Navigate to `fractions/index.html` or `fractions/` in your browser
 
-### Local Development
-
-Since this game uses ES6 modules, you need to serve it from a local web server:
-
-**Option 1: Python**
-```bash
-cd chrisderpher.github.io-master
-python -m http.server 8000
-```
-Then open http://localhost:8000/fractions/ in your browser
-
-**Option 2: Node.js (npx)**
-```bash
-cd chrisderpher.github.io-master
-npx serve
-```
-
-**Option 3: VS Code Live Server**
-- Install the "Live Server" extension
-- Right-click `fractions/index.html` and select "Open with Live Server"
-
 ## How to Play
 
 1. Access the game via the portfolio website or directly
