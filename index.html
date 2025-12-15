@@ -163,19 +163,19 @@
 						<!-- Contact -->
 							<article id="contact">
 								<h2 class="major">Contact</h2>
-								<form method="post" action="#">
+								<form id="contact-form" onsubmit="return sendEmail(event)">
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="contact-name" required />
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="email" name="email" id="contact-email" required />
 										</div>
 										<div class="field">
 											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
+											<textarea name="message" id="contact-message" rows="4" required></textarea>
 										</div>
 									</div>
 									<ul class="actions">
@@ -183,6 +183,18 @@
 										<li><input type="reset" value="Reset" /></li>
 									</ul>
 								</form>
+								<script>
+								function sendEmail(e) {
+									e.preventDefault();
+									var name = document.getElementById('contact-name').value;
+									var email = document.getElementById('contact-email').value;
+									var message = document.getElementById('contact-message').value;
+									var subject = 'Website Contact from ' + name;
+									var body = 'From: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message;
+									window.location.href = 'mailto:Chris@ChrisMurphy.IT?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+									return false;
+								}
+								</script>
 								<ul class="icons">
 									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
