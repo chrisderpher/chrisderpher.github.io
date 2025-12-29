@@ -1,0 +1,456 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: transparent;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background matching website */
+#bg {
+    -moz-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    transform: scale(1.0);
+    -webkit-backface-visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+}
+
+#bg:before, #bg:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bg:before {
+    -moz-transition: background-color 2.5s ease-in-out;
+    -webkit-transition: background-color 2.5s ease-in-out;
+    -ms-transition: background-color 2.5s ease-in-out;
+    transition: background-color 2.5s ease-in-out;
+    -moz-transition-delay: 0.75s;
+    -webkit-transition-delay: 0.75s;
+    -ms-transition-delay: 0.75s;
+    transition-delay: 0.75s;
+    background-image: linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)), url("../images/overlay.png");
+    background-size: auto, 256px 256px;
+    background-position: center, center;
+    background-repeat: no-repeat, repeat;
+    z-index: 2;
+}
+
+#bg:after {
+    -moz-transform: scale(1.125);
+    -webkit-transform: scale(1.125);
+    -ms-transform: scale(1.125);
+    transform: scale(1.125);
+    -moz-transition: -moz-transform 0.325s ease-in-out, -moz-filter 0.325s ease-in-out;
+    -webkit-transition: -webkit-transform 0.325s ease-in-out, -webkit-filter 0.325s ease-in-out;
+    -ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
+    transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
+    background-image: url("../images/bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+#app {
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screen {
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+/* ASCII Box Styling */
+.ascii-box {
+    background: rgba(19, 21, 25, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* Close button */
+#start-screen .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 2em;
+    color: #ffffff;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(19, 21, 25, 0.6);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(2px);
+}
+
+#start-screen .close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ff4444;
+    transform: scale(1.1);
+}
+
+.ascii-box pre {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.content {
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+.instructions {
+    text-align: left;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(19, 21, 25, 0.6);
+    border-left: 3px solid #4a9eff;
+    backdrop-filter: blur(2px);
+}
+
+.high-score {
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #ffd700;
+}
+
+.start-prompt, .restart-prompt {
+    margin-top: 30px;
+    font-size: 1.1em;
+    color: #4a9eff;
+}
+
+#game-screen {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Game Title */
+.game-title {
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.game-title h1 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 0.3em;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+}
+
+.game-title .subtitle {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 5px;
+    letter-spacing: 0.1em;
+}
+
+/* Game Screen */
+.game-header {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: rgba(19, 21, 25, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat .label {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.stat span:last-child {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #4a9eff;
+}
+
+#streak {
+    color: #ffd700;
+}
+
+/* Snake Area */
+.snake-area {
+    position: relative;
+    min-height: 600px;
+    height: 70vh;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.snake-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Problem Box */
+.problem-box {
+    position: absolute;
+    width: 90px;
+    min-height: 80px;
+    background: rgba(19, 21, 25, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.problem-box.current {
+    border-color: #4a9eff;
+    border-width: 3px;
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.problem-box.streak {
+    border-color: #ffd700;
+    border-width: 3px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.problem-box.behind {
+    opacity: 0.6;
+}
+
+.problem-box.expired {
+    opacity: 0.3;
+    border-color: #ff4444;
+}
+
+/* Time bar colors */
+.problem-box.time-ok .time-bar {
+    background: #4a9eff;
+}
+
+.problem-box.time-warning .time-bar {
+    background: #ffaa00;
+}
+
+.problem-box.time-critical .time-bar {
+    background: #ff4444;
+}
+
+/* Problem Vertical Format */
+.problem-vertical {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    line-height: 1.4;
+}
+
+.problem-line {
+    margin: 1px 0;
+    font-size: 0.95em;
+    color: #e0e0e0;
+}
+
+.problem-divider {
+    color: #888;
+    font-size: 0.9em;
+    margin: 4px 0;
+}
+
+.problem-answer {
+    margin-top: 4px;
+    font-weight: bold;
+    color: #4a9eff;
+}
+
+.problem-aging {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.9em;
+    color: #ffaa00;
+    opacity: 0.9;
+    font-weight: bold;
+    text-shadow: 0 0 3px rgba(255, 170, 0, 0.8);
+}
+
+.answer-input {
+    width: 50px;
+    text-align: center;
+    background: rgba(19, 21, 25, 0.9);
+    border: 2px solid #4a9eff;
+    color: #4a9eff;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 3px;
+    font-family: 'Courier New', monospace;
+    outline: none;
+}
+
+.answer-input:focus {
+    border-color: #6bb6ff;
+    box-shadow: 0 0 5px rgba(74, 158, 255, 0.5);
+}
+
+/* Time Bar */
+.time-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #4a9eff;
+    transition: width 0.1s linear;
+    border-radius: 0 0 2px 2px;
+}
+
+/* Feedback */
+.feedback {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 20px 0;
+    min-height: 30px;
+}
+
+.feedback.correct {
+    color: #4aff4a;
+}
+
+.feedback.wrong {
+    color: #ff4444;
+}
+
+.help-hint {
+    text-align: center;
+    color: #888;
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+
+/* Level Up Animation */
+.level-up {
+    position: fixed;
+    font-size: 2em;
+    font-weight: bold;
+    color: #ffd700;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border: 3px solid #ffd700;
+    z-index: 2000;
+    animation: levelUpAnim 2s forwards;
+    text-align: center;
+}
+
+@keyframes levelUpAnim {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    15% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .snake-area {
+        min-height: 500px;
+        height: 60vh;
+    }
+    
+    .problem-box {
+        width: 80px;
+        min-height: 70px;
+        padding: 6px;
+    }
+    
+    .problem-line {
+        font-size: 0.85em;
+    }
+    
+    .answer-input {
+        width: 45px;
+        font-size: 0.9em;
+    }
+}

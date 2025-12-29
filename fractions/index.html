@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tape Measure Fraction Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background -->
+    <div id="bg"></div>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <div class="ascii-box">
+                <a href="../index.html" class="close-button" title="Return to main website">×</a>
+                <pre class="title">
+╔═══════════════════════════════════════╗
+║    TAPE MEASURE FRACTION PRACTICE     ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p>Practice reading imperial tape measure fractions!</p>
+                    <div class="instructions">
+                        <p><strong>Game Modes (8 total):</strong></p>
+                        <p>• <strong>Ordering</strong>: Arrange 5 fractions smallest to largest</p>
+                        <p>• <strong>Bigger/Smaller</strong>: Rapid-fire comparison - which fraction is bigger?</p>
+                        <p>• <strong>To Decimal</strong>: Convert fractions to decimal form</p>
+                        <p>• <strong>Between Marks</strong>: Find the fraction halfway between two marks</p>
+                        <p>• <strong>Add/Subtract</strong>: Calculate sum or difference of two fractions</p>
+                        <p>• <strong>Mixed to Improper</strong>: Convert mixed numbers to improper fractions</p>
+                        <p>• <strong>Difference</strong>: Find the difference between two fractions</p>
+                        <p>• <strong>Inches to Feet</strong>: Convert inches to feet and inches</p>
+                        <p><strong>Controls:</strong></p>
+                        <p>• <strong>SPACE</strong>: Start / Return to menu</p>
+                        <p>• <strong>1-9</strong>: Select game mode from menu</p>
+                        <p>• <strong>Numbers 1-5</strong>: Select fractions in order (Ordering mode)</p>
+                        <p>• <strong>Arrow Keys</strong>: Left/Right for comparisons (Bigger/Smaller mode)</p>
+                        <p>• <strong>Enter</strong>: Submit answer</p>
+                        <p>• <strong>Backspace</strong>: Clear/undo input</p>
+                        <p>• <strong>Tab</strong>: Switch between fields (Inches to Feet mode)</p>
+                        <p>• <strong>ESC</strong>: Pause/Resume</p>
+                        <p>• <strong>?</strong>: Help</p>
+                    </div>
+                    <div id="high-score-display" class="high-score">
+                        <p>Overall High Score: <span id="high-score-value">0</span></p>
+                    </div>
+                    <div class="start-prompt">
+                        <p>Press <strong>SPACE</strong> to choose game mode</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Selection Screen -->
+        <div id="mode-selection-screen" class="screen hidden">
+            <div class="ascii-box">
+                <a href="../index.html" class="close-button" title="Return to main website">×</a>
+                <pre class="title">
+╔═══════════════════════════════════════╗
+║        SELECT GAME MODE               ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <div class="mode-selection">
+                        <div class="mode-option" data-mode="Ordering">
+                            <div class="mode-title">Ordering</div>
+                            <div class="mode-description">Arrange 5 fractions from smallest to largest</div>
+                            <div class="mode-high-score">High Score: <span id="ordering-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>1</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Bigger/Smaller">
+                            <div class="mode-title">Bigger/Smaller</div>
+                            <div class="mode-description">Rapid-fire: Which fraction is bigger?</div>
+                            <div class="mode-high-score">High Score: <span id="bigger-smaller-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>2</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="To Decimal">
+                            <div class="mode-title">To Decimal</div>
+                            <div class="mode-description">Type the decimal equivalent of a fraction</div>
+                            <div class="mode-high-score">High Score: <span id="todecimal-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>3</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Between Marks">
+                            <div class="mode-title">Between Marks</div>
+                            <div class="mode-description">Find the fraction halfway between two marks</div>
+                            <div class="mode-high-score">High Score: <span id="betweenmarks-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>4</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Add/Subtract">
+                            <div class="mode-title">Add/Subtract</div>
+                            <div class="mode-description">Calculate the sum or difference of two fractions</div>
+                            <div class="mode-high-score">High Score: <span id="addsubtract-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>5</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Mixed to Improper">
+                            <div class="mode-title">Mixed to Improper</div>
+                            <div class="mode-description">Convert mixed numbers to improper fractions</div>
+                            <div class="mode-high-score">High Score: <span id="mixedtoimproper-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>6</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Difference">
+                            <div class="mode-title">Difference</div>
+                            <div class="mode-description">Find the difference between two fractions</div>
+                            <div class="mode-high-score">High Score: <span id="difference-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>7</strong> to select</div>
+                        </div>
+                        <div class="mode-option" data-mode="Inches to Feet">
+                            <div class="mode-title">Inches to Feet</div>
+                            <div class="mode-description">Convert inches to feet and inches</div>
+                            <div class="mode-high-score">High Score: <span id="inchestofeet-high-score">0</span></div>
+                            <div class="mode-hint">Press <strong>8</strong> to select</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="stat">
+                    <span class="label">SCORE:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">LEVEL:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="stat">
+                    <span class="label">LIVES:</span>
+                    <span id="lives">●●●</span>
+                </div>
+                <div class="stat">
+                    <span class="label">STREAK:</span>
+                    <span id="streak">0</span>
+                </div>
+            </div>
+            
+            <div class="timer-container">
+                <div id="timer-bar" class="timer-bar"></div>
+                <div id="timer-text" class="timer-text">30</div>
+            </div>
+
+            <div id="drill-area" class="drill-area">
+                <!-- Drill content rendered here -->
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+
+            <div class="help-hint">
+                <p>Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║     PAUSED    ║
+╚═══════════════╝
+                </pre>
+                <p>Press <strong>ESC</strong> to resume</p>
+                <p>Press <strong>SPACE</strong> to return to menu</p>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║   GAME OVER   ║
+╚═══════════════╝
+                </pre>
+                <div class="content">
+                    <p>Final Score: <span id="final-score">0</span></p>
+                    <p id="new-high-score" class="hidden">NEW HIGH SCORE!</p>
+                    <p>Mode: <span id="final-mode">-</span></p>
+                    <p>Mode High Score: <span id="final-mode-high-score">0</span></p>
+                    <p>Accuracy: <span id="final-accuracy">0</span>%</p>
+                    <p>Best Streak: <span id="final-streak">0</span></p>
+                    <div class="restart-prompt">
+                        <p>Press <strong>SPACE</strong> to return to menu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════════════════════════════╗
+║              HELP                     ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p><strong>Ordering:</strong> Press numbers 1-5 to select fractions in order (smallest to largest). Backspace to undo, Enter to submit.</p>
+                    <p><strong>Bigger/Smaller:</strong> Press ← (or A) if left is bigger, → (or D) if right is bigger.</p>
+                    <p><strong>To Decimal:</strong> Type the decimal equivalent (e.g., 0.25 for 1/4) and press Enter.</p>
+                    <p><strong>Between Marks:</strong> Type the fraction halfway between two given fractions (e.g., 1/4) and press Enter.</p>
+                    <p><strong>Add/Subtract:</strong> Type the answer as a fraction (e.g., 3/4) and press Enter.</p>
+                    <p><strong>Mixed to Improper:</strong> Type the improper fraction (e.g., 3/2 for 1 1/2) and press Enter.</p>
+                    <p><strong>Difference:</strong> Type the difference as a fraction and press Enter.</p>
+                    <p><strong>Inches to Feet:</strong> Type feet and inches. Press Tab to switch fields, Enter to submit.</p>
+                    <p><strong>General:</strong></p>
+                    <p>• Level up every 3 correct answers</p>
+                    <p>• Lose a life on wrong answer or timeout</p>
+                    <p>• Time bonus decreases with level</p>
+                    <p>• Streak bonus: +5 points per streak (max 50)</p>
+                    <p>Press <strong>?</strong> to close help</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

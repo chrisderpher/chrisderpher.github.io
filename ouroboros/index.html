@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ouroboros - Multiplication Speed Drill</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background -->
+    <div id="bg"></div>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <div class="ascii-box">
+                <a href="../index.html" class="close-button" title="Return to main website">×</a>
+                <pre class="title">
+╔═══════════════════════════════════════╗
+║                OUROBOROS              ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p>Race multiplication problems around the circle and eat your tail for bonus points before it expires!</p>
+                    <div class="instructions">
+                        <p><strong>How to Play:</strong></p>
+                        <p>• Problems appear in a circular track (12 problems)</p>
+                        <p>• Answer the current problem (highlighted in blue)</p>
+                        <p>• Type the answer and press Enter</p>
+                        <p>• Move forward automatically after each correct answer</p>
+                        <p>• Eat your tail: Answer fast enough to reach your oldest answered problem before it expires for bonus points!</p>
+                        <p>• Game over when current problem expires</p>
+                        <p><strong>Controls:</strong></p>
+                        <p>• <strong>0-9</strong>: Enter numbers</p>
+                        <p>• <strong>Enter</strong>: Submit answer</p>
+                        <p>• <strong>Backspace</strong>: Clear input</p>
+                        <p>• <strong>ESC</strong>: Pause/Resume</p>
+                        <p>• <strong>SPACE</strong>: Start / Return to menu</p>
+                        <p>• <strong>?</strong>: Help</p>
+                        <p><strong>Scoring:</strong></p>
+                        <p>• Base: 10 points per correct answer</p>
+                        <p>• Speed bonus: Time remaining × 2 points</p>
+                        <p>• Streak bonus: +1 per streak (max 50)</p>
+                        <p>• Level multiplier: +5% per level</p>
+                        <p>• Streak multiplier: 1.2× every 10th correct answer</p>
+                        <p>• Tail eating bonus: 50 base + (time remaining × 5) per second</p>
+                    </div>
+                    <div id="high-score-display" class="high-score">
+                        <p>High Score: <span id="high-score-value">0</span></p>
+                    </div>
+                    <div class="start-prompt">
+                        <p>Press <strong>SPACE</strong> to start</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-title">
+                <h1>OUROBOROS</h1>
+                <p class="subtitle">Multiplication Speed Drill</p>
+            </div>
+            <div class="game-header">
+                <div class="stat">
+                    <span class="label">SCORE:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">LEVEL:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="stat">
+                    <span class="label">STREAK:</span>
+                    <span id="streak">0</span>
+                </div>
+            </div>
+            
+            <div id="snake-area" class="snake-area">
+                <!-- Problems rendered here -->
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+
+            <div class="help-hint">
+                <p>Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║     PAUSED    ║
+╚═══════════════╝
+                </pre>
+                <p>Press <strong>ESC</strong> to resume</p>
+                <p>Press <strong>SPACE</strong> to return to menu</p>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════╗
+║   GAME OVER   ║
+╚═══════════════╝
+                </pre>
+                <div class="content">
+                    <p>Final Score: <span id="final-score">0</span></p>
+                    <p id="new-high-score" class="hidden">NEW HIGH SCORE!</p>
+                    <p>Accuracy: <span id="final-accuracy">0</span>%</p>
+                    <p>Best Streak: <span id="final-streak">0</span></p>
+                    <div class="restart-prompt">
+                        <p>Press <strong>SPACE</strong> to return to menu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+╔═══════════════════════════════════════╗
+║              HELP                     ║
+╚═══════════════════════════════════════╝
+                </pre>
+                <div class="content">
+                    <p><strong>Gameplay:</strong></p>
+                    <p>• Problems appear in a circular track (12 problems total)</p>
+                    <p>• Answer the current problem (highlighted in blue)</p>
+                    <p>• Move forward sequentially around the circle after each correct answer</p>
+                    <p>• Problems only start expiring when they become the current problem</p>
+                    <p>• Eat your tail: If you answer fast enough to reach your oldest answered problem before it expires, you get bonus points (current problem turns yellow when on tail)</p>
+                    <p>• Game over when current problem expires</p>
+                    <p><strong>Difficulty:</strong></p>
+                    <p>• Level 1: 18 seconds per problem</p>
+                    <p>• Level 2: 14 seconds</p>
+                    <p>• Level 3-7: 10 seconds down to 6 seconds (decreases by 1s per level)</p>
+                    <p>• Level 8+: 6 seconds down to 2.5 seconds minimum (decreases by 2s per level)</p>
+                    <p>• Level up every 8 correct answers</p>
+                    <p><strong>Scoring:</strong></p>
+                    <p>• Base: 10 points + Speed bonus (time remaining × 2) + Streak bonus (max 50)</p>
+                    <p>• Multiplied by: Level multiplier (1 + (level-1) × 0.05) × Streak multiplier (1.2× every 10th correct)</p>
+                    <p>• Tail eating: 50 base + (time remaining × 5) per second</p>
+                    <p><strong>Penalties:</strong></p>
+                    <p>• Wrong answer: 2s timeout + (level × 0.3s)</p>
+                    <p>• Streak and consecutive correct counter reset on wrong answer</p>
+                    <p>• Problems continue expiring during timeout (adds pressure!)</p>
+                    <p>Press <strong>?</strong> to close help</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
