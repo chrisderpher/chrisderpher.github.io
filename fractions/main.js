@@ -80,7 +80,7 @@ function updateUI() {
     if (game.currentDrill) {
         const timeRemaining = Math.ceil(game.currentDrill.timeRemaining);
         const timeLimit = game.getTimeLimit();
-        const percentage = (timeRemaining / timeLimit) * 100;
+        const percentage = Math.min(100, (timeRemaining / timeLimit) * 100);
         
         timerBar.style.width = percentage + '%';
         timerText.textContent = timeRemaining;
@@ -128,10 +128,31 @@ function renderDrill() {
         feedbackEl.textContent = '';
         feedbackEl.className = 'feedback';
     }
+    
+    // Update input highlighting based on window focus
+    updateInputActiveState();
+}
+
+// Track last rendered state to avoid unnecessary re-renders
+let lastOrderingRenderKey = '';
+
+// Reset render keys when starting a new game (called from mode selection)
+function resetRenderKeys() {
+    lastOrderingRenderKey = '';
+    lastBiggerSmallerRenderKey = '';
 }
 
 function renderOrderingDrill(data) {
     const { fractions, selectedOrder, feedback } = data;
+    
+    // Create a key representing current state - only re-render if changed
+    const renderKey = fractions.map(f => f.toString()).join(',') + '|' + selectedOrder.join(',');
+    
+    
+    if (renderKey === lastOrderingRenderKey) {
+        return; // Skip re-render if nothing changed
+    }
+    lastOrderingRenderKey = renderKey;
     
     let html = '<div class="ordering-drill">';
     html += '<p class="drill-title">Arrange from smallest to largest:</p>';
@@ -142,7 +163,7 @@ function renderOrderingDrill(data) {
         const position = selectedOrder.indexOf(index);
         const positionClass = position >= 0 ? `position-${position + 1}` : '';
         
-        html += `<div class="fraction-item ${isSelected ? 'selected ' + positionClass : ''}" data-index="${index}">`;
+        html += `<div class="fraction-item ${isSelected ? 'selected ' + positionClass : ''}" data-index="${index}" onclick="window.handleFractionClick(${index})">`;
         html += `<span class="fraction">${frac.toString()}</span>`;
         if (isSelected) {
             html += `<span class="position">[${position + 1}]</span>`;
@@ -152,46 +173,66 @@ function renderOrderingDrill(data) {
     
     html += '</div>';
     
-    if (selectedOrder.length === 5) {
-        html += '<p class="submit-hint">Press Enter to submit</p>';
-    } else {
-        html += `<p class="hint">Select ${5 - selectedOrder.length} more fraction(s)</p>`;
+    if (selectedOrder.length < 5) {
+        html += `<p class="hint">Tap or press ${5 - selectedOrder.length} more fraction(s)</p>`;
     }
     
     html += '</div>';
     drillArea.innerHTML = html;
 }
+
+// Global handler for ordering drill clicks (inline onclick approach)
+window.handleFractionClick = function(index) {
+    if (ui.getState() !== UI_STATE.PLAYING || game.gameOver) return;
+    
+    const result = game.handleInput(String(index + 1));
+    if (result.handled) {
+        updateUI();
+        if (game.level > previousLevel) {
+            showLevelUp();
+            previousLevel = game.level;
+        }
+    }
+};
+
+// Track last rendered state to avoid unnecessary re-renders for Bigger/Smaller
+let lastBiggerSmallerRenderKey = '';
 
 function renderBiggerSmallerDrill(data) {
     const { fractions, feedback } = data;
     const [left, right] = fractions;
     
+    // Create render key to avoid unnecessary re-renders that destroy click handlers
+    const renderKey = left.toString() + '|' + right.toString();
+    if (renderKey === lastBiggerSmallerRenderKey) {
+        return; // Skip re-render if nothing changed
+    }
+    lastBiggerSmallerRenderKey = renderKey;
+    
     let html = '<div class="bigger-smaller-drill">';
     html += '<p class="drill-title">Which fraction is bigger?</p>';
     html += '<div class="comparison-area">';
-    html += '<div class="fraction-box left-box" data-side="left">';
+    html += `<div class="fraction-box left-box" data-side="left" onclick="window.handleBiggerSmallerClick('left')">`;
     html += `<div class="fraction-large">${left.toString()}</div>`;
-    html += '<div class="hint">Press ←</div>';
+    html += '<div class="hint desktop-hint">Press ←</div>';
     html += '</div>';
     html += '<div class="vs">VS</div>';
-    html += '<div class="fraction-box right-box" data-side="right">';
+    html += `<div class="fraction-box right-box" data-side="right" onclick="window.handleBiggerSmallerClick('right')">`;
     html += `<div class="fraction-large">${right.toString()}</div>`;
-    html += '<div class="hint">Press →</div>';
+    html += '<div class="hint desktop-hint">Press →</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
     
     drillArea.innerHTML = html;
-
-    // Add touch handlers
-    const leftBox = drillArea.querySelector('.left-box');
-    const rightBox = drillArea.querySelector('.right-box');
-    
-    if (leftBox && rightBox) {
-        leftBox.addEventListener('click', () => game.handleTouch('left'));
-        rightBox.addEventListener('click', () => game.handleTouch('right'));
-    }
 }
+
+// Global handler for Bigger/Smaller clicks
+window.handleBiggerSmallerClick = function(side) {
+    if (ui.getState() !== UI_STATE.PLAYING || game.gameOver) return;
+    game.handleTouch(side);
+    updateUI();
+};
 
 function renderToDecimalDrill(data) {
     const { fraction, userInput, feedback } = data;
@@ -403,8 +444,10 @@ document.addEventListener('keydown', (e) => {
                 game.setMode(selectedMode);
                 game.start();
                 previousLevel = 1;
+                resetRenderKeys(); // Reset render cache for new game
                 ui.setState(UI_STATE.PLAYING);
                 showScreen('game');
+                updateNumpadVisibility();
                 gameLoop();
             }
         }
@@ -433,10 +476,12 @@ document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             ui.setState(UI_STATE.PLAYING);
             showScreen('game');
+            updateNumpadVisibility();
             gameLoop();
         } else if (e.code === 'Space') {
             e.preventDefault();
             // Return to main menu
+            numpad?.classList.add('hidden');
             ui.setState(UI_STATE.MODE_SELECTION);
             showScreen('mode-selection');
             updateModeHighScores();
@@ -445,6 +490,7 @@ document.addEventListener('keydown', (e) => {
     } else if (state === UI_STATE.GAME_OVER) {
         if (e.code === 'Space') {
             e.preventDefault();
+            numpad?.classList.add('hidden');
             ui.setState(UI_STATE.MODE_SELECTION);
             showScreen('mode-selection');
             updateModeHighScores();
@@ -454,6 +500,7 @@ document.addEventListener('keydown', (e) => {
         if (e.key === '?') {
             ui.setState(UI_STATE.PLAYING);
             showScreen('game');
+            updateNumpadVisibility();
             gameLoop();
         }
     }
@@ -530,6 +577,35 @@ updateHighScoreDisplay();
 updateModeHighScores();
 showScreen('start');
 
+// Track window focus state for input highlighting
+let windowHasFocus = document.hasFocus();
+
+window.addEventListener('focus', () => {
+    windowHasFocus = true;
+    updateInputActiveState();
+});
+
+window.addEventListener('blur', () => {
+    windowHasFocus = false;
+    updateInputActiveState();
+});
+
+function updateInputActiveState() {
+    // Update all game inputs to reflect window focus state
+    const inputs = drillArea.querySelectorAll('.decimal-input, .fraction-input, .number-input, .feet-input, .inches-input');
+    inputs.forEach(input => {
+        if (windowHasFocus && ui.getState() === UI_STATE.PLAYING) {
+            input.classList.add('window-focused');
+        } else {
+            input.classList.remove('window-focused');
+        }
+    });
+}
+
+// Note: Click handlers for fraction items are handled via inline onclick
+// attributes (handleFractionClick) to work with the render key optimization
+// that prevents constant innerHTML re-renders. Auto-submit on 5 selections.
+
 // Add click handlers for mode selection
 document.querySelectorAll('.mode-option').forEach(option => {
     option.addEventListener('click', () => {
@@ -538,9 +614,185 @@ document.querySelectorAll('.mode-option').forEach(option => {
             game.setMode(mode);
             game.start();
             previousLevel = 1;
+            resetRenderKeys(); // Reset render cache for new game
             ui.setState(UI_STATE.PLAYING);
             showScreen('game');
+            updateNumpadVisibility();
             gameLoop();
         }
     });
 });
+
+// ========================================
+// MOBILE TOUCH SUPPORT
+// ========================================
+
+const numpad = document.getElementById('numpad');
+
+// Detect if device is touch-capable
+function isTouchDevice() {
+    return ('ontouchstart' in window) || 
+           (navigator.maxTouchPoints > 0) || 
+           (navigator.msMaxTouchPoints > 0) ||
+           (window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+}
+
+// Games that need the numpad
+const numpadGames = [
+    'To Decimal',
+    'Between Marks', 
+    'Add/Subtract',
+    'Mixed to Improper',
+    'Difference',
+    'Inches to Feet'
+];
+
+// Show/hide numpad based on current game
+function updateNumpadVisibility() {
+    if (!isTouchDevice() || !numpad) return;
+    
+    const state = ui.getState();
+    const currentMode = game.selectedMode;
+    
+    if (state === UI_STATE.PLAYING && numpadGames.includes(currentMode)) {
+        numpad.classList.remove('hidden');
+    } else {
+        numpad.classList.add('hidden');
+    }
+}
+
+// Start button
+const startButton = document.getElementById('start-button');
+if (startButton) {
+    startButton.addEventListener('click', () => {
+        ui.setState(UI_STATE.MODE_SELECTION);
+        showScreen('mode-selection');
+        updateModeHighScores();
+    });
+}
+
+// Resume button (pause screen)
+const resumeButton = document.getElementById('resume-button');
+if (resumeButton) {
+    resumeButton.addEventListener('click', () => {
+        ui.setState(UI_STATE.PLAYING);
+        showScreen('game');
+        updateNumpadVisibility();
+        gameLoop();
+    });
+}
+
+// Menu button (pause screen)
+const menuButton = document.getElementById('menu-button');
+if (menuButton) {
+    menuButton.addEventListener('click', () => {
+        numpad?.classList.add('hidden');
+        ui.setState(UI_STATE.MODE_SELECTION);
+        showScreen('mode-selection');
+        updateModeHighScores();
+        previousLevel = 1;
+    });
+}
+
+// Restart button (game over screen)
+const restartButton = document.getElementById('restart-button');
+if (restartButton) {
+    restartButton.addEventListener('click', () => {
+        numpad?.classList.add('hidden');
+        ui.setState(UI_STATE.MODE_SELECTION);
+        showScreen('mode-selection');
+        updateModeHighScores();
+        previousLevel = 1;
+    });
+}
+
+// Close help button
+const closeHelpButton = document.getElementById('close-help-button');
+if (closeHelpButton) {
+    closeHelpButton.addEventListener('click', () => {
+        ui.setState(UI_STATE.PLAYING);
+        showScreen('game');
+        updateNumpadVisibility();
+        gameLoop();
+    });
+}
+
+// In-game pause button
+const pauseBtn = document.getElementById('pause-btn');
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+        numpad?.classList.add('hidden');
+        ui.setState(UI_STATE.PAUSED);
+        showScreen('pause');
+    });
+}
+
+// In-game help button
+const helpBtn = document.getElementById('help-btn');
+if (helpBtn) {
+    helpBtn.addEventListener('click', () => {
+        numpad?.classList.add('hidden');
+        ui.setState(UI_STATE.HELP);
+        showScreen('help');
+    });
+}
+
+// Numpad key handlers
+if (numpad) {
+    numpad.querySelectorAll('.numpad-key').forEach(key => {
+        key.addEventListener('click', (e) => {
+            e.preventDefault();
+            const keyValue = key.getAttribute('data-key');
+            if (keyValue && ui.getState() === UI_STATE.PLAYING) {
+                const result = game.handleInput(keyValue);
+                if (result.paused !== undefined) {
+                    ui.setState(result.paused ? UI_STATE.PAUSED : UI_STATE.PLAYING);
+                    showScreen(result.paused ? 'pause' : 'game');
+                    if (result.paused) {
+                        numpad.classList.add('hidden');
+                    }
+                }
+                
+                // Check for level up
+                if (game.level > previousLevel) {
+                    showLevelUp();
+                    previousLevel = game.level;
+                }
+                
+                // Update UI immediately after input
+                updateUI();
+                
+                // Check for game over after input
+                checkGameOverAfterInput();
+            }
+        });
+    });
+}
+
+// Handle game over triggered by numpad input
+function checkGameOverAfterInput() {
+    if (game.gameOver && ui.getState() === UI_STATE.PLAYING) {
+        ui.setState(UI_STATE.GAME_OVER);
+        numpad?.classList.add('hidden');
+        setTimeout(() => {
+            if (ui.getState() !== UI_STATE.GAME_OVER) return;
+            showScreen('game-over');
+            
+            const modeName = game.currentDrill?.name || game.selectedMode || 'Unknown';
+            const modeHighScore = game.getModeHighScore(modeName);
+            
+            finalScoreEl.textContent = game.score;
+            finalModeEl.textContent = modeName;
+            finalModeHighScoreEl.textContent = modeHighScore;
+            finalAccuracyEl.textContent = game.getAccuracy();
+            finalStreakEl.textContent = game.bestStreak;
+            
+            const isNewHigh = game.score >= modeHighScore;
+            if (isNewHigh) {
+                newHighScoreEl.classList.remove('hidden');
+            } else {
+                newHighScoreEl.classList.add('hidden');
+            }
+        }, 1000);
+    }
+}

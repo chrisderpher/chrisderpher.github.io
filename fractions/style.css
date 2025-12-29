@@ -562,14 +562,20 @@ body {
 .decimal-input, .fraction-input, .number-input {
     font-size: 1.5em;
     padding: 15px;
-    background: rgba(26, 58, 90, 0.7);
-    border: 2px solid #4a9eff;
+    background: rgba(20, 40, 60, 0.5);
+    border: 2px solid #555;
     color: #fff;
     font-family: 'Courier New', monospace;
     text-align: center;
     width: 100%;
     max-width: 300px;
     backdrop-filter: blur(2px);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.decimal-input.window-focused, .fraction-input.window-focused, .number-input.window-focused {
+    background: rgba(26, 58, 90, 0.7);
+    border-color: #4a9eff;
 }
 
 .fraction-pair, .equation {
@@ -614,7 +620,7 @@ body {
     backdrop-filter: blur(2px);
 }
 
-.feet-input.active, .inches-input.active {
+.feet-input.active.window-focused, .inches-input.active.window-focused {
     border-color: #4a9eff;
     background: rgba(26, 58, 90, 0.7);
 }
@@ -647,4 +653,250 @@ body {
 .fraction-box:focus {
     outline: 3px solid #4a9eff;
     outline-offset: 2px;
+}
+
+/* ========================================
+   MOBILE TOUCH SUPPORT
+   ======================================== */
+
+/* Touch Buttons */
+.touch-button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 15px auto;
+    padding: 18px 30px;
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(74, 158, 255, 0.4);
+}
+
+.touch-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
+}
+
+.touch-button.secondary {
+    background: linear-gradient(135deg, #666 0%, #444 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.touch-button.secondary:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.touch-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* In-game touch control buttons */
+.game-touch-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.game-control-btn {
+    padding: 12px 20px;
+    font-size: 1em;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    background: rgba(19, 21, 25, 0.8);
+    color: #4a9eff;
+    border: 2px solid #4a9eff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.game-control-btn:hover,
+.game-control-btn:active {
+    background: rgba(74, 158, 255, 0.2);
+}
+
+/* On-Screen Numpad */
+.numpad {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(19, 21, 25, 0.98);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    z-index: 500;
+    backdrop-filter: blur(8px);
+}
+
+.numpad-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.numpad-row:last-child {
+    margin-bottom: 0;
+}
+
+.numpad-key {
+    flex: 1;
+    max-width: 80px;
+    height: 55px;
+    font-size: 1.5em;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.numpad-key:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.numpad-key:active {
+    background: rgba(74, 158, 255, 0.3);
+    transform: scale(0.95);
+}
+
+.numpad-key.special {
+    background: rgba(74, 158, 255, 0.2);
+    color: #4a9eff;
+}
+
+.numpad-key.submit {
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    color: #fff;
+    border-color: #4a9eff;
+}
+
+.numpad-key.submit:active {
+    background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
+}
+
+/* On mobile/touch devices, hide keyboard hints */
+@media (hover: none) and (pointer: coarse) {
+    .desktop-hint {
+        display: none;
+    }
+    
+    .mode-hint {
+        display: none;
+    }
+}
+
+/* Numpad only shows on touch devices during gameplay */
+@media (hover: hover) and (pointer: fine) {
+    .numpad {
+        display: none !important;
+    }
+}
+
+/* Mobile layout adjustments */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .ascii-box {
+        padding: 15px;
+    }
+    
+    .ascii-box pre {
+        font-size: 0.7em;
+    }
+    
+    .title {
+        font-size: 1em;
+    }
+    
+    .instructions {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+    
+    .mode-option {
+        padding: 12px;
+    }
+    
+    .mode-title {
+        font-size: 1.1em;
+    }
+    
+    .mode-description {
+        font-size: 0.85em;
+    }
+    
+    /* Make drill area smaller when numpad is showing */
+    .drill-area {
+        min-height: 200px;
+        padding: 15px;
+    }
+    
+    .fraction-display,
+    .mixed-display,
+    .inches-display {
+        font-size: 1.5em;
+    }
+    
+    .decimal-input,
+    .fraction-input {
+        font-size: 1.3em;
+        padding: 12px;
+    }
+    
+    /* Ordering drill - make fraction items tappable */
+    .fraction-item {
+        padding: 18px;
+        font-size: 1.1em;
+    }
+    
+    /* Bigger/Smaller - larger tap targets */
+    .fraction-box {
+        padding: 25px 15px;
+        min-width: 140px;
+    }
+    
+    .fraction-large {
+        font-size: 2.2em;
+    }
+    
+    /* Add padding at bottom for numpad */
+    #game-screen {
+        padding-bottom: 240px;
+    }
+}
+
+/* Tappable fraction items in Ordering drill */
+.fraction-item {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.fraction-item:active {
+    background: rgba(74, 158, 255, 0.3);
+    transform: scale(0.98);
 }

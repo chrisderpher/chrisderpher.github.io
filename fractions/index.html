@@ -46,7 +46,8 @@
                         <p>Overall High Score: <span id="high-score-value">0</span></p>
                     </div>
                     <div class="start-prompt">
-                        <p>Press <strong>SPACE</strong> to choose game mode</p>
+                        <p class="desktop-hint">Press <strong>SPACE</strong> to choose game mode</p>
+                        <button class="touch-button start-button" id="start-button">TAP TO START</button>
                     </div>
                 </div>
             </div>
@@ -149,7 +150,11 @@
             <div id="feedback" class="feedback"></div>
 
             <div class="help-hint">
-                <p>Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+                <p class="desktop-hint">Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+                <div class="game-touch-controls">
+                    <button class="game-control-btn" id="pause-btn">⏸ PAUSE</button>
+                    <button class="game-control-btn" id="help-btn">? HELP</button>
+                </div>
             </div>
         </div>
 
@@ -161,8 +166,12 @@
 ║     PAUSED    ║
 ╚═══════════════╝
                 </pre>
-                <p>Press <strong>ESC</strong> to resume</p>
-                <p>Press <strong>SPACE</strong> to return to menu</p>
+                <p class="desktop-hint">Press <strong>ESC</strong> to resume</p>
+                <p class="desktop-hint">Press <strong>SPACE</strong> to return to menu</p>
+                <div class="touch-buttons">
+                    <button class="touch-button" id="resume-button">RESUME</button>
+                    <button class="touch-button secondary" id="menu-button">MENU</button>
+                </div>
             </div>
         </div>
 
@@ -182,7 +191,8 @@
                     <p>Accuracy: <span id="final-accuracy">0</span>%</p>
                     <p>Best Streak: <span id="final-streak">0</span></p>
                     <div class="restart-prompt">
-                        <p>Press <strong>SPACE</strong> to return to menu</p>
+                        <p class="desktop-hint">Press <strong>SPACE</strong> to return to menu</p>
+                        <button class="touch-button" id="restart-button">RETURN TO MENU</button>
                     </div>
                 </div>
             </div>
@@ -210,8 +220,37 @@
                     <p>• Lose a life on wrong answer or timeout</p>
                     <p>• Time bonus decreases with level</p>
                     <p>• Streak bonus: +5 points per streak (max 50)</p>
-                    <p>Press <strong>?</strong> to close help</p>
+                    <p class="desktop-hint">Press <strong>?</strong> to close help</p>
+                    <button class="touch-button" id="close-help-button">CLOSE HELP</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- On-Screen Numpad for Mobile -->
+        <div id="numpad" class="numpad hidden">
+            <div class="numpad-row">
+                <button class="numpad-key" data-key="7">7</button>
+                <button class="numpad-key" data-key="8">8</button>
+                <button class="numpad-key" data-key="9">9</button>
+                <button class="numpad-key special" data-key="Backspace">⌫</button>
+            </div>
+            <div class="numpad-row">
+                <button class="numpad-key" data-key="4">4</button>
+                <button class="numpad-key" data-key="5">5</button>
+                <button class="numpad-key" data-key="6">6</button>
+                <button class="numpad-key special" data-key="/">/</button>
+            </div>
+            <div class="numpad-row">
+                <button class="numpad-key" data-key="1">1</button>
+                <button class="numpad-key" data-key="2">2</button>
+                <button class="numpad-key" data-key="3">3</button>
+                <button class="numpad-key special" data-key=".">.</button>
+            </div>
+            <div class="numpad-row">
+                <button class="numpad-key" data-key="0">0</button>
+                <button class="numpad-key special" data-key="-">−</button>
+                <button class="numpad-key special" data-key="Tab">TAB</button>
+                <button class="numpad-key submit" data-key="Enter">↵</button>
             </div>
         </div>
     </div>

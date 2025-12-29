@@ -73,11 +73,19 @@ class OrderingDrill extends Drill {
     handleInput(key) {
         if (!this.active || this.completed) return { handled: false };
 
-        // Number keys 1-5 to select fractions in order
+        // Number keys 1-5 to select/unselect fractions
         const num = parseInt(key);
         if (num >= 1 && num <= 5) {
             const index = num - 1;
-            if (!this.selectedOrder.includes(index)) {
+            const existingPos = this.selectedOrder.indexOf(index);
+            
+            if (existingPos !== -1) {
+                // Already selected - unselect it (remove from selection)
+                this.selectedOrder.splice(existingPos, 1);
+                this.feedback = null;
+                return { handled: true, update: true };
+            } else {
+                // Not selected - add to selection
                 this.selectedOrder.push(index);
                 this.feedback = null;
                 
