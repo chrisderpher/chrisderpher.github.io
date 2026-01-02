@@ -629,28 +629,12 @@ document.querySelectorAll('.mode-option').forEach(option => {
 
 const numpad = document.getElementById('numpad');
 
-// #region agent log - debug display helper
-const debugDisplay = document.getElementById('debug-display');
-function debugLog(msg) {
-    if (debugDisplay) {
-        const time = new Date().toLocaleTimeString();
-        debugDisplay.innerHTML = `[${time}] ${msg}<br>` + debugDisplay.innerHTML;
-        if (debugDisplay.children.length > 20) debugDisplay.innerHTML = debugDisplay.innerHTML.split('<br>').slice(0,20).join('<br>');
-    }
-}
-debugLog(`Numpad found: ${!!numpad}, keys: ${numpad?.querySelectorAll('.numpad-key').length || 0}`);
-// #endregion
-
 // Detect if device is touch-capable
 function isTouchDevice() {
-    const result = ('ontouchstart' in window) || 
+    return ('ontouchstart' in window) || 
            (navigator.maxTouchPoints > 0) || 
            (navigator.msMaxTouchPoints > 0) ||
            (window.matchMedia('(hover: none) and (pointer: coarse)').matches);
-    // #region agent log
-    debugLog(`isTouchDevice: ${result}, touchPoints: ${navigator.maxTouchPoints}`);
-    // #endregion
-    return result;
 }
 
 // Games that need the numpad
@@ -669,10 +653,6 @@ function updateNumpadVisibility() {
     
     const state = ui.getState();
     const currentMode = game.selectedMode;
-    
-    // #region agent log
-    debugLog(`updateNumpad: state=${state}, mode=${currentMode}, willShow=${state===UI_STATE.PLAYING&&numpadGames.includes(currentMode)}`);
-    // #endregion
     
     if (state === UI_STATE.PLAYING && numpadGames.includes(currentMode)) {
         numpad.classList.remove('hidden');
@@ -757,21 +737,10 @@ if (helpBtn) {
     });
 }
 
-// Numpad key handlers
-// #region agent log
-debugLog(`Numpad setup: attaching listeners to ${numpad?.querySelectorAll('.numpad-key').length || 0} keys`);
-// #endregion
-
-// Helper function to process numpad input
+// Numpad key handlers - helper function to process numpad input
 function processNumpadKey(keyValue) {
-    // #region agent log
-    debugLog(`PROCESS: key=${keyValue}, state=${ui.getState()}, isPlaying=${ui.getState()===UI_STATE.PLAYING}`);
-    // #endregion
     if (keyValue && ui.getState() === UI_STATE.PLAYING) {
         const result = game.handleInput(keyValue);
-        // #region agent log
-        debugLog(`RESULT: handled=${result.handled}, update=${result.update}`);
-        // #endregion
         if (result.paused !== undefined) {
             ui.setState(result.paused ? UI_STATE.PAUSED : UI_STATE.PLAYING);
             showScreen(result.paused ? 'pause' : 'game');
@@ -799,9 +768,6 @@ if (numpad) {
         // Use touchend for mobile - more reliable than click
         key.addEventListener('touchend', (e) => {
             e.preventDefault(); // Prevent ghost click
-            // #region agent log
-            debugLog(`TOUCHEND: key=${key.getAttribute('data-key')}`);
-            // #endregion
             processNumpadKey(key.getAttribute('data-key'));
         });
         
@@ -809,9 +775,6 @@ if (numpad) {
         key.addEventListener('click', (e) => {
             // Only process if not a touch event (avoid double-processing)
             if (e.pointerType === 'touch') return;
-            // #region agent log
-            debugLog(`CLICK: key=${key.getAttribute('data-key')}`);
-            // #endregion
             e.preventDefault();
             processNumpadKey(key.getAttribute('data-key'));
         });
