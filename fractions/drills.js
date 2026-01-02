@@ -33,6 +33,8 @@ class Drill {
 
     update() {
         if (!this.active) return;
+        // If drill is already completed, don't trigger timeout
+        if (this.completed) return true;
         const elapsed = (Date.now() - this.startTime) / 1000;
         this.timeRemaining = Math.max(0, this.timeLimit - elapsed);
         return this.timeRemaining > 0;

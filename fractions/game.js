@@ -129,6 +129,21 @@ class Game {
             } else {
                 timeLimit = 4;  // Minimum for level 6+
             }
+        } else if (this.currentDrill.name === 'Inches to Feet') {
+            // Very aggressive difficulty - this should be tough
+            if (this.level === 1) {
+                timeLimit = 20;  // Short warm-up
+            } else if (this.level === 2) {
+                timeLimit = 12;  // Big drop immediately
+            } else if (this.level === 3) {
+                timeLimit = 8;   // Aggressive
+            } else if (this.level === 4) {
+                timeLimit = 6;
+            } else if (this.level === 5) {
+                timeLimit = 5;
+            } else {
+                timeLimit = 4;   // Minimum for level 6+ - very hard
+            }
         } else {
             // Other drills: reduce by 2 seconds per level
             const reduction = (this.level - 1) * 2;
