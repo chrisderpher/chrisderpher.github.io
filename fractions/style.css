@@ -329,6 +329,21 @@ body {
     margin-bottom: 20px;
     backdrop-filter: blur(4px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+/* Green ping animation for correct answers */
+.drill-area.correct-ping {
+    background: rgba(34, 139, 34, 0.3);
+    border-color: rgba(50, 205, 50, 0.6);
+    box-shadow: 0 0 20px rgba(50, 205, 50, 0.4), inset 0 0 30px rgba(50, 205, 50, 0.1);
+}
+
+/* Red ping animation for wrong answers */
+.drill-area.wrong-ping {
+    background: rgba(220, 53, 69, 0.25);
+    border-color: rgba(255, 99, 71, 0.6);
+    box-shadow: 0 0 20px rgba(255, 99, 71, 0.3), inset 0 0 30px rgba(255, 99, 71, 0.1);
 }
 
 .drill-title {

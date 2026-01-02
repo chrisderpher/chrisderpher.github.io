@@ -343,6 +343,13 @@ function showFeedback(feedback, drillName) {
     if (feedback.correct) {
         feedbackEl.textContent = '>>> CORRECT! <<<';
         feedbackEl.className = 'feedback correct';
+        
+        // Visual ping on drill area for correct answers (especially useful on mobile)
+        drillArea.classList.add('correct-ping');
+        setTimeout(() => {
+            drillArea.classList.remove('correct-ping');
+        }, 400);
+        
         // Clear feedback after short delay for correct answers
         setTimeout(() => {
             feedbackEl.textContent = '';
@@ -351,6 +358,12 @@ function showFeedback(feedback, drillName) {
     } else {
         feedbackEl.textContent = '>>> WRONG! <<<';
         feedbackEl.className = 'feedback wrong';
+        
+        // Visual ping on drill area for wrong answers
+        drillArea.classList.add('wrong-ping');
+        setTimeout(() => {
+            drillArea.classList.remove('wrong-ping');
+        }, 600);
         
         if (drillName === 'Ordering') {
             const correctOrder = feedback.correctOrder.map(f => f.toString()).join(' < ');
