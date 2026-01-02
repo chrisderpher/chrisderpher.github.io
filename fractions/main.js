@@ -629,8 +629,16 @@ document.querySelectorAll('.mode-option').forEach(option => {
 
 const numpad = document.getElementById('numpad');
 
-// #region agent log
-fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:632',message:'Numpad element lookup',data:{numpadFound:!!numpad,numpadElement:numpad?.tagName},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+// #region agent log - debug display helper
+const debugDisplay = document.getElementById('debug-display');
+function debugLog(msg) {
+    if (debugDisplay) {
+        const time = new Date().toLocaleTimeString();
+        debugDisplay.innerHTML = `[${time}] ${msg}<br>` + debugDisplay.innerHTML;
+        if (debugDisplay.children.length > 20) debugDisplay.innerHTML = debugDisplay.innerHTML.split('<br>').slice(0,20).join('<br>');
+    }
+}
+debugLog(`Numpad found: ${!!numpad}, keys: ${numpad?.querySelectorAll('.numpad-key').length || 0}`);
 // #endregion
 
 // Detect if device is touch-capable
@@ -640,7 +648,7 @@ function isTouchDevice() {
            (navigator.msMaxTouchPoints > 0) ||
            (window.matchMedia('(hover: none) and (pointer: coarse)').matches);
     // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:isTouchDevice',message:'Touch detection result',data:{isTouchDevice:result,ontouchstart:'ontouchstart' in window,maxTouchPoints:navigator.maxTouchPoints},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+    debugLog(`isTouchDevice: ${result}, touchPoints: ${navigator.maxTouchPoints}`);
     // #endregion
     return result;
 }
@@ -663,7 +671,7 @@ function updateNumpadVisibility() {
     const currentMode = game.selectedMode;
     
     // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:updateNumpadVisibility',message:'Updating numpad visibility',data:{state:state,currentMode:currentMode,willShow:state===UI_STATE.PLAYING&&numpadGames.includes(currentMode)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B,D'})}).catch(()=>{});
+    debugLog(`updateNumpad: state=${state}, mode=${currentMode}, willShow=${state===UI_STATE.PLAYING&&numpadGames.includes(currentMode)}`);
     // #endregion
     
     if (state === UI_STATE.PLAYING && numpadGames.includes(currentMode)) {
@@ -751,18 +759,18 @@ if (helpBtn) {
 
 // Numpad key handlers
 // #region agent log
-fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:numpadSetup',message:'Numpad setup check',data:{numpadExists:!!numpad,numpadKeysCount:numpad?.querySelectorAll('.numpad-key').length || 0},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'E'})}).catch(()=>{});
+debugLog(`Numpad setup: attaching listeners to ${numpad?.querySelectorAll('.numpad-key').length || 0} keys`);
 // #endregion
 if (numpad) {
     numpad.querySelectorAll('.numpad-key').forEach(key => {
         // #region agent log - add touchstart listener to diagnose mobile touch issues
         key.addEventListener('touchstart', (e) => {
-            fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:numpadTouchStart',message:'Numpad touchstart fired',data:{keyValue:key.getAttribute('data-key')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+            debugLog(`TOUCHSTART: key=${key.getAttribute('data-key')}`);
         });
         // #endregion
         key.addEventListener('click', (e) => {
             // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/5c90799d-6243-464b-80e3-c4697c521c5d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'main.js:numpadClick',message:'Numpad key clicked',data:{keyValue:key.getAttribute('data-key'),uiState:ui.getState(),isPlaying:ui.getState()===UI_STATE.PLAYING},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C,D'})}).catch(()=>{});
+            debugLog(`CLICK: key=${key.getAttribute('data-key')}, state=${ui.getState()}, isPlaying=${ui.getState()===UI_STATE.PLAYING}`);
             // #endregion
             e.preventDefault();
             const keyValue = key.getAttribute('data-key');
