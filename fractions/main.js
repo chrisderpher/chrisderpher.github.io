@@ -761,41 +761,59 @@ if (helpBtn) {
 // #region agent log
 debugLog(`Numpad setup: attaching listeners to ${numpad?.querySelectorAll('.numpad-key').length || 0} keys`);
 // #endregion
+
+// Helper function to process numpad input
+function processNumpadKey(keyValue) {
+    // #region agent log
+    debugLog(`PROCESS: key=${keyValue}, state=${ui.getState()}, isPlaying=${ui.getState()===UI_STATE.PLAYING}`);
+    // #endregion
+    if (keyValue && ui.getState() === UI_STATE.PLAYING) {
+        const result = game.handleInput(keyValue);
+        // #region agent log
+        debugLog(`RESULT: handled=${result.handled}, update=${result.update}`);
+        // #endregion
+        if (result.paused !== undefined) {
+            ui.setState(result.paused ? UI_STATE.PAUSED : UI_STATE.PLAYING);
+            showScreen(result.paused ? 'pause' : 'game');
+            if (result.paused) {
+                numpad.classList.add('hidden');
+            }
+        }
+        
+        // Check for level up
+        if (game.level > previousLevel) {
+            showLevelUp();
+            previousLevel = game.level;
+        }
+        
+        // Update UI immediately after input
+        updateUI();
+        
+        // Check for game over after input
+        checkGameOverAfterInput();
+    }
+}
+
 if (numpad) {
     numpad.querySelectorAll('.numpad-key').forEach(key => {
-        // #region agent log - add touchstart listener to diagnose mobile touch issues
-        key.addEventListener('touchstart', (e) => {
-            debugLog(`TOUCHSTART: key=${key.getAttribute('data-key')}`);
-        });
-        // #endregion
-        key.addEventListener('click', (e) => {
+        // Use touchend for mobile - more reliable than click
+        key.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent ghost click
             // #region agent log
-            debugLog(`CLICK: key=${key.getAttribute('data-key')}, state=${ui.getState()}, isPlaying=${ui.getState()===UI_STATE.PLAYING}`);
+            debugLog(`TOUCHEND: key=${key.getAttribute('data-key')}`);
+            // #endregion
+            processNumpadKey(key.getAttribute('data-key'));
+        });
+        
+        // Keep click for desktop/mouse users
+        key.addEventListener('click', (e) => {
+            // Only process if not a touch event (avoid double-processing)
+            if (e.pointerType === 'touch') return;
+            // #region agent log
+            debugLog(`CLICK: key=${key.getAttribute('data-key')}`);
             // #endregion
             e.preventDefault();
-            const keyValue = key.getAttribute('data-key');
-            if (keyValue && ui.getState() === UI_STATE.PLAYING) {
-                const result = game.handleInput(keyValue);
-                if (result.paused !== undefined) {
-                    ui.setState(result.paused ? UI_STATE.PAUSED : UI_STATE.PLAYING);
-                    showScreen(result.paused ? 'pause' : 'game');
-                    if (result.paused) {
-                        numpad.classList.add('hidden');
-                    }
-                }
-                
-                // Check for level up
-                if (game.level > previousLevel) {
-                    showLevelUp();
-                    previousLevel = game.level;
-                }
-                
-                // Update UI immediately after input
-                updateUI();
-                
-                // Check for game over after input
-                checkGameOverAfterInput();
-            }
+            processNumpadKey(key.getAttribute('data-key'));
         });
     });
 }
