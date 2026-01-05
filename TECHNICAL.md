@@ -23,7 +23,9 @@ The site uses a layered background approach:
 - `#bg:before`: Overlay pattern (`overlay.png`) with gradient
 - Both layers use pseudo-elements for layering and transitions
 
-## Fractions Game Architecture
+## Games Architecture
+
+### Fractions Game Architecture
 
 ### Module Structure
 
@@ -140,6 +142,48 @@ Mode names are converted to lowercase alphanumeric keys:
 - **Rendering**: Only updates when drill state changes
 - **LocalStorage**: Async writes, doesn't block game loop
 - **Background images**: Fixed positioning, hardware-accelerated transforms
+
+### Ouroboros Game Architecture
+
+#### Module Structure
+
+#### `problems.js`
+- **Problem class**: Represents a multiplication problem with expiration logic
+- **Problem generation**: Generates 0-10 × 0-10 problems with level-based difficulty
+- **Expiration tracking**: `expiresAt` timestamp, `startExpiration()` method
+
+#### `snake.js`
+- **SnakeLayout class**: Calculates circular positions for 12 problems
+- **Position assignment**: Fixed positions stored in `problem.position`, never recalculated
+- **Circle math**: 18° spacing, radius-based positioning
+
+#### `game.js`
+- **Game class**: Main game state, scoring, tail eating logic
+- **Tail eating**: Detects when player reaches oldest answered problem before it expires
+- **Level progression**: Every 8 correct answers, expiration times decrease
+- **Scoring**: Base + speed + streak bonuses with multipliers
+
+#### `ui.js`
+- **UI_STATE constants**: State enumeration
+- **UIManager class**: State machine for UI transitions
+- **States**: START, PLAYING, PAUSED, GAME_OVER, HELP
+
+#### `main.js`
+- **Game loop**: `requestAnimationFrame`-based update loop
+- **Rendering**: Circular track visualization with current/answered/expiring states
+- **Input handling**: Keyboard input for numbers and Enter submission
+- **Screen management**: Show/hide different game screens
+
+### Integration Points
+
+#### Portfolio to Games
+- **Navigation**: Dropdown menu links to `fractions/index.html` and `ouroboros/index.html`
+- **Styling**: Both games use same background images (`../images/bg.jpg`, `../images/overlay.png`)
+- **Theme**: Game CSS matches portfolio transparency and backdrop filters
+
+#### Games to Portfolio
+- **Close button**: Links back to `../index.html`
+- **Navigation**: Available on start screens
 
 ## Future Enhancements
 
