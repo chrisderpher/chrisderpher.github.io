@@ -339,6 +339,176 @@ function updateHighScoreDisplay() {
     }
 }
 
+// ========================================
+// MOBILE TOUCH SUPPORT
+// ========================================
+
+const numpad = document.getElementById('numpad');
+
+// Detect if device is touch-capable
+function isTouchDevice() {
+    return ('ontouchstart' in window) || 
+           (navigator.maxTouchPoints > 0) || 
+           (navigator.msMaxTouchPoints > 0) ||
+           (window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+}
+
+// Show/hide numpad based on game state
+function updateNumpadVisibility() {
+    if (!isTouchDevice() || !numpad) return;
+    
+    const state = ui.getState();
+    
+    if (state === UI_STATE.PLAYING && !game.paused) {
+        numpad.classList.remove('hidden');
+    } else {
+        numpad.classList.add('hidden');
+    }
+}
+
+// Process numpad key input
+function processNumpadKey(keyValue) {
+    if (ui.getState() !== UI_STATE.PLAYING || game.paused) return;
+    
+    if (keyValue === 'Enter') {
+        // Submit answer
+        if (!game.wrongAnswerTimeout && currentInput && currentInput.trim() !== '') {
+            const result = game.submitAnswer(currentInput);
+            if (result.handled) {
+                if (result.correct) {
+                    currentInput = '';
+                    
+                    if (game.level > previousLevel) {
+                        showLevelUp();
+                        previousLevel = game.level;
+                    }
+                    
+                    if (result.tailEaten) {
+                        feedbackEl.textContent = `>>> TAIL EATEN! +${result.tailEaten.bonus} BONUS! <<<`;
+                        feedbackEl.className = 'feedback correct';
+                    } else {
+                        feedbackEl.textContent = '>>> CORRECT! <<<';
+                        feedbackEl.className = 'feedback correct';
+                    }
+                    setTimeout(() => {
+                        feedbackEl.textContent = '';
+                        feedbackEl.className = 'feedback';
+                    }, 500);
+                } else {
+                    currentInput = '';
+                }
+            }
+        }
+    } else if (keyValue === 'Backspace') {
+        currentInput = currentInput.slice(0, -1);
+    } else if (keyValue >= '0' && keyValue <= '9') {
+        if (currentInput.length < 3) {
+            currentInput += keyValue;
+        }
+    }
+    
+    updateUI();
+}
+
+// Numpad touch handlers
+if (numpad) {
+    numpad.querySelectorAll('.numpad-key').forEach(key => {
+        if (key.classList.contains('spacer')) return;
+        
+        key.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            processNumpadKey(key.getAttribute('data-key'));
+        });
+        
+        key.addEventListener('click', (e) => {
+            if (e.pointerType === 'touch') return;
+            e.preventDefault();
+            processNumpadKey(key.getAttribute('data-key'));
+        });
+    });
+}
+
+// Touch button handlers
+const startButton = document.getElementById('start-button');
+if (startButton) {
+    startButton.addEventListener('click', () => {
+        try {
+            updateLayoutDimensions();
+            game.start();
+            currentInput = '';
+            previousLevel = 1;
+            ui.setState(UI_STATE.PLAYING);
+            showScreen('game');
+            updateNumpadVisibility();
+            gameLoop();
+        } catch (error) {
+            console.error('Error starting game:', error);
+        }
+    });
+}
+
+const resumeButton = document.getElementById('resume-button');
+if (resumeButton) {
+    resumeButton.addEventListener('click', () => {
+        game.togglePause();
+        ui.setState(UI_STATE.PLAYING);
+        showScreen('game');
+        updateNumpadVisibility();
+        gameLoop();
+    });
+}
+
+const menuButton = document.getElementById('menu-button');
+if (menuButton) {
+    menuButton.addEventListener('click', () => {
+        previousLevel = 1;
+        ui.setState(UI_STATE.START);
+        showScreen('start');
+        updateNumpadVisibility();
+        updateHighScoreDisplay();
+    });
+}
+
+const restartButton = document.getElementById('restart-button');
+if (restartButton) {
+    restartButton.addEventListener('click', () => {
+        previousLevel = 1;
+        ui.setState(UI_STATE.START);
+        showScreen('start');
+        updateNumpadVisibility();
+        updateHighScoreDisplay();
+    });
+}
+
+const pauseBtn = document.getElementById('pause-btn');
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+        game.togglePause();
+        ui.setState(UI_STATE.PAUSED);
+        showScreen('pause');
+        updateNumpadVisibility();
+    });
+}
+
+const helpBtn = document.getElementById('help-btn');
+if (helpBtn) {
+    helpBtn.addEventListener('click', () => {
+        ui.setState(UI_STATE.HELP);
+        showScreen('help');
+        updateNumpadVisibility();
+    });
+}
+
+const closeHelpButton = document.getElementById('close-help-button');
+if (closeHelpButton) {
+    closeHelpButton.addEventListener('click', () => {
+        ui.setState(UI_STATE.PLAYING);
+        showScreen('game');
+        updateNumpadVisibility();
+        gameLoop();
+    });
+}
+
 // Initialize
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

@@ -48,7 +48,8 @@
                         <p>High Score: <span id="high-score-value">0</span></p>
                     </div>
                     <div class="start-prompt">
-                        <p>Press <strong>SPACE</strong> to start</p>
+                        <p class="desktop-hint">Press <strong>SPACE</strong> to start</p>
+                        <button id="start-button" class="touch-button mobile-only">TAP TO START</button>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,13 @@
             <div id="feedback" class="feedback"></div>
 
             <div class="help-hint">
-                <p>Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+                <p class="desktop-hint">Press <strong>?</strong> for help | <strong>ESC</strong> to pause</p>
+            </div>
+            
+            <!-- In-game touch controls -->
+            <div class="game-touch-controls mobile-only">
+                <button id="pause-btn" class="game-control-btn">⏸</button>
+                <button id="help-btn" class="game-control-btn">?</button>
             </div>
         </div>
 
@@ -94,8 +101,12 @@
 ║     PAUSED    ║
 ╚═══════════════╝
                 </pre>
-                <p>Press <strong>ESC</strong> to resume</p>
-                <p>Press <strong>SPACE</strong> to return to menu</p>
+                <p class="desktop-hint">Press <strong>ESC</strong> to resume</p>
+                <p class="desktop-hint">Press <strong>SPACE</strong> to return to menu</p>
+                <div class="touch-buttons mobile-only">
+                    <button id="resume-button" class="touch-button">RESUME</button>
+                    <button id="menu-button" class="touch-button">MENU</button>
+                </div>
             </div>
         </div>
 
@@ -113,7 +124,8 @@
                     <p>Accuracy: <span id="final-accuracy">0</span>%</p>
                     <p>Best Streak: <span id="final-streak">0</span></p>
                     <div class="restart-prompt">
-                        <p>Press <strong>SPACE</strong> to return to menu</p>
+                        <p class="desktop-hint">Press <strong>SPACE</strong> to return to menu</p>
+                        <button id="restart-button" class="touch-button mobile-only">RETURN TO MENU</button>
                     </div>
                 </div>
             </div>
@@ -149,9 +161,36 @@
                     <p>• Wrong answer: 2s timeout + (level × 0.3s)</p>
                     <p>• Streak and consecutive correct counter reset on wrong answer</p>
                     <p>• Problems continue expiring during timeout (adds pressure!)</p>
-                    <p>Press <strong>?</strong> to close help</p>
+                    <p class="desktop-hint">Press <strong>?</strong> to close help</p>
+                    <button id="close-help-button" class="touch-button mobile-only">CLOSE HELP</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- On-Screen Numpad for Mobile -->
+    <div id="numpad" class="numpad hidden">
+        <div class="numpad-row">
+            <button class="numpad-key" data-key="7">7</button>
+            <button class="numpad-key" data-key="8">8</button>
+            <button class="numpad-key" data-key="9">9</button>
+            <button class="numpad-key special" data-key="Backspace">⌫</button>
+        </div>
+        <div class="numpad-row">
+            <button class="numpad-key" data-key="4">4</button>
+            <button class="numpad-key" data-key="5">5</button>
+            <button class="numpad-key" data-key="6">6</button>
+            <button class="numpad-key spacer"></button>
+        </div>
+        <div class="numpad-row">
+            <button class="numpad-key" data-key="1">1</button>
+            <button class="numpad-key" data-key="2">2</button>
+            <button class="numpad-key" data-key="3">3</button>
+            <button class="numpad-key spacer"></button>
+        </div>
+        <div class="numpad-row">
+            <button class="numpad-key wide" data-key="0">0</button>
+            <button class="numpad-key submit wide" data-key="Enter">↵</button>
         </div>
     </div>
 

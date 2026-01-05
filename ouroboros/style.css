@@ -459,3 +459,171 @@ body {
         font-size: 0.9em;
     }
 }
+
+/* ========================================
+   MOBILE TOUCH SUPPORT
+   ======================================== */
+
+/* Touch buttons */
+.touch-button {
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    color: #fff;
+    border: 2px solid #4a9eff;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-button:active {
+    transform: scale(0.95);
+    background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
+}
+
+.touch-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* In-game touch controls */
+.game-touch-controls {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+}
+
+.game-control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    background: rgba(19, 21, 25, 0.9);
+    color: #4a9eff;
+    border: 2px solid rgba(74, 158, 255, 0.5);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.game-control-btn:active {
+    background: rgba(74, 158, 255, 0.2);
+}
+
+/* On-Screen Numpad */
+.numpad {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(19, 21, 25, 0.98);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    z-index: 500;
+    backdrop-filter: blur(8px);
+}
+
+.numpad-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.numpad-row:last-child {
+    margin-bottom: 0;
+}
+
+.numpad-key {
+    flex: 1;
+    max-width: 80px;
+    height: 55px;
+    font-size: 1.5em;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.numpad-key:active {
+    background: rgba(74, 158, 255, 0.3);
+    transform: scale(0.95);
+}
+
+.numpad-key.special {
+    background: rgba(74, 158, 255, 0.2);
+    color: #4a9eff;
+}
+
+.numpad-key.submit {
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    color: #fff;
+    border-color: #4a9eff;
+}
+
+.numpad-key.submit:active {
+    background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
+}
+
+.numpad-key.wide {
+    flex: 2;
+    max-width: 168px;
+}
+
+.numpad-key.spacer {
+    visibility: hidden;
+}
+
+/* Hide mobile elements on desktop, show on mobile */
+.mobile-only {
+    display: none;
+}
+
+.desktop-hint {
+    display: block;
+}
+
+/* Show mobile elements on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .desktop-hint {
+        display: none;
+    }
+    
+    .mobile-only {
+        display: block;
+    }
+    
+    .touch-buttons.mobile-only {
+        display: flex;
+    }
+    
+    .game-touch-controls.mobile-only {
+        display: flex;
+    }
+    
+    .numpad:not(.hidden) {
+        display: block;
+    }
+    
+    /* Add padding at bottom for numpad */
+    #game-screen {
+        padding-bottom: 220px;
+    }
+    
+    /* Make snake area smaller when numpad is showing */
+    .snake-area {
+        max-height: calc(60vh - 100px);
+    }
+}
