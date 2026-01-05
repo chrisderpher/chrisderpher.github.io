@@ -19,6 +19,7 @@ body {
     padding: 20px;
     overflow-x: hidden;
     position: relative;
+    overscroll-behavior-y: contain;
 }
 
 /* Background matching website */
