@@ -617,13 +617,71 @@ body {
         display: block;
     }
     
-    /* Add padding at bottom for numpad */
+    /* Compact layout for mobile with numpad */
     #game-screen {
-        padding-bottom: 220px;
+        padding: 5px;
+        padding-bottom: 200px;
     }
     
-    /* Make snake area smaller when numpad is showing */
+    .game-title h1 {
+        font-size: 1.2em;
+        margin-bottom: 2px;
+    }
+    
+    .game-title .subtitle {
+        font-size: 0.7em;
+    }
+    
+    .game-header {
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        gap: 10px;
+    }
+    
+    .game-header .stat {
+        font-size: 0.8em;
+    }
+    
+    /* Make snake area fit in viewport above numpad */
     .snake-area {
-        max-height: calc(60vh - 100px);
+        min-height: 280px;
+        height: calc(100vh - 350px);
+        max-height: 350px;
+    }
+    
+    /* Smaller problem boxes for mobile */
+    .problem-box {
+        width: 55px;
+        min-height: 50px;
+        padding: 3px;
+    }
+    
+    .problem-line {
+        font-size: 0.7em;
+        line-height: 1.1;
+    }
+    
+    .problem-divider {
+        font-size: 0.6em;
+    }
+    
+    .answer-input {
+        width: 35px;
+        font-size: 0.75em;
+        padding: 2px;
+    }
+    
+    .time-bar {
+        height: 3px;
+    }
+    
+    .feedback {
+        font-size: 0.85em;
+        margin: 5px 0;
+        min-height: 20px;
+    }
+    
+    .help-hint {
+        display: none;
     }
 }

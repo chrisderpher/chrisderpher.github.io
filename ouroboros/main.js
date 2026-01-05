@@ -11,6 +11,14 @@ function updateLayoutDimensions() {
     if (snakeArea && game.snakeLayout) {
         const rect = snakeArea.getBoundingClientRect();
         game.snakeLayout.setContainerDimensions(rect.width, rect.height);
+        
+        // Use smaller problem dimensions on mobile
+        const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        if (isMobile) {
+            game.snakeLayout.setProblemDimensions(55, 50);
+        } else {
+            game.snakeLayout.setProblemDimensions(90, 80);
+        }
     }
 }
 
