@@ -38,6 +38,11 @@ class SnakeLayout {
         // Floor the radius at half a problem diagonal so the circle never collapses
         // to nothing, but allow it to shrink to fit the available container on mobile.
         const finalRadius = Math.max(radius, problemDiagonal / 2);
+        // #region agent log: expose last computed radius for on-screen debug overlay
+        this.lastComputedRadius = finalRadius;
+        this.lastContainerWidth = width;
+        this.lastContainerHeight = height;
+        // #endregion
         
         // 12 problems evenly spaced around circle
         // Start at top (270 degrees / -90 degrees) and go clockwise

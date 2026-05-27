@@ -31,7 +31,34 @@ function updateLayoutDimensions() {
             game.updatePositions();
         }
     }
+    // #region agent log: refresh on-screen debug overlay
+    updateDebugOverlay();
+    // #endregion
 }
+
+// #region agent log: on-screen debug overlay updater
+function updateDebugOverlay() {
+    try {
+        const el = document.getElementById('debug-overlay');
+        if (!el) return;
+        const sa = document.getElementById('snake-area');
+        const saRect = sa ? sa.getBoundingClientRect() : null;
+        const sl = game && game.snakeLayout;
+        const breakpoint = window.innerWidth <= 480 ? '<=480' : window.innerWidth <= 768 ? '<=768' : 'desktop';
+        el.textContent =
+            `vw:${window.innerWidth} vh:${window.innerHeight}\n` +
+            `bp:${breakpoint} dpr:${window.devicePixelRatio || 1}\n` +
+            `sa:${saRect ? Math.round(saRect.width) : '?'}x${saRect ? Math.round(saRect.height) : '?'}\n` +
+            `r:${sl && sl.lastComputedRadius != null ? Math.round(sl.lastComputedRadius) : '?'} ` +
+            `pw:${sl ? sl.problemWidth : '?'} ph:${sl ? sl.problemHeight : '?'}\n` +
+            `slC:${sl ? Math.round(sl.containerWidth) + 'x' + Math.round(sl.containerHeight) : '?'}`;
+    } catch (e) {
+        // ignore
+    }
+}
+window.addEventListener('resize', updateDebugOverlay);
+setInterval(updateDebugOverlay, 1000);
+// #endregion
 
 window.addEventListener('resize', updateLayoutDimensions);
 
