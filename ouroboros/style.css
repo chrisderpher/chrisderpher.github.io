@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-html {
-    background: #131519;
-}
-
 body {
     font-family: 'Courier New', monospace;
     background: transparent;
@@ -19,7 +15,6 @@ body {
     padding: 20px;
     overflow-x: hidden;
     position: relative;
-    overscroll-behavior-y: contain;
 }
 
 /* Background matching website */
@@ -120,6 +115,14 @@ body {
     backdrop-filter: blur(4px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: relative;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* Title variants: ASCII art for desktop, clean HTML for mobile */
+.title-html {
+    display: none;
 }
 
 /* Close button */
@@ -187,6 +190,88 @@ body {
     margin-top: 30px;
     font-size: 1.1em;
     color: #4a9eff;
+    text-align: center;
+}
+
+.tagline {
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+/* Start button (tappable) */
+.start-button {
+    background: rgba(74, 158, 255, 0.15);
+    border: 2px solid #4a9eff;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 1.3em;
+    font-weight: bold;
+    letter-spacing: 0.25em;
+    padding: 14px 36px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.start-button:hover, .start-button:focus, .start-button:active {
+    background: rgba(74, 158, 255, 0.35);
+    box-shadow: 0 0 15px rgba(74, 158, 255, 0.6);
+    outline: none;
+    transform: scale(1.04);
+}
+
+.start-hint {
+    font-size: 0.85em;
+    color: #888;
+    margin-top: 10px;
+}
+
+/* Collapsible instructions */
+.instructions-details {
+    margin-top: 25px;
+    text-align: left;
+    background: rgba(19, 21, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+}
+
+.instructions-details summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #4a9eff;
+    padding: 12px 15px;
+    text-align: center;
+    user-select: none;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.instructions-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.instructions-details summary::after {
+    content: ' ▼';
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.instructions-details[open] summary::after {
+    content: ' ▲';
+}
+
+.instructions-details summary:hover {
+    color: #6bb6ff;
+}
+
+.instructions-details .instructions {
+    border-left: none;
+    background: transparent;
+    padding: 0 15px 15px 15px;
+    margin: 0;
 }
 
 #game-screen {
@@ -439,249 +524,180 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .snake-area {
-        min-height: 500px;
-        height: 60vh;
+    body {
+        padding: 10px;
     }
-    
-    .problem-box {
-        width: 80px;
-        min-height: 70px;
-        padding: 6px;
-    }
-    
-    .problem-line {
-        font-size: 0.85em;
-    }
-    
-    .answer-input {
-        width: 45px;
-        font-size: 0.9em;
-    }
-}
 
-/* ========================================
-   MOBILE TOUCH SUPPORT
-   ======================================== */
-
-/* Touch buttons */
-.touch-button {
-    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
-    color: #fff;
-    border: 2px solid #4a9eff;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 10px;
-    transition: all 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.touch-button:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
-}
-
-.touch-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-/* In-game touch controls */
-.game-touch-controls {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-    z-index: 100;
-}
-
-.game-control-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5em;
-    background: rgba(19, 21, 25, 0.9);
-    color: #4a9eff;
-    border: 2px solid rgba(74, 158, 255, 0.5);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.game-control-btn:active {
-    background: rgba(74, 158, 255, 0.2);
-}
-
-/* On-Screen Numpad */
-.numpad {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(19, 21, 25, 0.98);
-    border-top: 2px solid rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    z-index: 500;
-    backdrop-filter: blur(8px);
-}
-
-.numpad-row {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.numpad-row:last-child {
-    margin-bottom: 0;
-}
-
-.numpad-key {
-    flex: 1;
-    max-width: 80px;
-    height: 55px;
-    font-size: 1.5em;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.numpad-key:active {
-    background: rgba(74, 158, 255, 0.3);
-    transform: scale(0.95);
-}
-
-.numpad-key.special {
-    background: rgba(74, 158, 255, 0.2);
-    color: #4a9eff;
-}
-
-.numpad-key.submit {
-    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
-    color: #fff;
-    border-color: #4a9eff;
-}
-
-.numpad-key.submit:active {
-    background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
-}
-
-.numpad-key.wide {
-    flex: 2;
-    max-width: 168px;
-}
-
-.numpad-key.spacer {
-    visibility: hidden;
-}
-
-/* Hide mobile elements on desktop, show on mobile */
-.mobile-only {
-    display: none;
-}
-
-.desktop-hint {
-    display: block;
-}
-
-/* Show mobile elements on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .desktop-hint {
+    /* Hide ASCII title on mobile (can't scale ASCII art onto a phone),
+       show a clean HTML title instead. */
+    .title-ascii {
         display: none;
     }
-    
-    .mobile-only {
-        display: block;
+
+    .title-html {
+        display: inline-block;
+        font-family: 'Courier New', monospace;
+        font-size: 1.8em;
+        font-weight: bold;
+        letter-spacing: 0.3em;
+        color: #fff;
+        text-align: center;
+        padding: 12px 20px;
+        margin: 0 auto 15px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        text-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        max-width: 100%;
+        box-sizing: border-box;
     }
-    
-    .touch-buttons.mobile-only {
-        display: flex;
+
+    .ascii-box {
+        padding: 15px;
     }
-    
-    .game-touch-controls.mobile-only {
-        display: flex;
+
+    .title {
+        margin-bottom: 10px;
     }
-    
-    .numpad:not(.hidden) {
-        display: block;
+
+    .content {
+        margin-top: 10px;
+        line-height: 1.5;
     }
-    
-    /* Compact layout for mobile with numpad */
-    #game-screen {
-        padding: 5px;
-        padding-bottom: 200px;
+
+    .tagline {
+        font-size: 0.95em;
+        margin: 10px 0;
     }
-    
+
+    .high-score {
+        margin: 12px 0;
+        font-size: 1.05em;
+    }
+
+    .start-prompt {
+        margin-top: 18px;
+    }
+
+    .start-button {
+        font-size: 1.1em;
+        padding: 12px 28px;
+        letter-spacing: 0.2em;
+    }
+
+    .instructions-details {
+        margin-top: 18px;
+    }
+
+    .instructions-details summary {
+        padding: 10px 12px;
+        font-size: 0.95em;
+    }
+
+    .instructions-details .instructions p {
+        font-size: 0.85em;
+    }
+
+    .game-title {
+        margin-bottom: 10px;
+    }
+
     .game-title h1 {
-        font-size: 1.2em;
-        margin-bottom: 2px;
+        font-size: 1.5em;
+        letter-spacing: 0.2em;
     }
-    
+
     .game-title .subtitle {
-        font-size: 0.7em;
-    }
-    
-    .game-header {
-        padding: 5px 10px;
-        margin-bottom: 5px;
-        gap: 10px;
-    }
-    
-    .game-header .stat {
-        font-size: 0.8em;
-    }
-    
-    /* Make snake area fit in viewport above numpad */
-    .snake-area {
-        min-height: 280px;
-        height: calc(100vh - 350px);
-        max-height: 350px;
-    }
-    
-    /* Smaller problem boxes for mobile */
-    .problem-box {
-        width: 55px;
-        min-height: 50px;
-        padding: 3px;
-    }
-    
-    .problem-line {
-        font-size: 0.7em;
-        line-height: 1.1;
-    }
-    
-    .problem-divider {
-        font-size: 0.6em;
-    }
-    
-    .answer-input {
-        width: 35px;
         font-size: 0.75em;
+    }
+
+    .game-header {
+        padding: 10px;
+        margin-bottom: 10px;
+        gap: 5px;
+    }
+
+    .stat .label {
+        font-size: 0.7em;
+    }
+
+    .stat span:last-child {
+        font-size: 1.1em;
+    }
+
+    .snake-area {
+        min-height: 0;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        max-width: min(95vw, 500px);
+        margin-bottom: 10px;
+    }
+
+    .problem-box {
+        width: 65px;
+        min-height: 60px;
+        padding: 4px;
+    }
+
+    .problem-line {
+        font-size: 0.75em;
+        margin: 0;
+    }
+
+    .problem-divider {
+        font-size: 0.7em;
+        margin: 2px 0;
+    }
+
+    .answer-input {
+        width: 38px;
+        font-size: 0.8em;
         padding: 2px;
     }
-    
-    .time-bar {
-        height: 3px;
-    }
-    
+
     .feedback {
-        font-size: 0.85em;
-        margin: 5px 0;
+        font-size: 1em;
+        margin: 10px 0;
         min-height: 20px;
     }
-    
+
     .help-hint {
-        display: none;
+        font-size: 0.75em;
+        margin-top: 10px;
+    }
+
+    .level-up {
+        font-size: 1.3em;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-html {
+        font-size: 1.4em;
+        letter-spacing: 0.2em;
+        padding: 10px 16px;
+    }
+
+    .game-title h1 {
+        font-size: 1.2em;
+    }
+
+    .snake-area {
+        max-width: 98vw;
+    }
+
+    .problem-box {
+        width: 55px;
+        min-height: 52px;
+        padding: 3px;
+    }
+
+    .problem-line {
+        font-size: 0.7em;
+    }
+
+    .answer-input {
+        width: 32px;
+        font-size: 0.7em;
     }
 }

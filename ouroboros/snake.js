@@ -15,12 +15,6 @@ class SnakeLayout {
         this.containerHeight = height;
     }
 
-    // Set problem dimensions (for mobile)
-    setProblemDimensions(width, height) {
-        this.problemWidth = width;
-        this.problemHeight = height;
-    }
-
     // Calculate positions for problems in a circle (20 problems)
     calculatePositions(problems) {
         const positions = [];
@@ -38,12 +32,12 @@ class SnakeLayout {
         // Use the smaller dimension to ensure circle fits
         const minDimension = Math.min(width, height);
         const problemDiagonal = Math.sqrt(this.problemWidth * this.problemWidth + this.problemHeight * this.problemHeight);
-        const padding = 10; // Space between problems
+        const padding = 10; // Space between problems and container edge
         const radius = (minDimension - problemDiagonal - padding * 2) / 2;
         
-        // Ensure minimum radius for visibility (smaller on mobile)
-        const minRadius = minDimension < 400 ? 90 : 180;
-        const finalRadius = Math.max(radius, minRadius);
+        // Floor the radius at half a problem diagonal so the circle never collapses
+        // to nothing, but allow it to shrink to fit the available container on mobile.
+        const finalRadius = Math.max(radius, problemDiagonal / 2);
         
         // 12 problems evenly spaced around circle
         // Start at top (270 degrees / -90 degrees) and go clockwise
