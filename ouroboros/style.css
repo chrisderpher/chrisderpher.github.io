@@ -120,8 +120,8 @@ body {
     box-sizing: border-box;
 }
 
-/* Title variants: ASCII art for desktop, clean HTML for mobile */
-.title-html {
+/* Title variants: long ASCII for desktop, short ASCII for mobile */
+.title-mobile {
     display: none;
 }
 
@@ -528,27 +528,16 @@ body {
         padding: 10px;
     }
 
-    /* Hide ASCII title on mobile (can't scale ASCII art onto a phone),
-       show a clean HTML title instead. */
+    /* Swap long ASCII for compact ASCII title that fits phone screens. */
     .title-ascii {
         display: none;
     }
 
-    .title-html {
-        display: inline-block;
-        font-family: 'Courier New', monospace;
-        font-size: 1.8em;
-        font-weight: bold;
-        letter-spacing: 0.3em;
+    .title-mobile {
+        display: block;
+        font-size: 1em;
+        margin: 0 auto 12px;
         color: #fff;
-        text-align: center;
-        padding: 12px 20px;
-        margin: 0 auto 15px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 4px;
-        text-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
-        max-width: 100%;
-        box-sizing: border-box;
     }
 
     .ascii-box {
@@ -628,7 +617,7 @@ body {
         min-height: 0;
         height: auto;
         aspect-ratio: 1 / 1;
-        max-width: min(95vw, 500px);
+        max-width: min(78vw, 400px);
         margin-bottom: 10px;
     }
 
@@ -672,10 +661,8 @@ body {
 }
 
 @media (max-width: 480px) {
-    .title-html {
-        font-size: 1.4em;
-        letter-spacing: 0.2em;
-        padding: 10px 16px;
+    .title-mobile {
+        font-size: 0.9em;
     }
 
     .game-title h1 {
@@ -683,7 +670,7 @@ body {
     }
 
     .snake-area {
-        max-width: 98vw;
+        max-width: min(82vw, 330px);
     }
 
     .problem-box {
