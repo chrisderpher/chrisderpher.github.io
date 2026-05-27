@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Morse Code Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background -->
+    <div id="bg"></div>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <div class="ascii-box">
+                <a href="../index.html" class="close-button" title="Return to main website">&times;</a>
+                <pre class="title">
+&#9556;&#9552;&#9552;&#9552; MORSE CODE TRAINER &#9552;&#9552;&#9552;&#9559;
+                </pre>
+                <div class="content">
+                    <p>Practice keying Morse code with a live dichotomic tree, a real-time dot/dash stream, and decoded text output.</p>
+                    <div class="instructions">
+                        <p><strong>How to use:</strong></p>
+                        <p>&bull; Press and hold the KEY (or SPACE) to send a tone</p>
+                        <p>&bull; Short press = dot, long press = dash</p>
+                        <p>&bull; Pause briefly between letters, longer between words</p>
+                        <p>&bull; Watch the tree light up the node that matches your code so far</p>
+                        <p>&bull; Adjust speed with the WPM slider</p>
+                        <p><strong>Controls:</strong></p>
+                        <p>&bull; <strong>SPACE</strong> / KEY button / tap: send signal</p>
+                        <p>&bull; <strong>?</strong>: Help screen</p>
+                    </div>
+                    <div class="start-prompt">
+                        <p>Press <strong>SPACE</strong> or tap below to start</p>
+                        <button id="start-tap" class="tap-start" type="button">START</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trainer Screen -->
+        <div id="trainer-screen" class="screen hidden">
+            <div class="ascii-box trainer-box">
+                <a href="../index.html" class="close-button" title="Return to main website">&times;</a>
+
+                <div class="trainer-header">
+                    <span class="hdr-word">MORSE</span>
+                    <span class="hdr-sep" aria-hidden="true">&middot;</span>
+                    <span class="hdr-word">CODE</span>
+                </div>
+
+                <div id="streak-banner" class="streak-banner hidden" aria-live="polite">
+                    <div class="streak-target">
+                        <span class="streak-label">TARGET</span>
+                        <span class="streak-letter" id="streak-letter">A</span>
+                    </div>
+                    <div class="streak-stats">
+                        <div><span class="streak-label">STREAK</span> <span id="streak-current">0</span></div>
+                        <div><span class="streak-label">BEST</span> <span id="streak-best">0</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tree" id="tree" aria-label="Morse code tree"></div>
+                </div>
+
+                <div class="stream-wrap">
+                    <div class="stream-label">STREAM</div>
+                    <div class="stream" id="stream"></div>
+                </div>
+
+                <div class="decoded-wrap">
+                    <div class="stream-label">DECODED</div>
+                    <div class="decoded" id="decoded"></div>
+                </div>
+
+                <button id="key-button" class="key-button" type="button">KEY &nbsp;(hold SPACE)</button>
+
+                <div class="controls">
+                    <label class="control-item">
+                        <span>Speed: <span id="wpm-label">10</span> WPM</span>
+                        <input type="range" id="wpm-slider" min="5" max="25" value="10" step="1">
+                    </label>
+                    <button id="audio-toggle" class="control-btn" type="button">Audio: ON</button>
+                    <button id="streak-toggle" class="control-btn" type="button">Streak: OFF</button>
+                    <button id="clear-btn" class="control-btn" type="button">Clear</button>
+                    <button id="help-btn" class="control-btn" type="button">?</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen hidden overlay">
+            <div class="ascii-box">
+                <pre>
+&#9556;&#9552;&#9552;&#9552; HELP &#9552;&#9552;&#9552;&#9559;
+                </pre>
+                <div class="content">
+                    <p><strong>Timing rules</strong></p>
+                    <p>&bull; 1 dit unit = 1200 / WPM milliseconds</p>
+                    <p>&bull; Press shorter than 2 dits &rarr; dot (.)</p>
+                    <p>&bull; Press 2 dits or longer &rarr; dash (-)</p>
+                    <p>&bull; Silence of 2 dits commits the current letter</p>
+                    <p>&bull; Silence of 5 dits inserts a word space</p>
+                    <p><strong>Speed slider</strong></p>
+                    <p>&bull; Lower WPM = more time per dot/dash and longer commit gaps</p>
+                    <p>&bull; Higher WPM = tighter timing windows</p>
+                    <p><strong>Tree</strong></p>
+                    <p>&bull; Dots branch right from the antenna, dashes branch left</p>
+                    <p>&bull; The node matching your in-progress code glows</p>
+                    <p>&bull; Unknown codes decode as <strong>?</strong></p>
+                    <p>Press <strong>?</strong> or tap below to close.</p>
+                    <button id="help-close" class="tap-start" type="button">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

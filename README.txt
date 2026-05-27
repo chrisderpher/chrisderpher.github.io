@@ -2,6 +2,7 @@ This is the github for my personal website. It's based on Dimension by HTML5 UP,
 
 The site includes interactive educational games - check them out via the Projects dropdown on the main page:
 - Fractions: Tape measure fraction practice
+- Morse: Live Morse code visualizer & trainer
 - Ouroboros: Multiplication speed drill
 
 For detailed documentation, see README.md.

@@ -10,6 +10,7 @@ A personal portfolio website featuring professional information, projects, and i
 - **Intro**: Professional background and interests
 - **Projects**: Interactive dropdown menu with project links
   - Fractions game (interactive tape measure fraction practice)
+  - Morse (live Morse code visualizer and trainer with streak mode)
   - Ouroboros (multiplication speed drill with circular track)
 - **Resume**: Professional experience, education, certifications, and technical skills
 - **Contact**: Contact form and social links
@@ -55,6 +56,14 @@ chrisderpher.github.io-master/
 │   ├── ui.js               # UI state management
 │   ├── style.css           # Game styles
 │   └── README.md           # Game-specific documentation
+├── morse/                  # Morse code trainer
+│   ├── index.html          # Trainer entry point
+│   ├── main.js             # Input handling, SVG tree traces, streak mode
+│   ├── morse.js            # Tree data + timing classifier
+│   ├── audio.js            # Web Audio buzzer
+│   ├── ui.js               # UI state management
+│   ├── style.css           # Trainer styles (PCB look)
+│   └── README.md           # Trainer-specific documentation
 ├── ouroboros/              # Ouroboros multiplication game
 │   ├── index.html          # Game entry point
 │   ├── main.js             # Game loop, rendering, input handling
@@ -77,17 +86,19 @@ chrisderpher.github.io-master/
 2. Click "Projects" in the navigation menu
 3. Select a game from the dropdown:
    - **Fractions**: Tape measure fraction practice
+   - **Morse**: Live Morse code visualizer and trainer
    - **Ouroboros**: Multiplication speed drill
-4. Or navigate directly to `fractions/index.html` or `ouroboros/index.html`
+4. Or navigate directly to `fractions/index.html`, `morse/index.html`, or `ouroboros/index.html`
 
 ## Technologies
 
 - **HTML5**: Semantic markup
 - **CSS3**: Styling with backdrop filters and gradients
 - **JavaScript (ES6 Modules)**: 
-  - Vanilla JS for both games (Fractions and Ouroboros)
+  - Vanilla JS for all three games (Fractions, Morse, Ouroboros)
   - jQuery for portfolio site interactions
-- **LocalStorage**: Game score and statistics persistence
+- **Web Audio API**: Buzzer tone generation for the Morse trainer
+- **LocalStorage**: Game score, statistics, and best-streak persistence
 - **Responsive Design**: Mobile-friendly layouts
 
 ## Game Details
@@ -101,6 +112,17 @@ A fully-featured educational tool with:
 - Seamless integration with the portfolio site's design
 
 See [fractions/README.md](fractions/README.md) for detailed game documentation.
+
+### Morse Code Trainer
+A live Morse code visualizer styled after the nux-gadgets Morse Code Gadget PCB card, featuring:
+- Dichotomic Morse tree (depths 1-4, A-Z) rendered as a PCB layout with SVG traces connecting parent to child
+- Real-time press/release timing classifier (dot vs dash) tied to a configurable WPM (5-25)
+- Green-to-orange KEY button that flips color the instant the press crosses the dash threshold
+- Live dot/dash stream and decoded text strip below the card
+- Optional Web Audio sine buzzer (~600 Hz) with mute toggle
+- Streak Mode: random target letter, infinite play, best streak persisted in LocalStorage
+
+See [morse/README.md](morse/README.md) for detailed trainer documentation.
 
 ### Ouroboros Game
 A multiplication speed drill featuring:
@@ -116,7 +138,7 @@ See [ouroboros/README.md](ouroboros/README.md) for detailed game documentation.
 
 - **Template**: [Dimension](https://html5up.net/dimension) by HTML5 UP
 - **License**: CCA 3.0 (see LICENSE.txt)
-- **Games**: Custom implementations (Fractions and Ouroboros)
+- **Games**: Custom implementations (Fractions, Morse, and Ouroboros)
 
 ## Contact
 
