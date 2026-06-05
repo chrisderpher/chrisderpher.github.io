@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-html {
-    background: #131519;
-}
-
 body {
     font-family: 'Courier New', monospace;
     background: transparent;
@@ -19,7 +15,6 @@ body {
     padding: 20px;
     overflow-x: hidden;
     position: relative;
-    overscroll-behavior-y: contain;
 }
 
 /* Background matching website */

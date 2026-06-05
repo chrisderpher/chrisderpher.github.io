@@ -15,13 +15,26 @@ class SnakeLayout {
         this.containerHeight = height;
     }
 
+    // Viewport-based fallback when container isn't measurable yet (e.g. display:none)
+    getEffectiveDimensions() {
+        if (this.containerWidth > 0 && this.containerHeight > 0) {
+            return { width: this.containerWidth, height: this.containerHeight };
+        }
+        const vw = typeof window !== 'undefined' ? window.innerWidth : 800;
+        let maxSize = 500;
+        if (vw <= 480) {
+            maxSize = Math.min(vw * 0.82, 330);
+        } else if (vw <= 768) {
+            maxSize = Math.min(vw * 0.78, 400);
+        }
+        return { width: maxSize, height: maxSize };
+    }
+
     // Calculate positions for problems in a circle (20 problems)
     calculatePositions(problems) {
         const positions = [];
         
-        // Use actual container dimensions, default to reasonable values if not set
-        const width = this.containerWidth || 800;
-        const height = this.containerHeight || 600;
+        const { width, height } = this.getEffectiveDimensions();
         
         // Center of the container
         const centerX = width / 2;

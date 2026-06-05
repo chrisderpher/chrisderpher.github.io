@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Automating Humble Choice Steam Redemptions With Playwright | Chris Murphy</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="A supervised Playwright automation tutorial for redeeming your own Humble Choice Steam keys, with safety boundaries and a downloadable public script package." />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload is-article-visible">
+		<div id="wrapper">
+			<div id="main" style="display: block;">
+				<article class="active" style="display: block;">
+					<h1 class="major">Automating Humble Choice Steam Redemptions With Playwright</h1>
+					<p><strong>Download:</strong> <a href="/downloads/humble-choice-steam-claimer-public.zip" class="button primary icon solid fa-download">Download the public script package</a></p>
+					<p>This page hosts a supervised Playwright automation script for users who want help redeeming Steam keys they already received from their own Humble Choice account.</p>
+
+					<h2>Safety and account-use boundaries</h2>
+					<p>This project is only for users redeeming games from their own Humble and Steam accounts. It does not bypass payment, logins, Steam Guard, captchas, ownership checks, regional limits, rate limits, or account restrictions. Run it only while you are present and supervising the browser session.</p>
+					<ul>
+						<li>You sign in to Humble and Steam yourself.</li>
+						<li>You approve any Steam Guard, captcha, or account prompt yourself.</li>
+						<li>The script should stop whenever a prompt needs human judgment.</li>
+						<li>You remain responsible for following Humble Bundle, Steam, and publisher terms.</li>
+					</ul>
+
+					<h2>What the automation is meant to do</h2>
+					<p>The script is designed to reduce repetitive clicking after you have already purchased Humble Choice and are redeeming keys into your own Steam library. Playwright opens a normal browser session, lets you authenticate normally, and can help move through owned-key redemption pages while leaving account-sensitive actions visible and supervised.</p>
+
+					<h2>Suggested workflow</h2>
+					<ol>
+						<li>Download and extract the package.</li>
+						<li>Read the included README and review the script before running it.</li>
+						<li>Install dependencies in the extracted folder.</li>
+						<li>Start the automation and keep the browser visible.</li>
+						<li>Complete logins, Steam Guard, captchas, confirmations, or errors manually.</li>
+					</ol>
+
+					<h2>Example commands</h2>
+					<p>After extracting the zip, the typical setup flow for a Playwright project looks like this:</p>
+					<pre><code>npm install
+npx playwright install</code></pre>
+					<p>Then run the script using the command documented in the package README. For example, if the package exposes a start script:</p>
+					<pre><code>npm start</code></pre>
+
+					<h2>Supervision checklist</h2>
+					<ul>
+						<li>Keep the browser window visible.</li>
+						<li>Do not leave the automation running unattended.</li>
+						<li>Pause or stop the run if Steam or Humble shows an unexpected warning.</li>
+						<li>Verify each redemption result in your Steam library or account history.</li>
+						<li>Do not share credentials, cookies, session files, or redeemed keys.</li>
+					</ul>
+
+					<h2>Download</h2>
+					<p><a href="/downloads/humble-choice-steam-claimer-public.zip" class="button primary icon solid fa-download">Download humble-choice-steam-claimer-public.zip</a></p>
+					<p><small>Note: this download is intended for your own accounts and owned Humble Choice keys only.</small></p>
+					<p><a href="../">Back to the homepage</a></p>
+				</article>
+			</div>
+			<footer id="footer">
+				<p class="copyright">&copy; Chris Murphy.</p>
+			</footer>
+		</div>
+		<div id="bg"></div>
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+	</body>
+</html>

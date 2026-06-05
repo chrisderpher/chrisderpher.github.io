@@ -10,7 +10,9 @@ function updateLayoutDimensions() {
     const snakeArea = document.getElementById('snake-area');
     if (snakeArea && game.snakeLayout) {
         const rect = snakeArea.getBoundingClientRect();
-        game.snakeLayout.setContainerDimensions(rect.width, rect.height);
+        if (rect.width > 0 && rect.height > 0) {
+            game.snakeLayout.setContainerDimensions(rect.width, rect.height);
+        }
 
         // Match the problem-box sizing used by the responsive CSS so the
         // radius calc accounts for the actual rendered box size on mobile.
@@ -45,13 +47,15 @@ function updateDebugOverlay() {
         const saRect = sa ? sa.getBoundingClientRect() : null;
         const sl = game && game.snakeLayout;
         const breakpoint = window.innerWidth <= 480 ? '<=480' : window.innerWidth <= 768 ? '<=768' : 'desktop';
+        const eff = sl && typeof sl.getEffectiveDimensions === 'function' ? sl.getEffectiveDimensions() : null;
         el.textContent =
             `vw:${window.innerWidth} vh:${window.innerHeight}\n` +
             `bp:${breakpoint} dpr:${window.devicePixelRatio || 1}\n` +
             `sa:${saRect ? Math.round(saRect.width) : '?'}x${saRect ? Math.round(saRect.height) : '?'}\n` +
             `r:${sl && sl.lastComputedRadius != null ? Math.round(sl.lastComputedRadius) : '?'} ` +
             `pw:${sl ? sl.problemWidth : '?'} ph:${sl ? sl.problemHeight : '?'}\n` +
-            `slC:${sl ? Math.round(sl.containerWidth) + 'x' + Math.round(sl.containerHeight) : '?'}`;
+            `slC:${sl ? Math.round(sl.containerWidth) + 'x' + Math.round(sl.containerHeight) : '?'} ` +
+            `eff:${eff ? Math.round(eff.width) + 'x' + Math.round(eff.height) : '?'}`;
     } catch (e) {
         // ignore
     }
@@ -269,13 +273,20 @@ function showScreen(screenName) {
 function startGame() {
     if (ui.getState() !== UI_STATE.START) return;
     try {
-        updateLayoutDimensions();
-        game.start();
         currentInput = '';
         previousLevel = 1;
         ui.setState(UI_STATE.PLAYING);
         showScreen('game');
-        gameLoop();
+
+        // Measure snake-area AFTER game screen is visible. While hidden, getBoundingClientRect()
+        // returns 0x0 and snake.js falls back to 800x600 desktop layout (radius ~252).
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                updateLayoutDimensions();
+                game.start();
+                gameLoop();
+            });
+        });
     } catch (error) {
         console.error('Error starting game:', error);
     }
