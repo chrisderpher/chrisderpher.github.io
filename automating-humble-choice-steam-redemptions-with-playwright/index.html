@@ -13,49 +13,93 @@
 			<div id="main" style="display: block;">
 				<article class="active" style="display: block;">
 					<h1 class="major">Automating Humble Choice Steam Redemptions With Playwright</h1>
-					<p><strong>Download:</strong> <a href="/downloads/humble-choice-steam-claimer-public.zip" class="button primary icon solid fa-download">Download the public script package</a></p>
-					<p>This page hosts a supervised Playwright automation script for users who want help redeeming Steam keys they already received from their own Humble Choice account.</p>
+					<p><a href="/downloads/humble-choice-steam-claimer-public.zip" class="button primary icon solid fa-download">Download the public script package</a></p>
+					<p>Every month I would open my Humble Choice page, click a game, click <strong>Get game on Steam</strong>, click <strong>Redeem</strong>, land on Steam, check the subscriber agreement box, activate the key, close the tab, go back to Humble, and do it all again for the next game.</p>
+					<p>It is not hard work. It is repetitive in exactly the way computers are good at handling.</p>
+					<p>So I made a small supervised Playwright script that does the repetitive clicking for me while I watch. It does not bypass payment, ownership, Steam Guard, logins, captchas, or anything like that. It just automates the browser steps for games already available in your own Humble account.</p>
 
-					<h2>Safety and account-use boundaries</h2>
-					<p>This project is only for users redeeming games from their own Humble and Steam accounts. It does not bypass payment, logins, Steam Guard, captchas, ownership checks, regional limits, rate limits, or account restrictions. Run it only while you are present and supervising the browser session.</p>
-					<ul>
-						<li>You sign in to Humble and Steam yourself.</li>
-						<li>You approve any Steam Guard, captcha, or account prompt yourself.</li>
-						<li>The script should stop whenever a prompt needs human judgment.</li>
-						<li>You remain responsible for following Humble Bundle, Steam, and publisher terms.</li>
-					</ul>
+					<h2>What Playwright Is</h2>
+					<p><a href="https://playwright.dev/" target="_blank" rel="noopener noreferrer">Playwright</a> is a browser automation framework. In plain English: it lets a script open a real browser, navigate to web pages, click buttons, read visible page content, wait for page changes, and handle tabs/popups.</p>
+					<p>The official Playwright docs describe it as an end-to-end testing framework for modern web apps, and the Playwright GitHub README also calls out browser automation scripts as a supported use case. It can drive Chromium, Firefox, and WebKit with one API.</p>
+					<p>If you remember older Selenium automation, this is the same general idea: a program controls a browser. The difference is that Playwright feels much better suited to modern JavaScript-heavy websites. It has good waiting behavior, clean element locators, easy tab handling, and a simple way to launch a visible browser profile.</p>
+					<p>For this project, that matters because Humble and Steam are not static old-school pages. Buttons appear after state changes, redemptions open new pages/tabs, and the Humble game list is a modal carousel. Playwright gives the script enough browser awareness to handle that without resorting to blind screen-coordinate clicking.</p>
 
-					<h2>What the automation is meant to do</h2>
-					<p>The script is designed to reduce repetitive clicking after you have already purchased Humble Choice and are redeeming keys into your own Steam library. Playwright opens a normal browser session, lets you authenticate normally, and can help move through owned-key redemption pages while leaving account-sensitive actions visible and supervised.</p>
-
-					<h2>Suggested workflow</h2>
+					<h2>What This Script Does</h2>
+					<p>The script opens a visible browser and waits for you to confirm that the Humble Choice game grid is on screen. Then it:</p>
 					<ol>
-						<li>Download and extract the package.</li>
-						<li>Read the included README and review the script before running it.</li>
-						<li>Install dependencies in the extracted folder.</li>
-						<li>Start the automation and keep the browser visible.</li>
-						<li>Complete logins, Steam Guard, captchas, confirmations, or errors manually.</li>
+						<li>Detects the games on the Humble Choice page.</li>
+						<li>Opens the first game.</li>
+						<li>Clicks <strong>Get game on Steam</strong>.</li>
+						<li>Waits for the key area to appear.</li>
+						<li>Clicks <strong>Redeem</strong>.</li>
+						<li>Switches to the Steam activation page.</li>
+						<li>Checks the Steam subscriber agreement box.</li>
+						<li>Clicks the activation button.</li>
+						<li>Closes the Steam tab.</li>
+						<li>Returns to Humble and advances to the next game with the right chevron.</li>
 					</ol>
+					<p>The browser is visible the whole time, and <code>Ctrl+C</code> stops the script from PowerShell.</p>
 
-					<h2>Example commands</h2>
-					<p>After extracting the zip, the typical setup flow for a Playwright project looks like this:</p>
-					<pre><code>npm install
-npx playwright install</code></pre>
-					<p>Then run the script using the command documented in the package README. For example, if the package exposes a start script:</p>
-					<pre><code>npm start</code></pre>
+					<h2>Before You Use It</h2>
+					<p>Use this only on your own accounts and your own bundle games. You are responsible for respecting Humble's and Steam's terms, account security requirements, region restrictions, and activation limits.</p>
+					<p>This script intentionally does not try to bypass Steam Guard, captchas, login checks, payment, ownership checks, or errors. If a page asks for something sensitive, do it yourself in the visible browser.</p>
+					<p>Websites change. If Humble or Steam changes their HTML, the script may need an update. Start with a dry run each month.</p>
 
-					<h2>Supervision checklist</h2>
+					<h2>Requirements</h2>
 					<ul>
-						<li>Keep the browser window visible.</li>
-						<li>Do not leave the automation running unattended.</li>
-						<li>Pause or stop the run if Steam or Humble shows an unexpected warning.</li>
-						<li>Verify each redemption result in your Steam library or account history.</li>
-						<li>Do not share credentials, cookies, session files, or redeemed keys.</li>
+						<li>Windows 10/11</li>
+						<li>Node.js 20 or newer from <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">nodejs.org</a></li>
+						<li>A Humble Choice month URL, like <code>https://www.humblebundle.com/membership/july-2026</code></li>
 					</ul>
 
 					<h2>Download</h2>
 					<p><a href="/downloads/humble-choice-steam-claimer-public.zip" class="button primary icon solid fa-download">Download humble-choice-steam-claimer-public.zip</a></p>
-					<p><small>Note: this download is intended for your own accounts and owned Humble Choice keys only.</small></p>
+					<p>The folder includes:</p>
+					<ul>
+						<li><code>humble-choice-steam-claimer.mjs</code>: the Playwright automation script</li>
+						<li><code>run-humble-claimer.ps1</code>: a PowerShell launcher</li>
+						<li><code>package.json</code>: the Node/Playwright dependency file</li>
+						<li><code>README.md</code>: quick usage instructions</li>
+					</ul>
+
+					<h2>First Run</h2>
+					<p>Open PowerShell in the extracted folder and run:</p>
+					<pre><code>.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -DryRun</code></pre>
+					<p>Example:</p>
+					<pre><code>.\run-humble-claimer.ps1 -Url "https://www.humblebundle.com/membership/july-2026" -DryRun</code></pre>
+					<p>The first run installs Playwright locally and installs Playwright's Chromium browser as a fallback. It also creates a <code>browser-profile</code> folder, which stores the browser login session for the automation browser. You may need to sign into Humble and Steam once in that browser.</p>
+					<p>If PowerShell blocks the script, use:</p>
+					<pre><code>powershell -ExecutionPolicy Bypass -File .\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -DryRun</code></pre>
+
+					<h2>Running It</h2>
+					<p>After the dry run detects the right games, run:</p>
+					<pre><code>.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL"</code></pre>
+					<p>That mode pauses before each game and before each Steam activation page.</p>
+					<p>Once you trust the flow and are still watching the browser, run:</p>
+					<pre><code>.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -Continuous</code></pre>
+
+					<h2>Useful Options</h2>
+					<pre><code># Revisit cards already marked CLAIMED.
+.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -IncludeClaimed
+
+# Use a specific order instead of automatic detection.
+.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -Games "Game One; Game Two; Game Three"
+
+# Leave Steam activation tabs open after each attempt.
+.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -KeepSteamOpen
+
+# Reopen each game from the grid instead of using the Humble modal's right chevron.
+.\run-humble-claimer.ps1 -Url "HUMBLE_MONTH_URL" -GridNavigation</code></pre>
+
+					<h2>Why This Exists</h2>
+					<p>I wanted this for years. Back when I first played with browser automation, Selenium was the tool I reached for, and getting small personal automations stable could be fiddly. Playwright makes this kind of practical browser scripting feel much more approachable.</p>
+					<p>This is the sweet spot for automation: not replacing judgment, not bypassing rules, just removing repetitive clicking from something you are already allowed to do.</p>
+
+					<h2>Sources</h2>
+					<ul>
+						<li><a href="https://playwright.dev/docs/intro" target="_blank" rel="noopener noreferrer">Playwright documentation</a></li>
+						<li><a href="https://github.com/microsoft/playwright" target="_blank" rel="noopener noreferrer">Playwright GitHub README</a></li>
+					</ul>
 					<p><a href="../">Back to the homepage</a></p>
 				</article>
 			</div>
