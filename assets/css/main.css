@@ -1376,12 +1376,14 @@ input, select, textarea {
 					background-color: rgba(255, 255, 255, 0.175);
 				}
 
-		/* Games dropdown */
-			#header nav ul li.games-nav-item {
+		/* Nav dropdowns */
+			#header nav ul li.games-nav-item,
+			#header nav ul li.automation-nav-item {
 				position: relative;
 			}
 
-		#header nav ul li.games-nav-item .games-dropdown {
+		#header nav ul li.games-nav-item .games-dropdown,
+		#header nav ul li.automation-nav-item .automation-dropdown {
 			position: absolute;
 			top: 100%;
 			left: 0;
@@ -1398,21 +1400,24 @@ input, select, textarea {
 			backdrop-filter: blur(12px);
 			border: solid 1px #ffffff;
 			border-radius: 4px;
-			min-width: 10rem;
+			min-width: 12rem;
 			z-index: 1000;
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 		}
 
-			#header nav ul li.games-nav-item .games-dropdown li {
+			#header nav ul li.games-nav-item .games-dropdown li,
+			#header nav ul li.automation-nav-item .automation-dropdown li {
 				border-left: 0;
 				border-top: solid 1px #ffffff;
 			}
 
-			#header nav ul li.games-nav-item .games-dropdown li:first-child {
+			#header nav ul li.games-nav-item .games-dropdown li:first-child,
+			#header nav ul li.automation-nav-item .automation-dropdown li:first-child {
 				border-top: 0;
 			}
 
-			#header nav ul li.games-nav-item .games-dropdown li a {
+			#header nav ul li.games-nav-item .games-dropdown li a,
+			#header nav ul li.automation-nav-item .automation-dropdown li a {
 				display: block;
 				padding: 0.75rem 1.25rem;
 				text-transform: uppercase;
@@ -1422,7 +1427,8 @@ input, select, textarea {
 				white-space: nowrap;
 			}
 
-			#header nav ul li.games-nav-item .games-dropdown li a:hover {
+			#header nav ul li.games-nav-item .games-dropdown li a:hover,
+			#header nav ul li.automation-nav-item .automation-dropdown li a:hover {
 				background-color: rgba(255, 255, 255, 0.075);
 			}
 

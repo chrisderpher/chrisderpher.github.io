@@ -65,10 +65,9 @@
 
 			}
 
-	// Main.
+		// Main.
 		var	delay = 325,
-			locked = false,
-			gamesDropdownActive = false;
+			locked = false;
 
 		// Methods.
 			$main._show = function(id, initial) {
@@ -363,43 +362,50 @@
 
 			});
 
-		// Games dropdown handler
+		// Nav dropdown handlers.
 			$(document).ready(function() {
-				var $gamesLink = $('#games-link');
-				var $gamesDropdown = $('#games-dropdown');
-				var $gamesNavItem = $('.games-nav-item');
+				var dropdowns = [
+					{
+						$navItem: $('.games-nav-item'),
+						$link: $('#games-link'),
+						$dropdown: $('#games-dropdown')
+					},
+					{
+						$navItem: $('.automation-nav-item'),
+						$link: $('#automation-link'),
+						$dropdown: $('#automation-dropdown')
+					}
+				];
 
-				// Handle Games link click
-				$gamesLink.on('click', function(event) {
-					event.preventDefault();
-					event.stopPropagation();
+				$.each(dropdowns, function(index, item) {
+					item.$link.on('click', function(event) {
+						event.preventDefault();
+						event.stopPropagation();
 
-					gamesDropdownActive = true;
+						var isVisible = item.$dropdown.is(':visible');
 
-					var isVisible = $gamesDropdown.is(':visible');
-					$gamesDropdown.toggle(!isVisible);
+						$.each(dropdowns, function(otherIndex, otherItem) {
+							otherItem.$dropdown.hide();
+						});
 
-					setTimeout(function() {
-						gamesDropdownActive = false;
-					}, 100);
-				});
+						item.$dropdown.toggle(!isVisible);
+					});
 
-				// Hide dropdown when a game is picked (default link nav handles the rest)
-				$gamesDropdown.find('.dropdown-item').on('click', function(event) {
-					event.stopPropagation();
-					$gamesDropdown.hide();
-					gamesDropdownActive = false;
+					item.$dropdown.find('.dropdown-item').on('click', function(event) {
+						event.stopPropagation();
+						item.$dropdown.hide();
+					});
 				});
 
 				// Close dropdown when clicking outside
 				$(document).on('click', function(event) {
 					var $target = $(event.target);
-					if (!$gamesNavItem.is($target) && $gamesNavItem.has($target).length === 0) {
-						if ($gamesDropdown.is(':visible')) {
-							$gamesDropdown.hide();
-							gamesDropdownActive = false;
+
+					$.each(dropdowns, function(index, item) {
+						if (!item.$navItem.is($target) && item.$navItem.has($target).length === 0) {
+							item.$dropdown.hide();
 						}
-					}
+					});
 				});
 			});
 
