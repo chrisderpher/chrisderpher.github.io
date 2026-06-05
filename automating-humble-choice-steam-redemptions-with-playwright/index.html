@@ -7,6 +7,30 @@
 		<meta name="description" content="A supervised Playwright automation tutorial for redeeming your own Humble Choice Steam keys, with safety boundaries and a downloadable public script package." />
 		<link rel="stylesheet" href="../assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+		<style>
+			#main article h1.major {
+				max-width: 100%;
+				width: auto;
+			}
+
+			#main article pre {
+				max-width: 100%;
+				overflow-x: auto;
+			}
+
+			#main article code {
+				overflow-wrap: anywhere;
+			}
+
+			#main article .button {
+				max-width: 100%;
+				white-space: normal;
+				line-height: 1.4;
+				height: auto;
+				padding-top: 0.7rem;
+				padding-bottom: 0.7rem;
+			}
+		</style>
 	</head>
 	<body class="is-preload is-article-visible">
 		<div id="wrapper">
@@ -112,6 +136,12 @@
 		<script src="../assets/js/browser.min.js"></script>
 		<script src="../assets/js/breakpoints.min.js"></script>
 		<script src="../assets/js/util.js"></script>
-		<script src="../assets/js/main.js"></script>
+		<script>
+			window.addEventListener('load', function() {
+				window.setTimeout(function() {
+					document.body.classList.remove('is-preload');
+				}, 100);
+			});
+		</script>
 	</body>
 </html>
