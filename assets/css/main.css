@@ -1368,6 +1368,13 @@ input, select, textarea {
 					border-bottom: 0;
 				}
 
+				#header nav > ul > li > a {
+					width: 7.5rem;
+					min-width: 7.5rem;
+					padding: 0 0.5rem;
+					text-align: center;
+				}
+
 					#header nav ul li a:hover {
 						background-color: rgba(255, 255, 255, 0.075);
 					}
@@ -1386,7 +1393,11 @@ input, select, textarea {
 		#header nav ul li.automation-nav-item .automation-dropdown {
 			position: absolute;
 			top: 100%;
-			left: 0;
+			left: 50%;
+			-moz-transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+			-ms-transform: translateX(-50%);
+			transform: translateX(-50%);
 			display: none;
 			margin-top: 0;
 			padding: 0;
@@ -1549,6 +1560,17 @@ input, select, textarea {
 							line-height: 3rem;
 							min-width: 0;
 							width: 100%;
+						}
+
+						#header nav ul li.games-nav-item .games-dropdown,
+						#header nav ul li.automation-nav-item .automation-dropdown {
+							position: static;
+							-moz-transform: none;
+							-webkit-transform: none;
+							-ms-transform: none;
+							transform: none;
+							width: 100%;
+							min-width: 0;
 						}
 
 				#header nav.use-middle:after {
