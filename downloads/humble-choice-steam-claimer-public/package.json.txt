@@ -1,0 +1,15 @@
+{
+  "name": "humble-choice-steam-claimer",
+  "private": true,
+  "type": "module",
+  "description": "Supervised Playwright automation for redeeming owned Humble Choice Steam keys.",
+  "scripts": {
+    "start": "node ./humble-choice-steam-claimer.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
