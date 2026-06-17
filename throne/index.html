@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Who Owns the Throne? | Chris Murphy</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="A fake portfolio dashboard that pledges itself to the largest public company by market cap." />
+		<link rel="stylesheet" href="style.css" />
+		<script src="app.js?v=crisp-responsive-chart-labels" defer></script>
+	</head>
+	<body>
+		<main class="throne-shell">
+			<header class="throne-hero">
+				<a class="site-link" href="../">Chris Murphy</a>
+				<p class="eyebrow">Fake money. Real market data. No advice.</p>
+				<h1>Who Owns the Throne?</h1>
+				<p class="hero-copy">A fake portfolio that pledges itself to the largest public company by market cap.</p>
+				<div class="hero-signal" aria-label="Current throne holder">
+					<span id="king-ticker-badge">---</span>
+					<strong id="hero-king-name">Awaiting first crown</strong>
+				</div>
+			</header>
+
+			<div id="data-status" class="data-status" role="status" aria-live="polite">Loading throne data...</div>
+
+			<section class="panel chart-panel" aria-labelledby="benchmark-chart-title">
+				<div class="chart-heading">
+					<div class="panel-heading">
+						<p class="eyebrow">Benchmark trial</p>
+						<h2 id="benchmark-chart-title">Throne Method vs the S&amp;P 500 (SPY) and NASDAQ (QQQ)</h2>
+					</div>
+					<div class="chart-toggle" aria-label="Chart view">
+						<button type="button" class="is-active" data-chart-view="value" aria-pressed="true">Portfolio Value</button>
+						<button type="button" data-chart-view="excess" aria-pressed="false">Excess Profit</button>
+						<button type="button" data-chart-view="what-if" aria-pressed="false">What If</button>
+					</div>
+				</div>
+				<p id="chart-context" class="chart-context">Loading benchmark history...</p>
+				<div class="chart-metrics" aria-label="Latest benchmark comparison">
+					<div>
+						<span id="chart-strategy-label">Throne</span>
+						<strong id="chart-strategy-value">---</strong>
+					</div>
+					<div>
+						<span>vs SPY</span>
+						<strong id="chart-spy-delta">---</strong>
+					</div>
+					<div>
+						<span>vs QQQ</span>
+						<strong id="chart-qqq-delta">---</strong>
+					</div>
+				</div>
+				<div class="chart-frame">
+					<svg id="benchmark-chart" class="benchmark-chart" role="img" aria-labelledby="benchmark-chart-title chart-context" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet"></svg>
+					<p id="chart-empty" class="chart-empty" hidden>Benchmark history has not been published yet.</p>
+				</div>
+			</section>
+
+			<section class="dashboard-grid" aria-label="Throne dashboard">
+				<section class="panel throne-panel">
+					<div class="panel-heading">
+						<p class="eyebrow">Current throne holder</p>
+						<h2 id="king-name">Awaiting first crown</h2>
+					</div>
+					<div class="king-mark" aria-hidden="true">
+						<span></span>
+					</div>
+					<dl class="metric-grid">
+						<div>
+							<dt>Ticker</dt>
+							<dd id="king-symbol">---</dd>
+						</div>
+						<div>
+							<dt>Market cap</dt>
+							<dd id="king-market-cap">---</dd>
+						</div>
+						<div>
+							<dt>Stock price</dt>
+							<dd id="king-price">---</dd>
+						</div>
+						<div>
+							<dt>Fake shares held</dt>
+							<dd id="king-shares">---</dd>
+						</div>
+						<div>
+							<dt>Fake portfolio value</dt>
+							<dd id="king-value">---</dd>
+						</div>
+						<div>
+							<dt>Held since</dt>
+							<dd><time id="held-since">---</time></dd>
+						</div>
+					</dl>
+					<p class="timestamp">Last updated <time id="last-updated">---</time></p>
+				</section>
+
+				<section class="panel crown-panel">
+					<div class="panel-heading">
+						<p class="eyebrow">Crown value</p>
+						<h2>Concentration ledger</h2>
+					</div>
+					<dl class="value-stack">
+						<div>
+							<dt>Starting fake cash</dt>
+							<dd id="starting-cash">$10,000.00</dd>
+						</div>
+						<div>
+							<dt>Current fake portfolio value</dt>
+							<dd id="portfolio-value">---</dd>
+						</div>
+						<div>
+							<dt>Return since start</dt>
+							<dd><span id="return-value">---</span> <span id="return-percent" class="muted"></span></dd>
+						</div>
+					</dl>
+				</section>
+			</section>
+
+			<section class="panel challengers-panel">
+				<div class="panel-heading">
+					<p class="eyebrow">Challengers</p>
+					<h2>Largest candidates by market cap</h2>
+				</div>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th scope="col">Rank</th>
+								<th scope="col">Company</th>
+								<th scope="col">Ticker</th>
+								<th scope="col">Market cap</th>
+							</tr>
+						</thead>
+						<tbody id="challengers-body">
+							<tr>
+								<td colspan="4">Loading challengers...</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section class="rule-chronicle-grid">
+				<section class="panel law-panel">
+					<div class="panel-heading">
+						<p class="eyebrow">The Law of Succession</p>
+						<h2>Rules of the crown</h2>
+					</div>
+					<ul class="law-list">
+						<li>Market data refreshes daily.</li>
+						<li>The throne is reassessed monthly using the latest available data.</li>
+						<li>A challenger must exceed the current throne holder by at least 0.5% market cap before the throne changes.</li>
+						<li>The strategy ignores taxes, dividends, spreads, and slippage.</li>
+						<li>This is a fake portfolio using real market data.</li>
+					</ul>
+				</section>
+
+				<section class="panel chronicle-panel">
+					<div class="panel-heading">
+						<p class="eyebrow">The Chronicle</p>
+						<h2>Rotation log</h2>
+					</div>
+					<ol id="chronicle-list" class="chronicle-list">
+						<li>Loading the chronicle...</li>
+					</ol>
+				</section>
+			</section>
+
+			<section class="disclaimer">
+				<p>This is fake money and real market data. It is not a recommendation, signal, or investing strategy. It is a public experiment in concentration, momentum, and market mythology.</p>
+			</section>
+		</main>
+	</body>
+</html>

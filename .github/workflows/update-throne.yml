@@ -1,0 +1,50 @@
+name: Update throne data
+
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+    inputs:
+      monthly:
+        description: "Force a monthly succession check"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  update-throne:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Refresh throne data
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.monthly }}" = "true" ]; then
+            node scripts/update-throne.js --monthly
+          else
+            node scripts/update-throne.js
+          fi
+
+      - name: Commit updated data
+        run: |
+          if git diff --quiet -- data/throne.json; then
+            echo "No throne data changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/throne.json
+          git commit -m "Update throne data"
+          git push
