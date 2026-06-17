@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Making My Home Network Friendlier Without Making It Reckless | Chris Murphy</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="A short writeup about adding a family-facing stream portal, Caddy reverse proxy, HTTPS, and safer boundaries around a home network." />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+		<style>
+			#main article h1.major {
+				max-width: 100%;
+				width: auto;
+				letter-spacing: 0;
+				text-transform: none;
+			}
+
+			#main article h2,
+			#main article h3 {
+				letter-spacing: 0;
+				text-transform: none;
+			}
+
+			#main article .lede {
+				color: rgba(255, 255, 255, 0.82);
+				font-size: 1.05rem;
+			}
+
+			.article-figure {
+				margin: 1.5rem 0 2rem;
+			}
+
+			.article-figure img {
+				display: block;
+				width: 100%;
+				border-radius: 8px;
+				border: 1px solid rgba(255, 255, 255, 0.22);
+			}
+
+			.article-figure figcaption {
+				margin-top: 0.65rem;
+				color: rgba(255, 255, 255, 0.55);
+				font-size: 0.85rem;
+			}
+
+			.boundary-map {
+				display: grid;
+				gap: 0.8rem;
+				margin: 1.5rem 0;
+			}
+
+			.boundary-row {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+				gap: 0.8rem;
+				align-items: center;
+			}
+
+			.boundary-box {
+				min-width: 0;
+				padding: 0.85rem;
+				border: 1px solid rgba(255, 255, 255, 0.22);
+				border-radius: 8px;
+				background: rgba(255, 255, 255, 0.04);
+			}
+
+			.boundary-box strong {
+				display: block;
+				margin-bottom: 0.25rem;
+			}
+
+			.boundary-box span {
+				color: rgba(255, 255, 255, 0.68);
+				font-size: 0.9rem;
+			}
+
+			.boundary-arrow {
+				color: rgba(255, 255, 255, 0.6);
+				font-weight: 600;
+			}
+
+			.note {
+				padding: 1rem;
+				border-left: 4px solid rgba(255, 255, 255, 0.55);
+				background: rgba(255, 255, 255, 0.05);
+			}
+
+			@media screen and (max-width: 736px) {
+				.boundary-row {
+					grid-template-columns: 1fr;
+				}
+
+				.boundary-arrow {
+					text-align: center;
+				}
+			}
+		</style>
+	</head>
+	<body class="is-preload is-article-visible">
+		<div id="wrapper">
+			<div id="main" style="display: block;">
+				<article class="active" style="display: block;">
+					<h1 class="major">Making My Home Network Friendlier Without Making It Reckless</h1>
+					<p class="lede">Like a lot of home lab projects, this started small and then kept growing. A media server became a few media tools. A few tools became automation. Automation became dashboards. Eventually I had enough useful services that the messy pile needed a front door.</p>
+
+					<figure class="article-figure">
+						<img src="../images/stream-portal-main.png" alt="Family-facing stream portal at stream.chrismurphy.org" />
+						<figcaption>This is the public view: a small, friendly front door for streaming.</figcaption>
+					</figure>
+
+					<p>Individually, none of these services are hard to reach. Together, they become a maze of ports, bookmarks, credentials, and half-remembered URLs. That is tolerable for the person who built it. It is not tolerable for family members who just want a normal-looking place to start.</p>
+					<p>I wanted the public side to feel boring in the best way: open a normal URL, see the streaming options, click the thing you need. No explaining ports. No sending someone a list of bookmarks. No asking people to understand how my home network is arranged.</p>
+					<p>So I added a small stream portal at <a href="https://stream.chrismurphy.org/" target="_blank" rel="noopener noreferrer">stream.chrismurphy.org</a>: one friendly page for the people I actually want to serve, and a separate private side for the tools that should not be treated like public websites.</p>
+
+					<h2>The Public Front Door</h2>
+					<p>The setup is not especially complicated, which is part of the point. Public traffic lands on Caddy, Caddy serves the portal, and only a few approved paths continue inward to specific services. That keeps the exposed attack surface small instead of publishing every useful thing on my network just because it has a web interface.</p>
+					<p>For the family-facing side, that means media and requests:</p>
+					<ul>
+						<li>Jellyfin and Plex for streaming.</li>
+						<li>Requests for TV shows, protected separately because it can influence automation.</li>
+						<li>Nothing else unless there is a good reason.</li>
+					</ul>
+					<p>Everything else stays on the private side. If it manages the network, changes automation, touches downloads, exposes photos, or controls hardware, it does not need to be reachable by the entire internet. This is where the attack surface thinking matters. Each extra public service is one more application to patch, authenticate, monitor, and trust. The easiest service to secure is the one I never exposed in the first place.</p>
+
+					<div class="boundary-map" aria-label="Home network portal traffic flow">
+						<div class="boundary-row">
+							<div class="boundary-box">
+								<strong>Friends and family</strong>
+								<span>Open the public stream portal over HTTPS.</span>
+							</div>
+							<div class="boundary-arrow">-&gt;</div>
+							<div class="boundary-box">
+								<strong>Caddy</strong>
+								<span>Serves the portal and proxies only approved public routes.</span>
+							</div>
+						</div>
+						<div class="boundary-row">
+							<div class="boundary-box">
+								<strong>Public routes</strong>
+								<span>Jellyfin, Plex, and authenticated requests.</span>
+							</div>
+							<div class="boundary-arrow">-&gt;</div>
+							<div class="boundary-box">
+								<strong>Media services</strong>
+								<span>Each service still keeps its own login and permissions.</span>
+							</div>
+						</div>
+						<div class="boundary-row">
+							<div class="boundary-box">
+								<strong>Local users</strong>
+								<span>Use LAN-only links for owner tools and printers.</span>
+							</div>
+							<div class="boundary-arrow">-&gt;</div>
+							<div class="boundary-box">
+								<strong>Private tools</strong>
+								<span>Admin pages stay off the public internet.</span>
+							</div>
+						</div>
+					</div>
+
+					<p>The portal makes the setup friendlier, but the boundary makes it safer. I wanted friends and family to have less friction without giving the internet a tour of every service I run at home.</p>
+					<p>A nice homepage is useful, but it cannot be the security model by itself. The real win is deciding what should be reachable at all, then making the page reflect that decision.</p>
+
+					<h2>The Part That Makes The Public Side Work: Why Caddy Was A Good Fit</h2>
+					<p>Caddy is doing the front-door work here. It serves the portal page, handles HTTPS, and forwards only the routes I have chosen to expose. Caddy gave me the cleanest path from "I have services on my LAN" to "I have one HTTPS site with a few controlled routes." The useful thing about Caddy is that it keeps the public setup understandable. One config can describe the site, the certificate behavior, and the backend routes.</p>
+					<p>The automatic HTTPS part is a big reason I liked it. Once DNS and port forwarding are right, Caddy can request and renew certificates for the hostname automatically through ACME providers like Let's Encrypt. Automatic HTTPS is the part that makes this feel like a real public site instead of a sketchy home lab page with a browser warning.</p>
+					<p>That does not mean setup is magic. DNS has to be correct. The router has to forward the right ports. The local firewall has to allow the traffic. Caddy has to be able to bind to 80 and 443. But once those pieces are aligned, HTTPS becomes a boring maintenance task, which is exactly what I want HTTPS to be.</p>
+
+					<h2>Reducing Exposure Without Pretending Risk Is Gone</h2>
+					<p>This is the part where I have to be honest: putting something behind Caddy does not automatically make it safe.</p>
+					<p>Caddy can decide which requests go where. It can require authentication before a route is reachable. It can centralize TLS and make the public exposure easier to audit.</p>
+					<p>But if I expose a vulnerable app through Caddy, that app is still exposed. Weak authentication, bad input handling, and unpatched vulnerabilities do not disappear because the traffic passed through a nicer front door.</p>
+					<p>That is why I did not treat the portal as permission to publish everything with a web UI. I treated it as a chance to be more deliberate: make the useful public paths easier, and leave the rest of the network uninvited.</p>
+					<div class="note">
+						<p><strong>The rule I tried to follow:</strong> convenience is not a good enough reason to expose an admin tool.</p>
+					</div>
+					<p>I like this because it is easy to explain. The public page is for watching and requesting. The private side is for managing, fixing, downloading, configuring, and tinkering.</p>
+
+					<h2>Behind The Couch</h2>
+					<p>The private side is where the practical shortcuts live. If I am on the LAN and need to manage the house, I want one place to start.</p>
+					<figure class="article-figure">
+						<img src="../images/stream-portal-admin.png" alt="LAN-only admin portal showing network, home stack, and printer links" />
+						<figcaption>This side is for owner tools: useful from home, inappropriate as a public page. Same design language, very different audience.</figcaption>
+					</figure>
+					<p>I originally thought about making one clever page that changed everything based on where it was opened. There is a place for that kind of convenience, but for public exposure I prefer a stricter split: the public hostname stays focused on the family streaming use case, and the private tools stay private.</p>
+					<p>That is less clever, but easier to defend. The public site has a smaller job, and the private tools do not depend on a front-end decision to stay hidden.</p>
+
+					<h2>The Little Things Matter</h2>
+					<p>A surprising amount of this project was not the reverse proxy. It was the polish.</p>
+					<p>The portal needed to feel like a real page, not a pile of bookmarks. The main page is family-facing, so it does not lead with network language. It just shows the streaming options and the request flow. The local side can be more technical because that page is for me.</p>
+					<p>I also ran into small lessons that only show up when home infrastructure becomes real enough to use daily. For example, a service may reject requests if the browser sends a referrer from an unexpected origin. The answer is not to weaken the service's protections. The answer is to understand what the service is protecting against and make the portal behave cleanly around it.</p>
+
+					<h2>What I Learned</h2>
+					<p>This project gave me a better appreciation for boring boundaries.</p>
+					<p>Only forwarding 80 and 443 is boring. Keeping individual service ports off the internet is boring. Putting sensitive tools behind LAN-only access is boring. Letting Caddy renew certificates automatically is boring.</p>
+					<p>Good. Boring is the goal.</p>
+					<p>The fun part is the portal. The useful part is that the portal makes the home network easier to use without turning the whole house into an accidental public software stack.</p>
+					<p>A clean homepage is nice. A clean homepage with fewer exposed services is better.</p>
+
+					<p><a href="../">Back to the homepage</a></p>
+				</article>
+			</div>
+			<footer id="footer">
+				<p class="copyright">&copy; Chris Murphy.</p>
+			</footer>
+		</div>
+		<div id="bg"></div>
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script>
+			window.addEventListener('load', function() {
+				window.setTimeout(function() {
+					document.body.classList.remove('is-preload');
+				}, 100);
+			});
+		</script>
+	</body>
+</html>
