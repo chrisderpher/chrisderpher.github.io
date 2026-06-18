@@ -156,7 +156,6 @@
 
 		return {
 			...snapshot,
-			phase: snapshot.phase === "official" ? "official" : "proxy",
 			strategyValue: Number(snapshot.strategyValue),
 			spyValue: Number(snapshot.spyValue),
 			qqqValue: Number(snapshot.qqqValue),
@@ -200,7 +199,7 @@
 
 		if (!entries.length) {
 			const item = document.createElement("li");
-			item.textContent = "No rotations have been recorded yet.";
+			item.textContent = "No succession reviews have been recorded yet.";
 			list.append(item);
 			return;
 		}
@@ -209,8 +208,17 @@
 			const item = document.createElement("li");
 			const time = document.createElement("time");
 			time.dateTime = entry.date || "";
-			time.textContent = entry.date || "Unknown date";
-			item.append(time, ` - ${entry.from || "CASH"} -> ${entry.to || "---"} - ${entry.note || "Throne rotation."}`);
+			time.textContent = entry.date ? formatDate(entry.date) : "Unknown date";
+			const eventType = entry.eventType || "rotation";
+			let summary;
+			if (eventType === "review") {
+				summary = `${entry.to || entry.from || "---"} retained the throne`;
+			} else if (eventType === "assignment") {
+				summary = `${entry.to || "---"} received the throne`;
+			} else {
+				summary = `${entry.from || "CASH"} -> ${entry.to || "---"}`;
+			}
+			item.append(time, ` - ${summary} - ${entry.note || "Monthly succession review."}`);
 			list.append(item);
 		});
 	}
@@ -243,8 +251,7 @@
 	}
 
 	function renderBenchmarkChart(history) {
-		const allSnapshots = history && Array.isArray(history.snapshots) ? history.snapshots : [];
-		const snapshots = snapshotsForView(allSnapshots, activeChartView);
+		const snapshots = history && Array.isArray(history.snapshots) ? history.snapshots : [];
 		const chart = document.getElementById("benchmark-chart");
 		const empty = document.getElementById("chart-empty");
 		chart.replaceChildren();
@@ -260,15 +267,15 @@
 		}
 
 		const latest = snapshots[snapshots.length - 1];
-		setText("chart-strategy-label", activeChartView === "what-if" ? "Current king" : "Throne");
+		setText("chart-strategy-label", "Throne");
 		setText("chart-strategy-value", formatCurrency(latest.strategyValue));
 		setSignedMetric("chart-spy-delta", latest.excessVsSpy);
 		setSignedMetric("chart-qqq-delta", latest.excessVsQqq);
-		setText("chart-context", chartContext(history, snapshots));
+		setText("chart-context", chartContext(snapshots));
 
 		if (snapshots.length < 2) {
 			empty.hidden = false;
-			empty.textContent = officialWaitingMessage(activeChartView, latest.date);
+			empty.textContent = `The chart needs at least two daily snapshots. The first point was recorded on ${formatDate(latest.date)}.`;
 			return;
 		}
 
@@ -277,24 +284,9 @@
 		drawChart(chart, snapshots, activeChartView);
 	}
 
-	function chartContext(history, snapshots) {
-		const first = snapshots[0];
+	function chartContext(snapshots) {
 		const latest = snapshots[snapshots.length - 1];
-		if (activeChartView === "what-if") {
-			const windowText = history && history.backfillWindowDays ? `${history.backfillWindowDays} days` : "90 days";
-			return `What if $10,000 had followed the current throne holder over the last ${windowText}? This is hypothetical current-holder lookback, not the real throne method or a historical throne backtest.`;
-		}
-		return `Official throne-method tracking from ${formatDate(first.date)} through ${formatDate(latest.date)}. The chart will gain shape as daily official snapshots accumulate.`;
-	}
-
-	function snapshotsForView(snapshots, view) {
-		const phase = view === "what-if" ? "proxy" : "official";
-		return snapshots.filter((snapshot) => snapshot.phase === phase);
-	}
-
-	function officialWaitingMessage(view, date) {
-		const label = view === "excess" ? "excess-profit" : "portfolio-value";
-		return `Official ${label} chart needs at least two official snapshots. The first official point was recorded on ${formatDate(date)}.`;
+		return `Throne-method tracking from the March 31, 2026 birthday start through ${formatDate(latest.date)}. All three portfolios began with exactly $10,000.`;
 	}
 
 	function drawChart(chart, snapshots, view) {
@@ -304,7 +296,7 @@
 		chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
 		const plotWidth = width - margin.left - margin.right;
 		const plotHeight = height - margin.top - margin.bottom;
-		const series = chartSeries(view, snapshots);
+		const series = chartSeries(view);
 		const values = series.flatMap((line) => snapshots.map((snapshot) => snapshot[line.key]).filter(isFiniteNumber));
 
 		if (view === "excess") {
@@ -328,11 +320,10 @@
 		drawXAxisLabels(chart, snapshots, margin, height, plotWidth);
 	}
 
-	function chartSeries(view, snapshots) {
-		if (view === "value" || view === "what-if") {
-			const strategyLabel = view === "what-if" ? (snapshots[snapshots.length - 1].strategySymbol || "Current King") : "Throne";
+	function chartSeries(view) {
+		if (view === "value") {
 			return [
-				{ key: "strategyValue", className: "strategy", label: strategyLabel },
+				{ key: "strategyValue", className: "strategy", label: "Throne" },
 				{ key: "spyValue", className: "spy", label: "SPY" },
 				{ key: "qqqValue", className: "qqq", label: "QQQ" }
 			];

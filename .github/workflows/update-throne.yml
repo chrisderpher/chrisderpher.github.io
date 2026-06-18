@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Test succession rules
+        run: node --test scripts/throne-core.test.js
+
       - name: Refresh throne data
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}

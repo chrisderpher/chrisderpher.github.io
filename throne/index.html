@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="A fake portfolio dashboard that pledges itself to the largest public company by market cap." />
 		<link rel="stylesheet" href="style.css" />
-		<script src="app.js?v=crisp-responsive-chart-labels" defer></script>
+		<script src="app.js?v=march-31-official-history" defer></script>
 	</head>
 	<body>
 		<main class="throne-shell">
@@ -32,7 +32,6 @@
 					<div class="chart-toggle" aria-label="Chart view">
 						<button type="button" class="is-active" data-chart-view="value" aria-pressed="true">Portfolio Value</button>
 						<button type="button" data-chart-view="excess" aria-pressed="false">Excess Profit</button>
-						<button type="button" data-chart-view="what-if" aria-pressed="false">What If</button>
 					</div>
 				</div>
 				<p id="chart-context" class="chart-context">Loading benchmark history...</p>
@@ -121,6 +120,7 @@
 					<p class="eyebrow">Challengers</p>
 					<h2>Largest candidates by market cap</h2>
 				</div>
+				<p class="panel-note">One row per corporate issuer. Alternate share classes, including GOOG and GOOGL, are consolidated under one canonical ticker.</p>
 				<div class="table-wrap">
 					<table>
 						<thead>
@@ -148,7 +148,7 @@
 					</div>
 					<ul class="law-list">
 						<li>Market data refreshes daily.</li>
-						<li>The throne is reassessed monthly using the latest available data.</li>
+						<li>After each month ends, the throne is reassessed using that month's final available trading close.</li>
 						<li>A challenger must exceed the current throne holder by at least 0.5% market cap before the throne changes.</li>
 						<li>The strategy ignores taxes, dividends, spreads, and slippage.</li>
 						<li>This is a fake portfolio using real market data.</li>
@@ -158,7 +158,7 @@
 				<section class="panel chronicle-panel">
 					<div class="panel-heading">
 						<p class="eyebrow">The Chronicle</p>
-						<h2>Rotation log</h2>
+						<h2>Succession record</h2>
 					</div>
 					<ol id="chronicle-list" class="chronicle-list">
 						<li>Loading the chronicle...</li>
