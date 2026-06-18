@@ -498,7 +498,7 @@ function makeChronicleEntry(check) {
 			scheduledMonthEnd: check.scheduledMonthEnd,
 			from: "CASH",
 			to: check.holderAfter,
-			note: `Initial throne assignment on the March 31 birthday start.`,
+			note: "Initial throne assignment on March 31 (My birthday!).",
 			portfolioValue: check.portfolioValue
 		};
 	}
@@ -591,7 +591,7 @@ function makeHistory(snapshots, baselinePrices) {
 		initialSymbol: baselinePrices.strategySymbol,
 		baselinePrices,
 		benchmarks: BENCHMARKS,
-		note: "Official throne-method history reconstructed from the March 31, 2026 birthday start.",
+		note: "Official throne-method history reconstructed from March 31, 2026 (My birthday!).",
 		snapshots: sorted
 	};
 }
@@ -715,7 +715,7 @@ function validateOutput(data) {
 		throw new Error("Refusing to write invalid throne data: history is incomplete.");
 	}
 	if (data.history.snapshots[0].date !== STRATEGY_START_DATE) {
-		throw new Error("Refusing to write invalid throne data: history does not begin on March 31.");
+		throw new Error("Refusing to write invalid throne data: history does not begin on March 31 (My birthday!).");
 	}
 	if (!Array.isArray(data.successionChecks) || data.successionChecks.length < 3) {
 		throw new Error("Refusing to write invalid throne data: reconstructed succession checks are missing.");

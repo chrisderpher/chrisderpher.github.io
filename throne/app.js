@@ -39,12 +39,11 @@
 		loadThroneData()
 			.then((data) => {
 				renderDashboard(data);
-				setStatus("Throne data loaded from /data/throne.json.", false);
 			})
 			.catch((error) => {
 				console.warn(error);
 				renderDashboard(FALLBACK_DATA);
-				setStatus("Unable to load throne data yet. Showing a safe empty-state dashboard.", true);
+				setStatus("Unable to load throne data yet. Showing a safe empty-state dashboard.");
 			});
 	});
 
@@ -286,7 +285,7 @@
 
 	function chartContext(snapshots) {
 		const latest = snapshots[snapshots.length - 1];
-		return `Throne-method tracking from the March 31, 2026 birthday start through ${formatDate(latest.date)}. All three portfolios began with exactly $10,000.`;
+		return `Throne-method tracking from March 31, 2026 (My birthday!) through ${formatDate(latest.date)}. All three portfolios began with exactly $10,000.`;
 	}
 
 	function drawChart(chart, snapshots, view) {
@@ -420,15 +419,28 @@
 	function drawXAxisLabels(chart, snapshots, margin, height, plotWidth) {
 		const first = snapshots[0];
 		const latest = snapshots[snapshots.length - 1];
-		chart.append(svgEl("text", {
-			class: "chart-label",
-			x: margin.left,
-			y: height - 14
-		}, formatDate(first.date)));
+		if (isBirthdayDate(first.date)) {
+			chart.append(svgEl("text", {
+				class: "chart-label",
+				x: margin.left,
+				y: height - 27
+			}, formatPlainDate(first.date)));
+			chart.append(svgEl("text", {
+				class: "chart-label",
+				x: margin.left,
+				y: height - 11
+			}, "(My birthday!)"));
+		} else {
+			chart.append(svgEl("text", {
+				class: "chart-label",
+				x: margin.left,
+				y: height - 14
+			}, formatDate(first.date)));
+		}
 		chart.append(svgEl("text", {
 			class: "chart-label",
 			x: margin.left + plotWidth,
-			y: height - 14,
+			y: height - 11,
 			"text-anchor": "end"
 		}, formatDate(latest.date)));
 	}
@@ -457,10 +469,10 @@
 		row.append(cell);
 	}
 
-	function setStatus(message, isError) {
+	function setStatus(message) {
 		const status = document.getElementById("data-status");
 		status.textContent = message;
-		status.classList.toggle("is-error", Boolean(isError));
+		status.hidden = false;
 	}
 
 	function setText(id, value) {
@@ -562,6 +574,11 @@
 	}
 
 	function formatDate(value) {
+		const formatted = formatPlainDate(value);
+		return isBirthdayDate(value) ? `${formatted} (My birthday!)` : formatted;
+	}
+
+	function formatPlainDate(value) {
 		if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
 			const [year, month, day] = value.split("-").map(Number);
 			return new Intl.DateTimeFormat("en-US", {
@@ -580,6 +597,10 @@
 			month: "short",
 			day: "numeric"
 		}).format(date);
+	}
+
+	function isBirthdayDate(value) {
+		return /^\d{4}-03-31$/.test(String(value));
 	}
 
 	function formatDateTime(value) {

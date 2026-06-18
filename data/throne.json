@@ -768,7 +768,7 @@
       "scheduledMonthEnd": "2026-03-31",
       "from": "CASH",
       "to": "NVDA",
-      "note": "Initial throne assignment on the March 31 birthday start.",
+      "note": "Initial throne assignment on March 31 (My birthday!).",
       "portfolioValue": 10000
     }
   ],
@@ -796,7 +796,7 @@
         "description": "Nasdaq-style ETF proxy"
       }
     ],
-    "note": "Official throne-method history reconstructed from the March 31, 2026 birthday start.",
+    "note": "Official throne-method history reconstructed from March 31, 2026 (My birthday!).",
     "snapshots": [
       {
         "date": "2026-03-31",
