@@ -4,9 +4,11 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const {
 	calendarMonthEnd,
+	calendarDatesBetween,
 	completedMonthEnds,
 	effectiveMarketDate,
 	estimateMarketCaps,
+	expandSnapshotsToCalendar,
 	evaluateSuccession,
 	rotatePortfolio,
 	simulatePortfolioHistory
@@ -55,6 +57,55 @@ test("month-end dates include weekends and due checks wait for a completed month
 	assert.deepEqual(completedMonthEnds("2026-05-29", new Date("2026-07-01T12:00:00Z")), ["2026-06-30"]);
 });
 
+test("calendar expansion fills Juneteenth and weekend dates from the prior market close", () => {
+	const expanded = expandSnapshotsToCalendar([
+		marketSnapshot("2026-06-18", 12047.02)
+	], "2026-06-18", "2026-06-20");
+
+	assert.deepEqual(expanded.map((snapshot) => snapshot.date), [
+		"2026-06-18",
+		"2026-06-19",
+		"2026-06-20"
+	]);
+	assert.equal(expanded[0].isCarriedForward, false);
+	assert.equal(expanded[1].marketDate, "2026-06-18");
+	assert.equal(expanded[1].isCarriedForward, true);
+	assert.equal(expanded[1].carryForwardReason, "market-closed");
+	assert.equal(expanded[2].marketDate, "2026-06-18");
+	assert.equal(expanded[2].strategyValue, 12047.02);
+});
+
+test("calendar expansion uses same-day market data when it is available", () => {
+	const expanded = expandSnapshotsToCalendar([
+		marketSnapshot("2026-06-18", 12047.02),
+		marketSnapshot("2026-06-22", 12100)
+	], "2026-06-18", "2026-06-22");
+
+	const latest = expanded[expanded.length - 1];
+	assert.equal(latest.date, "2026-06-22");
+	assert.equal(latest.marketDate, "2026-06-22");
+	assert.equal(latest.isCarriedForward, false);
+	assert.equal(latest.strategyValue, 12100);
+});
+
+test("calendar expansion repairs provider delay when a delayed market close appears", () => {
+	const delayed = expandSnapshotsToCalendar([
+		marketSnapshot("2026-06-22", 12100)
+	], "2026-06-22", "2026-06-23");
+	assert.equal(delayed[1].date, "2026-06-23");
+	assert.equal(delayed[1].marketDate, "2026-06-22");
+	assert.equal(delayed[1].carryForwardReason, "provider-delay");
+
+	const repaired = expandSnapshotsToCalendar([
+		marketSnapshot("2026-06-22", 12100),
+		marketSnapshot("2026-06-23", 12250)
+	], "2026-06-22", "2026-06-23");
+	assert.equal(repaired[1].date, "2026-06-23");
+	assert.equal(repaired[1].marketDate, "2026-06-23");
+	assert.equal(repaired[1].isCarriedForward, false);
+	assert.equal(repaired[1].strategyValue, 12250);
+});
+
 test("effective market date falls back from a weekend to the last common trading date", () => {
 	const prices = new Map([
 		["NVDA", new Map([["2026-05-29", 211.14]])],
@@ -100,6 +151,31 @@ test("portfolio value remains continuous through a rotation", () => {
 	assert.equal(result.shares, 50);
 });
 
+test("calendar daily snapshots preserve portfolio continuity through a rotation", () => {
+	const priceMaps = new Map([
+		["NVDA", new Map([["2026-04-30", 125], ["2026-05-04", 130]])],
+		["AAPL", new Map([["2026-04-30", 250], ["2026-05-04", 260]])],
+		["SPY", new Map([["2026-04-30", 550], ["2026-05-04", 555]])],
+		["QQQ", new Map([["2026-04-30", 440], ["2026-05-04", 450]])]
+	]);
+	const result = simulatePortfolioHistory({
+		dates: ["2026-04-30", "2026-05-04"],
+		priceMaps,
+		startDate: "2026-04-30",
+		initialCash: 12500,
+		initialSymbol: "NVDA",
+		rotations: [{ date: "2026-05-04", to: "AAPL" }]
+	});
+	const expanded = expandSnapshotsToCalendar(result.snapshots, "2026-04-30", "2026-05-04");
+
+	assert.deepEqual(expanded.map((snapshot) => snapshot.date), calendarDatesBetween("2026-04-30", "2026-05-04"));
+	assert.equal(expanded.find((snapshot) => snapshot.date === "2026-05-02").strategySymbol, "NVDA");
+	assert.equal(expanded.find((snapshot) => snapshot.date === "2026-05-02").isCarriedForward, true);
+	assert.equal(expanded.find((snapshot) => snapshot.date === "2026-05-04").strategySymbol, "AAPL");
+	assert.equal(expanded.find((snapshot) => snapshot.date === "2026-05-04").strategyValue, 13000);
+	assert.equal(result.shares, 50);
+});
+
 test("historical reconstruction selects NVDA at each seeded month-end", () => {
 	const candidates = [
 		{ symbol: "NVDA", name: "NVIDIA", marketCap: 5043054572617, price: 208.24 },
@@ -129,3 +205,20 @@ test("historical reconstruction selects NVDA at each seeded month-end", () => {
 		assert.equal(estimates[0].symbol, "NVDA");
 	}
 });
+
+function marketSnapshot(date, value) {
+	return {
+		date,
+		marketDate: date,
+		isCarriedForward: false,
+		strategySymbol: "NVDA",
+		strategyValue: value,
+		spyValue: 11000,
+		qqqValue: 12000,
+		excessVsSpy: Number((value - 11000).toFixed(2)),
+		excessVsQqq: Number((value - 12000).toFixed(2)),
+		strategyPrice: 210,
+		spyPrice: 740,
+		qqqPrice: 730
+	};
+}

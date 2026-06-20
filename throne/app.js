@@ -155,6 +155,9 @@
 
 		return {
 			...snapshot,
+			marketDate: snapshot.marketDate || snapshot.date,
+			isCarriedForward: Boolean(snapshot.isCarriedForward || (snapshot.marketDate && snapshot.marketDate !== snapshot.date)),
+			carryForwardReason: snapshot.carryForwardReason || null,
 			strategyValue: Number(snapshot.strategyValue),
 			spyValue: Number(snapshot.spyValue),
 			qqqValue: Number(snapshot.qqqValue),
@@ -262,6 +265,7 @@
 			setText("chart-qqq-delta", "---");
 			empty.textContent = "Benchmark history has not been published yet.";
 			setText("chart-context", empty.textContent);
+			setFreshness("");
 			return;
 		}
 
@@ -271,6 +275,7 @@
 		setSignedMetric("chart-spy-delta", latest.excessVsSpy);
 		setSignedMetric("chart-qqq-delta", latest.excessVsQqq);
 		setText("chart-context", chartContext(snapshots));
+		setFreshness(freshnessText(latest));
 
 		if (snapshots.length < 2) {
 			empty.hidden = false;
@@ -286,6 +291,19 @@
 	function chartContext(snapshots) {
 		const latest = snapshots[snapshots.length - 1];
 		return `Throne-method tracking from March 31, 2026 (My birthday!) through ${formatDate(latest.date)}. All three portfolios began with exactly $10,000.`;
+	}
+
+	function freshnessText(snapshot) {
+		if (!snapshot) {
+			return "";
+		}
+		if (!snapshot.isCarriedForward) {
+			return `Showing ${formatDate(snapshot.date)} market close.`;
+		}
+		const reason = snapshot.carryForwardReason === "provider-delay"
+			? "same-day market data has not posted yet"
+			: "markets were closed";
+		return `Showing ${formatDate(snapshot.date)} using ${formatDate(snapshot.marketDate)} market close because ${reason}.`;
 	}
 
 	function drawChart(chart, snapshots, view) {
@@ -485,6 +503,12 @@
 		element.textContent = formatSignedCurrency(value);
 		element.classList.toggle("is-positive", Number(value) > 0);
 		element.classList.toggle("is-negative", Number(value) < 0);
+	}
+
+	function setFreshness(value) {
+		const element = document.getElementById("chart-freshness");
+		element.textContent = value || "";
+		element.hidden = !value;
 	}
 
 	function setDate(id, value) {

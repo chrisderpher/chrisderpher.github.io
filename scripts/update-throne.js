@@ -12,6 +12,7 @@ const {
 	completedMonthEnds,
 	effectiveMarketDate,
 	estimateMarketCaps,
+	expandSnapshotsToCalendar,
 	evaluateSuccession,
 	rotatePortfolio,
 	simulatePortfolioHistory
@@ -59,24 +60,24 @@ async function main() {
 
 	const args = process.argv.slice(2);
 	const now = new Date();
+	const today = toDateString(now);
 	const existingData = await readExistingData();
-	const [marketData, benchmarkData] = await Promise.all([
+	const [marketData, priceMaps] = await Promise.all([
 		fetchMarketData(apiKey, now, existingData),
-		fetchBenchmarkData(apiKey, now)
+		fetchAllPriceMaps(apiKey, STRATEGY_START_DATE, today)
 	]);
 	const needsRebuild = args.includes("--rebuild") || !isMigratedData(existingData);
 	let nextData;
 
 	if (needsRebuild) {
-		const priceMaps = await fetchAllPriceMaps(apiKey, STRATEGY_START_DATE, toDateString(now));
-		nextData = rebuildStrategy(existingData, marketData, benchmarkData, priceMaps, now);
+		nextData = rebuildStrategy(existingData, marketData, priceMaps, now);
 	} else {
 		const dueMonthEnds = completedMonthEnds(existingData.lastSuccessionCheck, now);
 		const shouldForce = args.includes("--monthly") || args.includes("--force-monthly");
 		if (shouldForce && !dueMonthEnds.length) {
 			console.log("No completed month-end succession check is currently due.");
 		}
-		nextData = await updateStrategy(existingData, marketData, benchmarkData, dueMonthEnds, apiKey, now);
+		nextData = updateStrategy(existingData, marketData, dueMonthEnds, priceMaps, now);
 	}
 
 	validateOutput(nextData);
@@ -159,19 +160,6 @@ function resolveCandidateMarketData({ candidate, priceRecord, capRecord, profile
 		marketCapSource,
 		marketCapReferencePrice
 	};
-}
-
-async function fetchBenchmarkData(apiKey, now) {
-	const fromDate = toDateString(daysBefore(now, 7));
-	const toDate = toDateString(now);
-	return Promise.all(BENCHMARKS.map(async (benchmark) => {
-		const prices = await fetchHistoricalPrices(benchmark.symbol, apiKey, fromDate, toDate);
-		const latest = latestPrice(prices);
-		if (!latest) {
-			throw new Error(`Missing latest benchmark price for ${benchmark.symbol}.`);
-		}
-		return { ...benchmark, price: latest.price, priceDate: latest.date };
-	}));
 }
 
 async function fetchLatestPrices(symbols, apiKey, now) {
@@ -275,30 +263,16 @@ async function fetchUrl(url) {
 	});
 }
 
-function rebuildStrategy(existingData, marketData, benchmarkData, priceMaps, now) {
+function rebuildStrategy(existingData, marketData, priceMaps, now) {
 	const scheduledMonthEnds = [STRATEGY_START_DATE, ...completedMonthEnds(STRATEGY_START_DATE, now)];
 	const reconstruction = reconstructChecks(marketData, priceMaps, scheduledMonthEnds);
-	const dates = commonHistoryDates(priceMaps, reconstruction.initialSymbol, reconstruction.rotations, STRATEGY_START_DATE);
-	const simulation = simulatePortfolioHistory({
-		dates,
+	const simulation = simulateCalendarHistory({
 		priceMaps,
-		startDate: STRATEGY_START_DATE,
 		initialSymbol: reconstruction.initialSymbol,
-		rotations: reconstruction.rotations
+		rotations: reconstruction.rotations,
+		endDate: toDateString(now)
 	});
-	const currentMarket = requireCurrentMarket(marketData, simulation.currentSymbol);
-	const currentValue = roundMoney(simulation.shares * currentMarket.price);
-	const latestSnapshot = simulation.snapshots[simulation.snapshots.length - 1];
-	if (latestSnapshot && latestSnapshot.date !== currentMarket.priceDate) {
-		simulation.snapshots.push(snapshotFromCurrent(
-			currentMarket.priceDate,
-			simulation.currentSymbol,
-			currentValue,
-			currentMarket.price,
-			benchmarkData,
-			reconstruction.baselinePrices
-		));
-	}
+	const currentValue = simulation.portfolioValue;
 
 	return composeData({
 		existingData,
@@ -314,17 +288,15 @@ function rebuildStrategy(existingData, marketData, benchmarkData, priceMaps, now
 	});
 }
 
-async function updateStrategy(existingData, marketData, benchmarkData, dueMonthEnds, apiKey, now) {
+function updateStrategy(existingData, marketData, dueMonthEnds, priceMaps, now) {
 	let holder = existingData.currentKing.symbol;
 	let shares = positiveNumber(existingData.currentKing.fakeSharesHeld);
 	let heldSince = existingData.currentKing.heldSince;
 	const checks = normalizeChecks(existingData.successionChecks);
 	const chronicle = normalizeChronicle(existingData.chronicle);
-	let priceMaps = null;
 	let rotations = [];
 
 	if (dueMonthEnds.length) {
-		priceMaps = await fetchAllPriceMaps(apiKey, STRATEGY_START_DATE, toDateString(now));
 		for (const scheduledMonthEnd of dueMonthEnds) {
 			const effectiveDate = effectiveMarketDate(candidatePriceMaps(priceMaps), scheduledMonthEnd);
 			if (!effectiveDate) {
@@ -357,35 +329,15 @@ async function updateStrategy(existingData, marketData, benchmarkData, dueMonthE
 		}
 	}
 
-	const currentMarket = requireCurrentMarket(marketData, holder);
-	const currentValue = roundMoney(shares * currentMarket.price);
-	let history;
-	if (rotations.length) {
-		const allPriceMaps = priceMaps || await fetchAllPriceMaps(apiKey, STRATEGY_START_DATE, toDateString(now));
-		const dates = commonHistoryDates(allPriceMaps, existingData.history.initialSymbol, rotationsFromChecks(checks), STRATEGY_START_DATE);
-		const simulation = simulatePortfolioHistory({
-			dates,
-			priceMaps: allPriceMaps,
-			startDate: STRATEGY_START_DATE,
-			initialSymbol: existingData.history.initialSymbol,
-			rotations: rotationsFromChecks(checks)
-		});
-		history = makeHistory(simulation.snapshots, existingData.history.baselinePrices);
-		shares = simulation.shares;
-	} else {
-		history = normalizeHistory(existingData.history);
-		history.snapshots = mergeSnapshotsByDate(history.snapshots, [
-			snapshotFromCurrent(
-				currentMarket.priceDate,
-				holder,
-				currentValue,
-				currentMarket.price,
-				benchmarkData,
-				history.baselinePrices
-			)
-		]);
-		history.endDate = history.snapshots[history.snapshots.length - 1].date;
-	}
+	const simulation = simulateCalendarHistory({
+		priceMaps,
+		initialSymbol: existingData.history.initialSymbol,
+		rotations: rotationsFromChecks(checks),
+		endDate: toDateString(now)
+	});
+	const history = makeHistory(simulation.snapshots, existingData.history.baselinePrices);
+	shares = simulation.shares;
+	const currentValue = simulation.portfolioValue;
 
 	return composeData({
 		existingData,
@@ -399,6 +351,23 @@ async function updateStrategy(existingData, marketData, benchmarkData, dueMonthE
 		chronicle,
 		history
 	});
+}
+
+function simulateCalendarHistory({ priceMaps, initialSymbol, rotations, endDate }) {
+	const dates = commonHistoryDates(priceMaps, initialSymbol, rotations, STRATEGY_START_DATE);
+	const simulation = simulatePortfolioHistory({
+		dates,
+		priceMaps,
+		startDate: STRATEGY_START_DATE,
+		initialSymbol,
+		rotations
+	});
+	const snapshots = expandSnapshotsToCalendar(simulation.snapshots, STRATEGY_START_DATE, endDate);
+	return {
+		...simulation,
+		snapshots,
+		portfolioValue: snapshots.length ? snapshots[snapshots.length - 1].strategyValue : STARTING_CASH
+	};
 }
 
 function reconstructChecks(marketData, priceMaps, scheduledMonthEnds) {
@@ -540,7 +509,7 @@ function composeData({ existingData, marketData, now, currentSymbol, shares, hel
 	const currentMarket = requireCurrentMarket(marketData, currentSymbol);
 	const currentValue = roundMoney(portfolioValue);
 	return {
-		schemaVersion: 2,
+			schemaVersion: 3,
 		title: "Who Owns the Throne?",
 		startingCash: STARTING_CASH,
 		strategyStartDate: STRATEGY_START_DATE,
@@ -584,13 +553,14 @@ function composeData({ existingData, marketData, now, currentSymbol, shares, hel
 function makeHistory(snapshots, baselinePrices) {
 	const sorted = mergeSnapshotsByDate([], snapshots);
 	return {
-		schemaVersion: 2,
+		schemaVersion: 3,
 		startDate: STRATEGY_START_DATE,
 		endDate: sorted.length ? sorted[sorted.length - 1].date : STRATEGY_START_DATE,
 		startingCash: STARTING_CASH,
 		initialSymbol: baselinePrices.strategySymbol,
 		baselinePrices,
 		benchmarks: BENCHMARKS,
+		cadence: "calendar-day",
 		note: "Official throne-method history reconstructed from March 31, 2026 (My birthday!).",
 		snapshots: sorted
 	};
@@ -598,34 +568,16 @@ function makeHistory(snapshots, baselinePrices) {
 
 function normalizeHistory(history) {
 	return {
-		schemaVersion: 2,
+		schemaVersion: Math.max(2, Number(history.schemaVersion) || 2),
 		startDate: history.startDate,
 		endDate: history.endDate,
 		startingCash: history.startingCash || STARTING_CASH,
 		initialSymbol: history.initialSymbol,
 		baselinePrices: history.baselinePrices,
 		benchmarks: Array.isArray(history.benchmarks) ? history.benchmarks : BENCHMARKS,
+		cadence: history.cadence,
 		note: history.note,
 		snapshots: mergeSnapshotsByDate([], history.snapshots || [])
-	};
-}
-
-function snapshotFromCurrent(date, symbol, strategyValue, strategyPrice, benchmarkData, baselinePrices) {
-	const spy = benchmarkData.find((benchmark) => benchmark.symbol === "SPY");
-	const qqq = benchmarkData.find((benchmark) => benchmark.symbol === "QQQ");
-	const spyValue = roundMoney(STARTING_CASH * spy.price / baselinePrices.SPY);
-	const qqqValue = roundMoney(STARTING_CASH * qqq.price / baselinePrices.QQQ);
-	return {
-		date,
-		strategySymbol: symbol,
-		strategyValue: roundMoney(strategyValue),
-		spyValue,
-		qqqValue,
-		excessVsSpy: roundMoney(strategyValue - spyValue),
-		excessVsQqq: roundMoney(strategyValue - qqqValue),
-		strategyPrice: roundMoney(strategyPrice),
-		spyPrice: roundMoney(spy.price),
-		qqqPrice: roundMoney(qqq.price)
 	};
 }
 
@@ -665,8 +617,13 @@ function normalizeSnapshot(snapshot) {
 	if (!strategyValue || !spyValue || !qqqValue) {
 		return null;
 	}
+	const marketDate = snapshot.marketDate || snapshot.date;
+	const isCarriedForward = Boolean(snapshot.isCarriedForward || marketDate !== snapshot.date);
 	return {
 		date: snapshot.date,
+		marketDate,
+		isCarriedForward,
+		carryForwardReason: isCarriedForward ? snapshot.carryForwardReason || "market-closed" : null,
 		strategySymbol: snapshot.strategySymbol,
 		strategyValue: roundMoney(strategyValue),
 		spyValue: roundMoney(spyValue),
@@ -716,6 +673,15 @@ function validateOutput(data) {
 	}
 	if (data.history.snapshots[0].date !== STRATEGY_START_DATE) {
 		throw new Error("Refusing to write invalid throne data: history does not begin on March 31 (My birthday!).");
+	}
+	if (data.history.cadence !== "calendar-day") {
+		throw new Error("Refusing to write invalid throne data: history is not calendar-daily.");
+	}
+	if (new Set(data.history.snapshots.map((snapshot) => snapshot.date)).size !== data.history.snapshots.length) {
+		throw new Error("Refusing to write invalid throne data: duplicate calendar snapshot dates were generated.");
+	}
+	if (data.history.snapshots.some((snapshot) => !snapshot.marketDate || typeof snapshot.isCarriedForward !== "boolean")) {
+		throw new Error("Refusing to write invalid throne data: calendar snapshot metadata is incomplete.");
 	}
 	if (!Array.isArray(data.successionChecks) || data.successionChecks.length < 3) {
 		throw new Error("Refusing to write invalid throne data: reconstructed succession checks are missing.");

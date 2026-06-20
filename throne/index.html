@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="A fake portfolio dashboard that pledges itself to the largest public company by market cap." />
 		<link rel="stylesheet" href="style.css" />
-		<script src="app.js?v=march-31-official-history" defer></script>
+		<script src="app.js?v=calendar-daily-no-markers" defer></script>
 	</head>
 	<body>
 		<main class="throne-shell">
@@ -35,6 +35,7 @@
 					</div>
 				</div>
 				<p id="chart-context" class="chart-context">Loading benchmark history...</p>
+				<p id="chart-freshness" class="chart-freshness" hidden></p>
 				<div class="chart-metrics" aria-label="Latest benchmark comparison">
 					<div>
 						<span id="chart-strategy-label">Throne</span>
@@ -50,7 +51,7 @@
 					</div>
 				</div>
 				<div class="chart-frame">
-					<svg id="benchmark-chart" class="benchmark-chart" role="img" aria-labelledby="benchmark-chart-title chart-context" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet"></svg>
+					<svg id="benchmark-chart" class="benchmark-chart" role="img" aria-labelledby="benchmark-chart-title chart-context chart-freshness" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet"></svg>
 					<p id="chart-empty" class="chart-empty" hidden>Benchmark history has not been published yet.</p>
 				</div>
 			</section>

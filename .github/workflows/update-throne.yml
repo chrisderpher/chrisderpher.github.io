@@ -2,17 +2,25 @@ name: Update throne data
 
 on:
   schedule:
-    - cron: "17 12 * * *"
+    - cron: "15 23 * * *"
   workflow_dispatch:
     inputs:
-      monthly:
-        description: "Force a monthly succession check"
+      mode:
+        description: "Updater mode"
         required: false
-        type: boolean
-        default: false
+        type: choice
+        default: daily
+        options:
+          - daily
+          - monthly
+          - rebuild
 
 permissions:
   contents: write
+
+concurrency:
+  group: throne-data-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   update-throne:
@@ -24,7 +32,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+
+      - name: Preflight FMP secret
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: |
+          if [ -z "$FMP_API_KEY" ]; then
+            echo "::error::Missing required repository secret FMP_API_KEY."
+            exit 1
+          fi
 
       - name: Test succession rules
         run: node --test scripts/throne-core.test.js
@@ -33,14 +50,27 @@ jobs:
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.monthly }}" = "true" ]; then
-            node scripts/update-throne.js --monthly
-          else
-            node scripts/update-throne.js
-          fi
+          MODE="${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'daily' }}"
+          case "$MODE" in
+            daily)
+              node scripts/update-throne.js
+              ;;
+            monthly)
+              node scripts/update-throne.js --monthly
+              ;;
+            rebuild)
+              node scripts/update-throne.js --rebuild
+              ;;
+            *)
+              echo "::error::Unknown throne updater mode: $MODE"
+              exit 1
+              ;;
+          esac
 
       - name: Commit updated data
         run: |
+          git pull --rebase --autostash origin master
+
           if git diff --quiet -- data/throne.json; then
             echo "No throne data changes to commit."
             exit 0

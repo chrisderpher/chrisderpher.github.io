@@ -339,9 +339,22 @@ dd {
 	position: relative;
 	z-index: 1;
 	max-width: 850px;
-	margin-bottom: 1rem;
+	margin-bottom: 0.4rem;
 	color: rgba(255, 255, 255, 0.68);
 	font-size: 0.95rem;
+}
+
+.chart-freshness {
+	position: relative;
+	z-index: 1;
+	margin: 0 0 1rem;
+	color: rgba(255, 255, 255, 0.76);
+	font-size: 0.9rem;
+	font-weight: 700;
+}
+
+.chart-freshness[hidden] {
+	display: none;
 }
 
 .panel-note {

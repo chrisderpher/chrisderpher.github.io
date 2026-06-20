@@ -3,6 +3,18 @@
 const STARTING_CASH = 10000;
 const SUCCESSION_MARGIN = 0.005;
 const STRATEGY_START_DATE = "2026-03-31";
+const MARKET_HOLIDAYS = new Set([
+	"2026-01-01",
+	"2026-01-19",
+	"2026-02-16",
+	"2026-04-03",
+	"2026-05-25",
+	"2026-06-19",
+	"2026-07-03",
+	"2026-09-07",
+	"2026-11-26",
+	"2026-12-25"
+]);
 
 function calendarMonthEnd(year, monthIndex) {
 	const date = new Date(Date.UTC(year, monthIndex + 1, 0));
@@ -149,6 +161,8 @@ function simulatePortfolioHistory({
 		const qqqValue = roundMoney(initialCash * qqqPrice / benchmarkStartPrices[benchmarkSymbols[1]]);
 		snapshots.push({
 			date,
+			marketDate: date,
+			isCarriedForward: false,
 			strategySymbol: holder,
 			strategyValue,
 			spyValue,
@@ -167,6 +181,67 @@ function simulatePortfolioHistory({
 		shares: roundShares(shares),
 		portfolioValue: snapshots.length ? snapshots[snapshots.length - 1].strategyValue : initialCash
 	};
+}
+
+function expandSnapshotsToCalendar(marketSnapshots, startDate, endDate) {
+	const sortedMarketSnapshots = marketSnapshots
+		.slice()
+		.sort((a, b) => a.date.localeCompare(b.date));
+	const byMarketDate = new Map(sortedMarketSnapshots.map((snapshot) => [snapshot.date, snapshot]));
+	const latestMarketDate = sortedMarketSnapshots.length
+		? sortedMarketSnapshots[sortedMarketSnapshots.length - 1].date
+		: null;
+	let latestMarketSnapshot = null;
+
+	return calendarDatesBetween(startDate, endDate).map((date) => {
+		const sameDaySnapshot = byMarketDate.get(date);
+		if (sameDaySnapshot) {
+			latestMarketSnapshot = sameDaySnapshot;
+			return {
+				...sameDaySnapshot,
+				date,
+				marketDate: sameDaySnapshot.marketDate || date,
+				isCarriedForward: false,
+				carryForwardReason: null
+			};
+		}
+
+		if (!latestMarketSnapshot) {
+			return null;
+		}
+
+		const marketDate = latestMarketSnapshot.marketDate || latestMarketSnapshot.date;
+		return {
+			...latestMarketSnapshot,
+			date,
+			marketDate,
+			isCarriedForward: true,
+			carryForwardReason: carryForwardReasonForDate(date, latestMarketDate)
+		};
+	}).filter(Boolean);
+}
+
+function calendarDatesBetween(startDate, endDate) {
+	const dates = [];
+	const cursor = dateFromString(startDate);
+	const end = dateFromString(endDate);
+	while (cursor <= end) {
+		dates.push(toDateString(cursor));
+		cursor.setUTCDate(cursor.getUTCDate() + 1);
+	}
+	return dates;
+}
+
+function carryForwardReasonForDate(date, latestMarketDate) {
+	if (isWeekend(date) || MARKET_HOLIDAYS.has(date) || (latestMarketDate && date < latestMarketDate)) {
+		return "market-closed";
+	}
+	return "provider-delay";
+}
+
+function isWeekend(value) {
+	const day = dateFromString(value).getUTCDay();
+	return day === 0 || day === 6;
 }
 
 function requirePrice(priceMaps, symbol, date) {
@@ -191,6 +266,11 @@ function toDateString(date) {
 	return date.toISOString().slice(0, 10);
 }
 
+function dateFromString(value) {
+	const [year, month, day] = value.split("-").map(Number);
+	return new Date(Date.UTC(year, month - 1, day));
+}
+
 function roundMoney(value) {
 	return Number(Number(value).toFixed(2));
 }
@@ -204,9 +284,12 @@ module.exports = {
 	STRATEGY_START_DATE,
 	SUCCESSION_MARGIN,
 	calendarMonthEnd,
+	calendarDatesBetween,
+	carryForwardReasonForDate,
 	completedMonthEnds,
 	effectiveMarketDate,
 	estimateMarketCaps,
+	expandSnapshotsToCalendar,
 	evaluateSuccession,
 	rotatePortfolio,
 	simulatePortfolioHistory
