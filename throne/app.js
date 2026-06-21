@@ -4,6 +4,7 @@
 	const DATA_PATH = "/data/throne.json";
 	const LOCAL_DATA_PATH = "../data/throne.json";
 	const SVG_NS = "http://www.w3.org/2000/svg";
+	const MARKET_TIME_ZONE = "America/New_York";
 	let activeChartView = "value";
 	let activeHistory = null;
 	let chartResizeTimer = null;
@@ -136,10 +137,14 @@
 				.filter(Boolean)
 				.sort((a, b) => a.date.localeCompare(b.date))
 			: [];
+		const extendedSnapshots = extendSnapshotsToToday(snapshots);
 
 		return {
 			...(history || {}),
-			snapshots
+			endDate: extendedSnapshots.length
+				? extendedSnapshots[extendedSnapshots.length - 1].date
+				: history && history.endDate,
+			snapshots: extendedSnapshots
 		};
 	}
 
@@ -163,6 +168,35 @@
 			qqqValue: Number(snapshot.qqqValue),
 			excessVsSpy: Number(snapshot.excessVsSpy),
 			excessVsQqq: Number(snapshot.excessVsQqq)
+		};
+	}
+
+	function extendSnapshotsToToday(snapshots) {
+		if (!snapshots.length) {
+			return snapshots;
+		}
+
+		const today = todayInMarketTimeZone();
+		const extended = snapshots.slice();
+		let latest = extended[extended.length - 1];
+		let nextDate = addCalendarDays(latest.date, 1);
+
+		while (nextDate && nextDate <= today) {
+			latest = carrySnapshotToDate(latest, nextDate);
+			extended.push(latest);
+			nextDate = addCalendarDays(nextDate, 1);
+		}
+
+		return extended;
+	}
+
+	function carrySnapshotToDate(snapshot, date) {
+		return {
+			...snapshot,
+			date,
+			marketDate: snapshot.marketDate || snapshot.date,
+			isCarriedForward: true,
+			carryForwardReason: isWeekendDate(date) ? "market-closed" : "provider-delay"
 		};
 	}
 
@@ -625,6 +659,56 @@
 
 	function isBirthdayDate(value) {
 		return /^\d{4}-03-31$/.test(String(value));
+	}
+
+	function todayInMarketTimeZone() {
+		const parts = new Intl.DateTimeFormat("en-CA", {
+			timeZone: MARKET_TIME_ZONE,
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit"
+		}).formatToParts(new Date());
+		const dateParts = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+		return `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
+	}
+
+	function addCalendarDays(value, days) {
+		const date = dateFromYmd(value);
+		if (!date) {
+			return null;
+		}
+		date.setUTCDate(date.getUTCDate() + days);
+		return toYmd(date);
+	}
+
+	function isWeekendDate(value) {
+		const date = dateFromYmd(value);
+		if (!date) {
+			return false;
+		}
+		const day = date.getUTCDay();
+		return day === 0 || day === 6;
+	}
+
+	function dateFromYmd(value) {
+		const ymd = String(value);
+		if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+			return null;
+		}
+		const [year, month, day] = ymd.split("-").map(Number);
+		const date = new Date(Date.UTC(year, month - 1, day));
+		if (
+			date.getUTCFullYear() !== year ||
+			date.getUTCMonth() !== month - 1 ||
+			date.getUTCDate() !== day
+		) {
+			return null;
+		}
+		return date;
+	}
+
+	function toYmd(date) {
+		return date.toISOString().slice(0, 10);
 	}
 
 	function formatDateTime(value) {
