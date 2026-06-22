@@ -27,12 +27,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24
+
+      - name: Sync latest data
+        run: git pull --ff-only origin master
 
       - name: Preflight FMP secret
         env:
@@ -67,10 +70,13 @@ jobs:
               ;;
           esac
 
+      - name: Validate generated data
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('data/throne.json', 'utf8'));"
+          git diff --check -- data/throne.json
+
       - name: Commit updated data
         run: |
-          git pull --rebase --autostash origin master
-
           if git diff --quiet -- data/throne.json; then
             echo "No throne data changes to commit."
             exit 0
