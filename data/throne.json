@@ -3,7 +3,11 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
+<<<<<<< Updated upstream
   "lastUpdated": "2026-06-22T14:21:44.708Z",
+=======
+  "lastUpdated": "2026-06-22T14:31:58.787Z",
+>>>>>>> Stashed changes
   "lastSuccessionCheck": "2026-05-29",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -36,17 +40,30 @@
   "currentKing": {
     "name": "NVIDIA Corporation",
     "symbol": "NVDA",
+<<<<<<< Updated upstream
     "marketCap": 5141633880000,
     "price": 212.6172,
     "fakeSharesHeld": 57.33945,
     "portfolioValue": 12191.35,
+=======
+    "marketCap": 5091980830000,
+    "price": 210.57,
+    "fakeSharesHeld": 57.33945,
+    "portfolioValue": 12073.97,
+>>>>>>> Stashed changes
     "heldSince": "2026-03-31"
   },
   "crown": {
     "startingCash": 10000,
+<<<<<<< Updated upstream
     "currentValue": 12191.35,
     "returnSinceStart": 2191.35,
     "returnPercent": 0.219135
+=======
+    "currentValue": 12073.97,
+    "returnSinceStart": 2073.97,
+    "returnPercent": 0.207397
+>>>>>>> Stashed changes
   },
   "challengers": [
     {
@@ -54,8 +71,13 @@
       "symbol": "NVDA",
       "issuerId": "0001045810",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 5141633880000,
       "price": 212.6172,
+=======
+      "marketCap": 5091980830000,
+      "price": 210.57,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -66,8 +88,13 @@
       "symbol": "AAPL",
       "issuerId": "0000320193",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 4424870023269,
       "price": 301.47,
+=======
+      "marketCap": 4415481865314,
+      "price": 300.87,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -80,8 +107,13 @@
       "alternateTickers": [
         "GOOG"
       ],
+<<<<<<< Updated upstream
       "marketCap": 4237558755855.0005,
       "price": 349.91,
+=======
+      "marketCap": 4218233572100.9995,
+      "price": 348.85,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -92,8 +124,13 @@
       "symbol": "MSFT",
       "issuerId": "0000789019",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 2793015323157,
       "price": 375.7842,
+=======
+      "marketCap": 2772470586849,
+      "price": 373.44,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -104,8 +141,13 @@
       "symbol": "AMZN",
       "issuerId": "0001018724",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 2547496422000,
       "price": 236.815,
+=======
+      "marketCap": 2529809598180,
+      "price": 235.55,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -116,8 +158,13 @@
       "symbol": "AVGO",
       "issuerId": "0001730168",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 1899606542400,
       "price": 399.25,
+=======
+      "marketCap": 1885714408800,
+      "price": 396.25,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -128,8 +175,13 @@
       "symbol": "TSLA",
       "issuerId": "0001318605",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 1548107784000,
       "price": 411.57,
+=======
+      "marketCap": 1537882085156,
+      "price": 409.72,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -140,8 +192,13 @@
       "symbol": "META",
       "issuerId": "0001326801",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 1445530427637,
       "price": 569.3285,
+=======
+      "marketCap": 1437255168279,
+      "price": 567.41,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -154,8 +211,13 @@
       "alternateTickers": [
         "BRK.A"
       ],
+<<<<<<< Updated upstream
       "marketCap": 1060891620073,
       "price": 491.9200134277344,
+=======
+      "marketCap": 1058411238340,
+      "price": 490.70001220703125,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -166,8 +228,13 @@
       "symbol": "LLY",
       "issuerId": "0000059478",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 1036856841000,
       "price": 1100.72998046875,
+=======
+      "marketCap": 1035670247340,
+      "price": 1099.739990234375,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -178,8 +245,13 @@
       "symbol": "JPM",
       "issuerId": "0000019617",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 883381324286,
       "price": 329.3374,
+=======
+      "marketCap": 879616610744,
+      "price": 328.26,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -190,8 +262,13 @@
       "symbol": "V",
       "issuerId": "0001403161",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 635274618301,
       "price": 331.28,
+=======
+      "marketCap": 633913645846,
+      "price": 330.94,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -202,8 +279,13 @@
       "symbol": "XOM",
       "issuerId": "0000034088",
       "alternateTickers": [],
+<<<<<<< Updated upstream
       "marketCap": 569599021410,
       "price": 137.32,
+=======
+      "marketCap": 570510918000,
+      "price": 137.4,
+>>>>>>> Stashed changes
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -2050,6 +2132,7 @@
         "isCarriedForward": false,
         "carryForwardReason": null,
         "strategySymbol": "NVDA",
+<<<<<<< Updated upstream
         "strategyValue": 12191.35,
         "spyValue": 11505.06,
         "qqqValue": 12872.59,
@@ -2058,6 +2141,16 @@
         "strategyPrice": 212.62,
         "spyPrice": 748.22,
         "qqqPrice": 742.98
+=======
+        "strategyValue": 12073.97,
+        "spyValue": 11470.46,
+        "qqqValue": 12799.3,
+        "excessVsSpy": 603.51,
+        "excessVsQqq": -725.33,
+        "strategyPrice": 210.57,
+        "spyPrice": 745.97,
+        "qqqPrice": 738.75
+>>>>>>> Stashed changes
       }
     ]
   },
