@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-07-18T00:05:50.822Z",
+  "lastUpdated": "2026-07-19T00:05:35.767Z",
   "lastSuccessionCheck": "2026-06-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -117,7 +117,7 @@
       "issuerId": "0001730168",
       "alternateTickers": [],
       "marketCap": 1764229603500,
-      "price": 370.82501220703125,
+      "price": 370.8299865722656,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -203,7 +203,7 @@
       "issuerId": "0000034088",
       "alternateTickers": [],
       "marketCap": 610923762207,
-      "price": 147.39,
+      "price": 147.36,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -961,7 +961,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-07-18",
+    "endDate": "2026-07-19",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -2622,6 +2622,21 @@
       },
       {
         "date": "2026-07-18",
+        "marketDate": "2026-07-17",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "NVDA",
+        "strategyValue": 11629.01,
+        "spyValue": 11429.25,
+        "qqqValue": 12047.02,
+        "excessVsSpy": 199.76,
+        "excessVsQqq": -418.01,
+        "strategyPrice": 202.81,
+        "spyPrice": 743.29,
+        "qqqPrice": 695.33
+      },
+      {
+        "date": "2026-07-19",
         "marketDate": "2026-07-17",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
