@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-07-25T00:13:35.209Z",
+  "lastUpdated": "2026-07-26T00:10:15.969Z",
   "lastSuccessionCheck": "2026-06-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -39,14 +39,14 @@
     "marketCap": 5009871640000,
     "price": 206.84,
     "fakeSharesHeld": 57.33945,
-    "portfolioValue": 11860.09,
+    "portfolioValue": 11970.18,
     "heldSince": "2026-03-31"
   },
   "crown": {
     "startingCash": 10000,
-    "currentValue": 11860.09,
-    "returnSinceStart": 1860.09,
-    "returnPercent": 0.186009
+    "currentValue": 11970.18,
+    "returnSinceStart": 1970.18,
+    "returnPercent": 0.197018
   },
   "challengers": [
     {
@@ -117,7 +117,7 @@
       "issuerId": "0001730168",
       "alternateTickers": [],
       "marketCap": 1817014953600,
-      "price": 381.9200134277344,
+      "price": 392.4700012207031,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -153,7 +153,7 @@
       "issuerId": "0000059478",
       "alternateTickers": [],
       "marketCap": 1126359905640,
-      "price": 1196.030029296875,
+      "price": 1185.8699951171875,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -167,7 +167,7 @@
         "BRK.A"
       ],
       "marketCap": 1067491586398,
-      "price": 494.92999267578125,
+      "price": 490.8500061035156,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -202,7 +202,7 @@
       "symbol": "XOM",
       "issuerId": "0000034088",
       "alternateTickers": [],
-      "marketCap": 650508053745,
+      "marketCap": 650508042131,
       "price": 156.94,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -961,7 +961,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-07-25",
+    "endDate": "2026-07-26",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -2712,33 +2712,48 @@
       },
       {
         "date": "2026-07-24",
-        "marketDate": "2026-07-24",
-        "isCarriedForward": false,
-        "carryForwardReason": null,
+        "marketDate": "2026-07-23",
+        "isCarriedForward": true,
+        "carryForwardReason": "provider-delay",
         "strategySymbol": "NVDA",
-        "strategyValue": 11860.09,
-        "spyValue": 11362.21,
-        "qqqValue": 11854.71,
-        "excessVsSpy": 497.88,
-        "excessVsQqq": 5.38,
-        "strategyPrice": 206.84,
-        "spyPrice": 738.93,
-        "qqqPrice": 684.23
+        "strategyValue": 11970.18,
+        "spyValue": 11350.68,
+        "qqqValue": 11988.63,
+        "excessVsSpy": 619.5,
+        "excessVsQqq": -18.45,
+        "strategyPrice": 208.76,
+        "spyPrice": 738.18,
+        "qqqPrice": 691.96
       },
       {
         "date": "2026-07-25",
-        "marketDate": "2026-07-24",
+        "marketDate": "2026-07-23",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
         "strategySymbol": "NVDA",
-        "strategyValue": 11860.09,
-        "spyValue": 11362.21,
-        "qqqValue": 11854.71,
-        "excessVsSpy": 497.88,
-        "excessVsQqq": 5.38,
-        "strategyPrice": 206.84,
-        "spyPrice": 738.93,
-        "qqqPrice": 684.23
+        "strategyValue": 11970.18,
+        "spyValue": 11350.68,
+        "qqqValue": 11988.63,
+        "excessVsSpy": 619.5,
+        "excessVsQqq": -18.45,
+        "strategyPrice": 208.76,
+        "spyPrice": 738.18,
+        "qqqPrice": 691.96
+      },
+      {
+        "date": "2026-07-26",
+        "marketDate": "2026-07-23",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "NVDA",
+        "strategyValue": 11970.18,
+        "spyValue": 11350.68,
+        "qqqValue": 11988.63,
+        "excessVsSpy": 619.5,
+        "excessVsQqq": -18.45,
+        "strategyPrice": 208.76,
+        "spyPrice": 738.18,
+        "qqqPrice": 691.96
       }
     ]
   },
