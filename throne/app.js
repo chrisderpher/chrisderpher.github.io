@@ -324,7 +324,7 @@
 
 	function chartContext(snapshots) {
 		const latest = snapshots[snapshots.length - 1];
-		return `Throne-method tracking from March 31, 2026 (My birthday!) through ${formatDate(latest.date)}. All three portfolios began with exactly $10,000.`;
+		return `Throne-method tracking from March 31, 2026 (My birthday!) through ${formatDate(latest.date)} (UTC). All three portfolios began with exactly $10,000. Throne days roll over at midnight UTC.`;
 	}
 
 	function freshnessText(snapshot) {
@@ -332,12 +332,12 @@
 			return "";
 		}
 		if (!snapshot.isCarriedForward) {
-			return `Showing ${formatDate(snapshot.date)} market close.`;
+			return `Showing ${formatDate(snapshot.date)} (UTC) market close.`;
 		}
 		const reason = snapshot.carryForwardReason === "provider-delay"
 			? "same-day market data has not posted yet"
 			: "markets were closed";
-		return `Showing ${formatDate(snapshot.date)} using ${formatDate(snapshot.marketDate)} market close because ${reason}.`;
+		return `Showing ${formatDate(snapshot.date)} (UTC) using ${formatDate(snapshot.marketDate)} market close because ${reason}.`;
 	}
 
 	function drawChart(chart, snapshots, view) {
@@ -717,6 +717,7 @@
 			return value;
 		}
 		return new Intl.DateTimeFormat("en-US", {
+			timeZone: "UTC",
 			year: "numeric",
 			month: "short",
 			day: "numeric",
