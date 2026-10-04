@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-10-03T01:54:11.413Z",
+  "lastUpdated": "2026-10-04T02:32:58.760Z",
   "lastSuccessionCheck": "2026-09-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -1519,7 +1519,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-10-03",
+    "endDate": "2026-10-04",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -4335,6 +4335,21 @@
       },
       {
         "date": "2026-10-03",
+        "marketDate": "2026-10-02",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "NVDA",
+        "strategyValue": 13414.56,
+        "spyValue": 11834.43,
+        "qqqValue": 12986.94,
+        "excessVsSpy": 1580.13,
+        "excessVsQqq": 427.62,
+        "strategyPrice": 233.95,
+        "spyPrice": 769.64,
+        "qqqPrice": 749.58
+      },
+      {
+        "date": "2026-10-04",
         "marketDate": "2026-10-02",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
