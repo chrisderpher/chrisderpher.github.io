@@ -1,6 +1,6 @@
 # chrismurphy.org
 
-Personal portfolio. Live at http://chrismurphy.org.
+Personal portfolio. Live at https://chrismurphy.org/.
 
 ## Projects
 
@@ -20,9 +20,9 @@ Template: Dimension by HTML5 UP, CCA 3.0. See `LICENSE.txt`.
 
 ## Contact
 
-Chris Murphy, CCNP, ITILv4f  
+Chris Murphy, CISSP, CCNP\
 Email: Chris@ChrisMurphy.org  
-Website: [chrismurphy.org](http://chrismurphy.org)
+Website: [chrismurphy.org](https://chrismurphy.org/)
 
 ---
 

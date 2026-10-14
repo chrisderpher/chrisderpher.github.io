@@ -81,7 +81,7 @@ input, select, textarea {
 	@media screen and (max-width: 480px) {
 
 		html, body {
-			min-width: 320px;
+			min-width: 0;
 		}
 
 	}
@@ -1335,6 +1335,13 @@ input, select, textarea {
 				line-height: 2;
 			}
 
+			#header .professional-subtitle {
+				max-width: 52rem;
+				margin-inline: auto;
+				overflow-wrap: anywhere;
+				text-wrap: balance;
+			}
+
 		#header nav ul {
 			display: -moz-flex;
 			display: -webkit-flex;
@@ -1580,6 +1587,38 @@ input, select, textarea {
 		}
 
 /* Main */
+
+	#intro h2.major,
+	#intro h3,
+	#Resume h2.major,
+	#Resume h3,
+	#Resume h4 {
+		letter-spacing: 0;
+		max-width: 100%;
+		overflow-wrap: anywhere;
+		text-transform: none;
+	}
+
+	#intro h2.major,
+	#Resume h2.major {
+		width: auto;
+	}
+
+	#header .logo > img,
+	#Projects .image.main > img,
+	#intro > img,
+	#Resume > img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: 25px;
+		max-width: 30%;
+		max-height: 50%;
+	}
+
+	#Resume .resume-contact {
+		overflow-wrap: anywhere;
+	}
 
 	#main {
 		-moz-flex-grow: 1;
