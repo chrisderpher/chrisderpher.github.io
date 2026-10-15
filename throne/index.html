@@ -1,175 +1,90 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Who Owns the Throne? | Chris Murphy</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="A fake portfolio dashboard that pledges itself to the largest public company by market cap." />
-		<link rel="stylesheet" href="style.css" />
-		<script src="app.js?v=always-current-date" defer></script>
-	</head>
-	<body>
-		<main class="throne-shell">
-			<header class="throne-hero">
-				<a class="site-link" href="../">Chris Murphy</a>
-				<p class="eyebrow">Fake money. Real market data.</p>
-				<h1>Who Owns the Throne?</h1>
-				<p class="hero-copy">A fake portfolio that pledges itself to the largest public company by market cap.</p>
-				<div class="hero-signal" aria-label="Current throne holder">
-					<span id="king-ticker-badge">---</span>
-					<strong id="hero-king-name">Awaiting first crown</strong>
-				</div>
-			</header>
-
-			<div id="data-status" class="data-status is-error" role="status" aria-live="polite" hidden></div>
-
-			<section class="panel chart-panel" aria-labelledby="benchmark-chart-title">
-				<div class="chart-heading">
-					<div class="panel-heading">
-						<p class="eyebrow">Benchmark trial</p>
-						<h2 id="benchmark-chart-title">Throne Method vs the S&amp;P 500 (SPY) and NASDAQ (QQQ)</h2>
-					</div>
-					<div class="chart-toggle" aria-label="Chart view">
-						<button type="button" class="is-active" data-chart-view="value" aria-pressed="true">Portfolio Value</button>
-						<button type="button" data-chart-view="excess" aria-pressed="false">Excess Profit</button>
-					</div>
-				</div>
-				<p id="chart-context" class="chart-context">Loading benchmark history...</p>
-				<p id="chart-freshness" class="chart-freshness" hidden></p>
-				<div class="chart-metrics" aria-label="Latest benchmark comparison">
-					<div>
-						<span id="chart-strategy-label">Throne</span>
-						<strong id="chart-strategy-value">---</strong>
-					</div>
-					<div>
-						<span>vs SPY</span>
-						<strong id="chart-spy-delta">---</strong>
-					</div>
-					<div>
-						<span>vs QQQ</span>
-						<strong id="chart-qqq-delta">---</strong>
-					</div>
-				</div>
-				<div class="chart-frame">
-					<svg id="benchmark-chart" class="benchmark-chart" role="img" aria-labelledby="benchmark-chart-title chart-context chart-freshness" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet"></svg>
-					<p id="chart-empty" class="chart-empty" hidden>Benchmark history has not been published yet.</p>
-				</div>
-			</section>
-
-			<section class="dashboard-grid" aria-label="Throne dashboard">
-				<section class="panel throne-panel">
-					<div class="panel-heading">
-						<p class="eyebrow">Current throne holder</p>
-						<h2 id="king-name">Awaiting first crown</h2>
-					</div>
-					<div class="king-mark" aria-hidden="true">
-						<span></span>
-					</div>
-					<dl class="metric-grid">
-						<div>
-							<dt>Ticker</dt>
-							<dd id="king-symbol">---</dd>
-						</div>
-						<div>
-							<dt>Market cap</dt>
-							<dd id="king-market-cap">---</dd>
-						</div>
-						<div>
-							<dt>Stock price</dt>
-							<dd id="king-price">---</dd>
-						</div>
-						<div>
-							<dt>Fake shares held</dt>
-							<dd id="king-shares">---</dd>
-						</div>
-						<div>
-							<dt>Fake portfolio value</dt>
-							<dd id="king-value">---</dd>
-						</div>
-						<div>
-							<dt>Held since</dt>
-							<dd><time id="held-since">---</time></dd>
-						</div>
-					</dl>
-					<p class="timestamp">Last updated <time id="last-updated">---</time></p>
-				</section>
-
-				<section class="panel crown-panel">
-					<div class="panel-heading">
-						<p class="eyebrow">Crown value</p>
-						<h2>Concentration ledger</h2>
-					</div>
-					<dl class="value-stack">
-						<div>
-							<dt>Starting fake cash</dt>
-							<dd id="starting-cash">$10,000.00</dd>
-						</div>
-						<div>
-							<dt>Current fake portfolio value</dt>
-							<dd id="portfolio-value">---</dd>
-						</div>
-						<div>
-							<dt>Return since start</dt>
-							<dd><span id="return-value">---</span> <span id="return-percent" class="muted"></span></dd>
-						</div>
-					</dl>
-				</section>
-			</section>
-
-			<section class="panel challengers-panel">
-				<div class="panel-heading">
-					<p class="eyebrow">Challengers</p>
-					<h2>Largest candidates by market cap</h2>
-				</div>
-				<p class="panel-note">One row per corporate issuer. Alternate share classes, including GOOG and GOOGL, are consolidated under one canonical ticker.</p>
-				<div class="table-wrap">
-					<table>
-						<thead>
-							<tr>
-								<th scope="col">Rank</th>
-								<th scope="col">Company</th>
-								<th scope="col">Ticker</th>
-								<th scope="col">Market cap</th>
-							</tr>
-						</thead>
-						<tbody id="challengers-body">
-							<tr>
-								<td colspan="4">Loading challengers...</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</section>
-
-			<section class="rule-chronicle-grid">
-				<section class="panel law-panel">
-					<div class="panel-heading">
-						<p class="eyebrow">The Law of Succession</p>
-						<h2>Rules of the crown</h2>
-					</div>
-					<ul class="law-list">
-						<li>Market data refreshes daily.</li>
-						<li>After each month ends, the throne is reassessed using that month's final available trading close.</li>
-						<li>A challenger must exceed the current throne holder by at least 0.5% market cap before the throne changes.</li>
-						<li>The strategy ignores taxes, dividends, spreads, and slippage.</li>
-						<li>This is a fake portfolio using real market data.</li>
-					</ul>
-				</section>
-
-				<section class="panel chronicle-panel">
-					<div class="panel-heading">
-						<p class="eyebrow">The Chronicle</p>
-						<h2>Succession record</h2>
-					</div>
-					<ol id="chronicle-list" class="chronicle-list">
-						<li>Loading the chronicle...</li>
-					</ol>
-				</section>
-			</section>
-
-			<section class="disclaimer">
-				<p>This is fake money and real market data. It is not a recommendation, signal, or investing strategy. It is a public experiment in concentration, momentum, and market mythology.</p>
-			</section>
-		</main>
-	</body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Who Owns the Throne? | Chris Murphy</title>
+  <meta name="description" content="A simulated $10,000 portfolio tracking the largest company among 13 tracked issuers, compared with SPY and QQQ." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="stylesheet" href="style.css?v=20261015-redesign" />
+  <script src="app.js?v=20261015-redesign" defer></script>
+</head>
+<body>
+  <div id="throne-app" class="throne-shell">
+    <header class="site-header">
+      <a class="site-link" href="../">Chris Murphy <span aria-hidden="true">/</span> Experiments</a>
+    </header>
+    <main>
+      <header class="page-heading">
+        <h1>Who Owns the Throne?</h1>
+        <p id="strategy-summary">A $10,000 simulated portfolio tracking the largest company among 13 tracked issuers.</p>
+      </header>
+      <p id="data-status" class="data-status" role="status" aria-live="polite" hidden></p>
+      <noscript><p class="data-status">JavaScript is needed to load the portfolio data and chart.</p></noscript>
+      <section class="holding-panel panel" aria-label="Current holding and portfolio">
+        <div class="holding-summary">
+          <p class="eyebrow">Current holding</p>
+          <div class="company-heading">
+            <span class="crown-icon" aria-hidden="true"><span></span></span>
+            <div><p id="king-symbol" class="ticker">---</p><h2 id="king-name">Loading holding...</h2></div>
+          </div>
+          <p class="held-since">Held since <time id="held-since">---</time></p>
+          <dl class="holding-facts">
+            <div><dt>Market cap</dt><dd id="king-market-cap">---</dd></div>
+            <div><dt>Share price</dt><dd id="king-price">---</dd></div>
+            <div><dt>Simulated shares</dt><dd id="king-shares">---</dd></div>
+          </dl>
+        </div>
+        <div class="portfolio-summary">
+          <p class="metric-label">Simulated portfolio value</p>
+          <p id="portfolio-value" class="portfolio-value">---</p>
+          <p class="portfolio-return"><span id="return-value">---</span> <span aria-hidden="true">·</span> <span id="return-percent">---</span> <span class="muted">since start</span></p>
+          <div class="portfolio-context"><p>Prices as of <time id="price-date">---</time> close</p><p>Started with <span id="starting-cash">$10,000</span></p></div>
+        </div>
+      </section>
+      <section class="chart-panel panel" aria-labelledby="benchmark-chart-title">
+        <div class="section-heading">
+          <h2 id="benchmark-chart-title">Portfolio performance</h2>
+          <div class="chart-toggle" role="group" aria-label="Chart view">
+            <button type="button" data-chart-view="value" aria-pressed="true">Portfolio value</button>
+            <button type="button" data-chart-view="excess" aria-pressed="false">Lead vs benchmarks</button>
+          </div>
+        </div>
+        <div class="benchmark-summaries" aria-label="Latest portfolio comparison">
+          <div class="benchmark-summary">
+            <p class="benchmark-label"><span class="series-swatch strategy" aria-hidden="true"></span><span id="chart-strategy-label">Throne</span></p>
+            <p id="chart-strategy-value" class="benchmark-value">---</p><p id="chart-strategy-return" class="benchmark-note">Return since start</p>
+          </div>
+          <div class="benchmark-summary">
+            <p class="benchmark-label"><span class="series-swatch spy" aria-hidden="true"></span>SPY · S&amp;P 500</p>
+            <p id="chart-spy-value" class="benchmark-value">---</p><p id="chart-spy-delta" class="benchmark-note">---</p>
+          </div>
+          <div class="benchmark-summary">
+            <p class="benchmark-label"><span class="series-swatch qqq" aria-hidden="true"></span>QQQ · Nasdaq-100</p>
+            <p id="chart-qqq-value" class="benchmark-value">---</p><p id="chart-qqq-delta" class="benchmark-note">---</p>
+          </div>
+        </div>
+        <p id="chart-context" class="sr-only">Loading benchmark history.</p>
+        <p id="chart-freshness" class="chart-freshness" hidden></p>
+        <div class="chart-frame">
+          <svg id="benchmark-chart" class="benchmark-chart" role="img" aria-labelledby="benchmark-chart-title chart-context" viewBox="0 0 900 280"></svg>
+          <p id="chart-empty" class="chart-empty" hidden>Benchmark history has not been published yet.</p>
+        </div>
+        <div class="chart-inspection"><strong id="chart-inspect-date">---</strong><div id="chart-inspect-values" class="chart-inspect-values"></div></div>
+        <label class="sr-only" for="chart-date">Inspect a date on the chart</label>
+        <input id="chart-date" class="chart-date" type="range" min="0" max="0" value="0" disabled />
+        <p id="chart-period" class="chart-period">Loading dates...</p>
+        <p id="chart-announcement" class="sr-only" aria-live="polite"></p>
+      </section>
+      <section class="rankings-panel panel" aria-labelledby="rankings-title">
+        <h2 id="rankings-title">Market-cap rankings</h2><p id="challengers-caption" class="rankings-caption">Loading tracked companies...</p>
+        <table class="rankings-table">
+          <thead><tr><th scope="col" class="rank">#</th><th scope="col">Company</th><th scope="col" class="market-cap">Market cap</th><th scope="col" class="market-gap" id="challengers-gap-label">Gap to holder</th></tr></thead>
+          <tbody id="challengers-body"><tr><td colspan="4">Loading companies...</td></tr></tbody>
+        </table>
+      </section>
+    </main>
+    <footer class="site-footer"><p>Simulated money · Not investment advice</p><p>Data refreshed <time id="last-updated">---</time></p></footer>
+  </div>
+</body>
 </html>
