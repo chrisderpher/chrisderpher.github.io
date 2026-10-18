@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-10-17T01:15:55.567Z",
+  "lastUpdated": "2026-10-18T00:58:36.070Z",
   "lastSuccessionCheck": "2026-09-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -39,14 +39,14 @@
     "marketCap": 5160533000000,
     "price": 214.13,
     "fakeSharesHeld": 57.33945,
-    "portfolioValue": 12455.85,
+    "portfolioValue": 12278.1,
     "heldSince": "2026-03-31"
   },
   "crown": {
     "startingCash": 10000,
-    "currentValue": 12455.85,
-    "returnSinceStart": 2455.85,
-    "returnPercent": 0.245585
+    "currentValue": 12278.1,
+    "returnSinceStart": 2278.1,
+    "returnPercent": 0.22781
   },
   "challengers": [
     {
@@ -80,7 +80,7 @@
       "alternateTickers": [
         "GOOG"
       ],
-      "marketCap": 4140732697888.9995,
+      "marketCap": 4145076335480.9995,
       "price": 340.59,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -116,7 +116,7 @@
       "symbol": "META",
       "issuerId": "0001326801",
       "alternateTickers": [],
-      "marketCap": 1807009797721,
+      "marketCap": 1807009819001,
       "price": 709.33,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -129,7 +129,7 @@
       "issuerId": "0001730168",
       "alternateTickers": [],
       "marketCap": 1569330818119,
-      "price": 344.3299865722656,
+      "price": 328.75,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -152,8 +152,8 @@
       "symbol": "LLY",
       "issuerId": "0000059478",
       "alternateTickers": [],
-      "marketCap": 1183314050047,
-      "price": 1251.6099853515625,
+      "marketCap": 1183314086501,
+      "price": 1257.030029296875,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -167,7 +167,7 @@
         "BRK.A"
       ],
       "marketCap": 1139157278383,
-      "price": 525.6799926757812,
+      "price": 532.02001953125,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "company-profile",
@@ -190,7 +190,7 @@
       "symbol": "V",
       "issuerId": "0001403161",
       "alternateTickers": [],
-      "marketCap": 751691931973,
+      "marketCap": 751691922713,
       "price": 402.61,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -1519,7 +1519,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-10-17",
+    "endDate": "2026-10-18",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -4530,33 +4530,48 @@
       },
       {
         "date": "2026-10-16",
-        "marketDate": "2026-10-15",
-        "isCarriedForward": true,
-        "carryForwardReason": "provider-delay",
+        "marketDate": "2026-10-16",
+        "isCarriedForward": false,
+        "carryForwardReason": null,
         "strategySymbol": "NVDA",
-        "strategyValue": 12455.85,
-        "spyValue": 11867.48,
-        "qqqValue": 12613.05,
-        "excessVsSpy": 588.37,
-        "excessVsQqq": -157.2,
-        "strategyPrice": 217.23,
-        "spyPrice": 771.79,
-        "qqqPrice": 728
+        "strategyValue": 12278.1,
+        "spyValue": 11736.17,
+        "qqqValue": 12297.72,
+        "excessVsSpy": 541.93,
+        "excessVsQqq": -19.62,
+        "strategyPrice": 214.13,
+        "spyPrice": 763.25,
+        "qqqPrice": 709.8
       },
       {
         "date": "2026-10-17",
-        "marketDate": "2026-10-15",
+        "marketDate": "2026-10-16",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
         "strategySymbol": "NVDA",
-        "strategyValue": 12455.85,
-        "spyValue": 11867.48,
-        "qqqValue": 12613.05,
-        "excessVsSpy": 588.37,
-        "excessVsQqq": -157.2,
-        "strategyPrice": 217.23,
-        "spyPrice": 771.79,
-        "qqqPrice": 728
+        "strategyValue": 12278.1,
+        "spyValue": 11736.17,
+        "qqqValue": 12297.72,
+        "excessVsSpy": 541.93,
+        "excessVsQqq": -19.62,
+        "strategyPrice": 214.13,
+        "spyPrice": 763.25,
+        "qqqPrice": 709.8
+      },
+      {
+        "date": "2026-10-18",
+        "marketDate": "2026-10-16",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "NVDA",
+        "strategyValue": 12278.1,
+        "spyValue": 11736.17,
+        "qqqValue": 12297.72,
+        "excessVsSpy": 541.93,
+        "excessVsQqq": -19.62,
+        "strategyPrice": 214.13,
+        "spyPrice": 763.25,
+        "qqqPrice": 709.8
       }
     ]
   },
