@@ -3,8 +3,8 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-10-31T02:17:31.878Z",
-  "lastSuccessionCheck": "2026-09-30",
+  "lastUpdated": "2026-11-01T02:08:36.395Z",
+  "lastSuccessionCheck": "2026-10-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
     "AAPL",
@@ -34,13 +34,13 @@
     "historicalMarketCapMethod": "current-implied-shares-times-historical-close"
   },
   "currentKing": {
-    "name": "NVIDIA Corporation",
-    "symbol": "NVDA",
-    "marketCap": 4931824000000,
-    "price": 204.64,
-    "fakeSharesHeld": 57.33945,
+    "name": "Apple Inc.",
+    "symbol": "AAPL",
+    "marketCap": 5029592253400,
+    "price": 344.63,
+    "fakeSharesHeld": 34.04795,
     "portfolioValue": 11733.94,
-    "heldSince": "2026-03-31"
+    "heldSince": "2026-10-30"
   },
   "crown": {
     "startingCash": 10000,
@@ -92,7 +92,7 @@
       "alternateTickers": [
         "GOOG"
       ],
-      "marketCap": 3416415708890,
+      "marketCap": 3412310165616,
       "price": 279.84,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -152,7 +152,7 @@
       "symbol": "LLY",
       "issuerId": "0000059478",
       "alternateTickers": [],
-      "marketCap": 1334411201780,
+      "marketCap": 1333543697068,
       "price": 1417.5400390625,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -166,7 +166,7 @@
       "alternateTickers": [
         "BRK.A"
       ],
-      "marketCap": 1161313665369,
+      "marketCap": 1161313539512,
       "price": 542.489990234375,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -202,7 +202,7 @@
       "symbol": "XOM",
       "issuerId": "0000034088",
       "alternateTickers": [],
-      "marketCap": 769955514510,
+      "marketCap": 769955542410,
       "price": 187.25,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -1449,9 +1449,195 @@
         "priceSource": "Financial Modeling Prep historical EOD with public Yahoo chart fallback",
         "note": "Historical market caps are estimates because exact historical market-cap queries require a premium subscription."
       }
+    },
+    {
+      "scheduledMonthEnd": "2026-10-31",
+      "effectiveMarketDate": "2026-10-30",
+      "holderBefore": "NVDA",
+      "leader": "AAPL",
+      "holderAfter": "AAPL",
+      "action": "rotated",
+      "requiredMargin": 0.005,
+      "holderEstimatedMarketCap": 4931824000000,
+      "leaderEstimatedMarketCap": 5029592253400,
+      "thresholdMarketCap": 4956483120000,
+      "portfolioValue": 11733.95,
+      "estimates": [
+        {
+          "symbol": "AAPL",
+          "name": "Apple Inc.",
+          "issuerId": "0000320193",
+          "price": 344.63,
+          "impliedShares": 14594180000,
+          "estimatedMarketCap": 5029592253400,
+          "referenceMarketCap": 5029592253400,
+          "referencePrice": 344.63,
+          "marketCapSource": "batch-market-cap",
+          "rank": 1
+        },
+        {
+          "symbol": "NVDA",
+          "name": "NVIDIA Corporation",
+          "issuerId": "0001045810",
+          "price": 204.64,
+          "impliedShares": 24100000000,
+          "estimatedMarketCap": 4931824000000,
+          "referenceMarketCap": 4931824000000,
+          "referencePrice": 204.64,
+          "marketCapSource": "batch-market-cap",
+          "rank": 2
+        },
+        {
+          "symbol": "MSFT",
+          "name": "Microsoft Corporation",
+          "issuerId": "0000789019",
+          "price": 521.91,
+          "impliedShares": 7426190000,
+          "estimatedMarketCap": 3875802822900,
+          "referenceMarketCap": 3875802822900,
+          "referencePrice": 521.91,
+          "marketCapSource": "batch-market-cap",
+          "rank": 3
+        },
+        {
+          "symbol": "GOOGL",
+          "name": "Alphabet Inc.",
+          "issuerId": "0001652044",
+          "price": 279.84,
+          "impliedShares": 12193789900,
+          "estimatedMarketCap": 3412310165616,
+          "referenceMarketCap": 3412310165616,
+          "referencePrice": 279.84,
+          "marketCapSource": "batch-market-cap",
+          "rank": 4
+        },
+        {
+          "symbol": "AMZN",
+          "name": "Amazon.com, Inc.",
+          "issuerId": "0001018724",
+          "price": 240.35,
+          "impliedShares": 10786300000,
+          "estimatedMarketCap": 2592487205000,
+          "referenceMarketCap": 2592487205000,
+          "referencePrice": 240.35,
+          "marketCapSource": "batch-market-cap",
+          "rank": 5
+        },
+        {
+          "symbol": "TSLA",
+          "name": "Tesla, Inc.",
+          "issuerId": "0001318605",
+          "price": 399.81,
+          "impliedShares": 3952730153,
+          "estimatedMarketCap": 1580341042471,
+          "referenceMarketCap": 1580341042471,
+          "referencePrice": 399.81,
+          "marketCapSource": "batch-market-cap",
+          "rank": 6
+        },
+        {
+          "symbol": "AVGO",
+          "name": "Broadcom Inc.",
+          "issuerId": "0001730168",
+          "price": 326.08,
+          "impliedShares": 4773629865,
+          "estimatedMarketCap": 1556585162280,
+          "referenceMarketCap": 1556585226379,
+          "referencePrice": 326.08,
+          "marketCapSource": "company-profile",
+          "rank": 7
+        },
+        {
+          "symbol": "META",
+          "name": "Meta Platforms, Inc.",
+          "issuerId": "0001326801",
+          "price": 614.99,
+          "impliedShares": 2214470000,
+          "estimatedMarketCap": 1361876905300,
+          "referenceMarketCap": 1361876905300,
+          "referencePrice": 614.99,
+          "marketCapSource": "batch-market-cap",
+          "rank": 8
+        },
+        {
+          "symbol": "LLY",
+          "name": "Eli Lilly and Company",
+          "issuerId": "0000059478",
+          "price": 1417.54,
+          "impliedShares": 940745021,
+          "estimatedMarketCap": 1333543733816,
+          "referenceMarketCap": 1333543697068,
+          "referencePrice": 1417.54,
+          "marketCapSource": "company-profile",
+          "rank": 9
+        },
+        {
+          "symbol": "BRK.B",
+          "name": "Berkshire Hathaway Inc.",
+          "issuerId": "0001067983",
+          "price": 542.49,
+          "impliedShares": 2140709579,
+          "estimatedMarketCap": 1161313518607,
+          "referenceMarketCap": 1161313539512,
+          "referencePrice": 542.49,
+          "marketCapSource": "company-profile",
+          "rank": 10
+        },
+        {
+          "symbol": "JPM",
+          "name": "JPMorgan Chase & Co.",
+          "issuerId": "0000019617",
+          "price": 337.04,
+          "impliedShares": 2658190000,
+          "estimatedMarketCap": 895916357600,
+          "referenceMarketCap": 895916357600,
+          "referencePrice": 337.04,
+          "marketCapSource": "batch-market-cap",
+          "rank": 11
+        },
+        {
+          "symbol": "V",
+          "name": "Visa Inc.",
+          "issuerId": "0001403161",
+          "price": 413.59,
+          "impliedShares": 1869005977,
+          "estimatedMarketCap": 773002182027,
+          "referenceMarketCap": 773002182027,
+          "referencePrice": 413.59,
+          "marketCapSource": "batch-market-cap",
+          "rank": 12
+        },
+        {
+          "symbol": "XOM",
+          "name": "Exxon Mobil Corporation",
+          "issuerId": "0000034088",
+          "price": 187.25,
+          "impliedShares": 4111912109,
+          "estimatedMarketCap": 769955542410,
+          "referenceMarketCap": 769955542410,
+          "referencePrice": 187.25,
+          "marketCapSource": "batch-market-cap",
+          "rank": 13
+        }
+      ],
+      "reconstruction": {
+        "method": "current-implied-shares-times-historical-close",
+        "marketCapReferenceDate": "2026-11-01",
+        "priceSource": "Financial Modeling Prep historical EOD with public Yahoo chart fallback",
+        "note": "Historical market caps are estimates because exact historical market-cap queries require a premium subscription."
+      }
     }
   ],
   "chronicle": [
+    {
+      "eventType": "rotation",
+      "date": "2026-10-30",
+      "scheduledMonthEnd": "2026-10-31",
+      "from": "NVDA",
+      "to": "AAPL",
+      "note": "AAPL exceeded NVDA by the required 0.5% market-cap margin.",
+      "portfolioValue": 11733.95
+    },
     {
       "eventType": "review",
       "date": "2026-09-30",
@@ -1519,7 +1705,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-10-31",
+    "endDate": "2026-11-01",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -4743,13 +4929,13 @@
         "marketDate": "2026-10-30",
         "isCarriedForward": false,
         "carryForwardReason": null,
-        "strategySymbol": "NVDA",
+        "strategySymbol": "AAPL",
         "strategyValue": 11733.94,
         "spyValue": 11620.38,
         "qqqValue": 11963.17,
         "excessVsSpy": 113.56,
         "excessVsQqq": -229.23,
-        "strategyPrice": 204.64,
+        "strategyPrice": 344.63,
         "spyPrice": 755.72,
         "qqqPrice": 690.49
       },
@@ -4758,13 +4944,28 @@
         "marketDate": "2026-10-30",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
-        "strategySymbol": "NVDA",
+        "strategySymbol": "AAPL",
         "strategyValue": 11733.94,
         "spyValue": 11620.38,
         "qqqValue": 11963.17,
         "excessVsSpy": 113.56,
         "excessVsQqq": -229.23,
-        "strategyPrice": 204.64,
+        "strategyPrice": 344.63,
+        "spyPrice": 755.72,
+        "qqqPrice": 690.49
+      },
+      {
+        "date": "2026-11-01",
+        "marketDate": "2026-10-30",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "AAPL",
+        "strategyValue": 11733.94,
+        "spyValue": 11620.38,
+        "qqqValue": 11963.17,
+        "excessVsSpy": 113.56,
+        "excessVsQqq": -229.23,
+        "strategyPrice": 344.63,
         "spyPrice": 755.72,
         "qqqPrice": 690.49
       }
