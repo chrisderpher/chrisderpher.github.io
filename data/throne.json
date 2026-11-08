@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-11-07T02:44:37.001Z",
+  "lastUpdated": "2026-11-08T02:23:19.779Z",
   "lastSuccessionCheck": "2026-10-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -92,7 +92,7 @@
       "alternateTickers": [
         "GOOG"
       ],
-      "marketCap": 3473687810916.9995,
+      "marketCap": 3471986214535.0005,
       "price": 284.78,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -116,7 +116,7 @@
       "symbol": "META",
       "issuerId": "0001326801",
       "alternateTickers": [],
-      "marketCap": 1559690599908,
+      "marketCap": 1559690478488,
       "price": 610.15,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -128,7 +128,7 @@
       "symbol": "TSLA",
       "issuerId": "0001318605",
       "alternateTickers": [],
-      "marketCap": 1415946995408,
+      "marketCap": 1415956922042,
       "price": 358.22,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -190,7 +190,7 @@
       "symbol": "V",
       "issuerId": "0001403161",
       "alternateTickers": [],
-      "marketCap": 789935409146,
+      "marketCap": 788580400853,
       "price": 422.65,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -1705,7 +1705,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-11-07",
+    "endDate": "2026-11-08",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -5046,6 +5046,21 @@
       },
       {
         "date": "2026-11-07",
+        "marketDate": "2026-11-06",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "AAPL",
+        "strategyValue": 11657,
+        "spyValue": 11306.24,
+        "qqqValue": 11367.34,
+        "excessVsSpy": 350.76,
+        "excessVsQqq": 289.66,
+        "strategyPrice": 342.37,
+        "spyPrice": 735.29,
+        "qqqPrice": 656.1
+      },
+      {
+        "date": "2026-11-08",
         "marketDate": "2026-11-06",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
