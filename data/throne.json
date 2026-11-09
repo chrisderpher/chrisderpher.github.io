@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-11-08T02:23:19.779Z",
+  "lastUpdated": "2026-11-09T02:37:07.294Z",
   "lastSuccessionCheck": "2026-10-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -1705,7 +1705,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-11-08",
+    "endDate": "2026-11-09",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -5064,6 +5064,21 @@
         "marketDate": "2026-11-06",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
+        "strategySymbol": "AAPL",
+        "strategyValue": 11657,
+        "spyValue": 11306.24,
+        "qqqValue": 11367.34,
+        "excessVsSpy": 350.76,
+        "excessVsQqq": 289.66,
+        "strategyPrice": 342.37,
+        "spyPrice": 735.29,
+        "qqqPrice": 656.1
+      },
+      {
+        "date": "2026-11-09",
+        "marketDate": "2026-11-06",
+        "isCarriedForward": true,
+        "carryForwardReason": "provider-delay",
         "strategySymbol": "AAPL",
         "strategyValue": 11657,
         "spyValue": 11306.24,
