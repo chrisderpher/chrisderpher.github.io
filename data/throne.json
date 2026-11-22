@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-11-21T03:55:39.523Z",
+  "lastUpdated": "2026-11-22T03:03:20.714Z",
   "lastSuccessionCheck": "2026-10-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -80,7 +80,7 @@
       "alternateTickers": [
         "GOOG"
       ],
-      "marketCap": 3225819626080.9995,
+      "marketCap": 3235509896991.0005,
       "price": 265.29,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -128,7 +128,7 @@
       "symbol": "META",
       "issuerId": "0001326801",
       "alternateTickers": [],
-      "marketCap": 1433642220948,
+      "marketCap": 1433642209170,
       "price": 560.84,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -165,7 +165,7 @@
       "issuerId": "0000019617",
       "alternateTickers": [],
       "marketCap": 824646573300,
-      "price": 310.53,
+      "price": 310.68,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
       "marketCapSource": "batch-market-cap",
@@ -190,7 +190,7 @@
       "symbol": "V",
       "issuerId": "0001403161",
       "alternateTickers": [],
-      "marketCap": 749809087794,
+      "marketCap": 749809067299,
       "price": 401.87,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -1705,7 +1705,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-11-21",
+    "endDate": "2026-11-22",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -5256,6 +5256,21 @@
       },
       {
         "date": "2026-11-21",
+        "marketDate": "2026-11-20",
+        "isCarriedForward": true,
+        "carryForwardReason": "market-closed",
+        "strategySymbol": "AAPL",
+        "strategyValue": 11663.47,
+        "spyValue": 10606.91,
+        "qqqValue": 10541.77,
+        "excessVsSpy": 1056.56,
+        "excessVsQqq": 1121.7,
+        "strategyPrice": 342.56,
+        "spyPrice": 689.81,
+        "qqqPrice": 608.45
+      },
+      {
+        "date": "2026-11-22",
         "marketDate": "2026-11-20",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
