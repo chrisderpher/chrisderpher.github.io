@@ -3,7 +3,7 @@
   "title": "Who Owns the Throne?",
   "startingCash": 10000,
   "strategyStartDate": "2026-03-31",
-  "lastUpdated": "2026-11-26T04:58:08.085Z",
+  "lastUpdated": "2026-11-27T04:57:57.368Z",
   "lastSuccessionCheck": "2026-10-30",
   "successionMargin": 0.005,
   "candidateUniverse": [
@@ -92,7 +92,7 @@
       "alternateTickers": [
         "GOOG"
       ],
-      "marketCap": 3330761630172,
+      "marketCap": 3324740543128.9995,
       "price": 273.1,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -116,7 +116,7 @@
       "symbol": "META",
       "issuerId": "0001326801",
       "alternateTickers": [],
-      "marketCap": 1559025930831,
+      "marketCap": 1559025892408,
       "price": 609.89,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -190,7 +190,7 @@
       "symbol": "V",
       "issuerId": "0001403161",
       "alternateTickers": [],
-      "marketCap": 791826874732,
+      "marketCap": 791826910380,
       "price": 424.39,
       "priceIsFresh": true,
       "marketCapIsFresh": true,
@@ -1705,7 +1705,7 @@
   "history": {
     "schemaVersion": 3,
     "startDate": "2026-03-31",
-    "endDate": "2026-11-26",
+    "endDate": "2026-11-27",
     "startingCash": 10000,
     "initialSymbol": "NVDA",
     "baselinePrices": {
@@ -5334,6 +5334,21 @@
         "marketDate": "2026-11-25",
         "isCarriedForward": true,
         "carryForwardReason": "market-closed",
+        "strategySymbol": "AAPL",
+        "strategyValue": 12106.77,
+        "spyValue": 11020.39,
+        "qqqValue": 10983.23,
+        "excessVsSpy": 1086.38,
+        "excessVsQqq": 1123.54,
+        "strategyPrice": 355.58,
+        "spyPrice": 716.7,
+        "qqqPrice": 633.93
+      },
+      {
+        "date": "2026-11-27",
+        "marketDate": "2026-11-25",
+        "isCarriedForward": true,
+        "carryForwardReason": "provider-delay",
         "strategySymbol": "AAPL",
         "strategyValue": 12106.77,
         "spyValue": 11020.39,
